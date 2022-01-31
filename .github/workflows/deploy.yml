@@ -32,4 +32,4 @@ jobs:
           UPLOAD_PRIVATE_KEY: ${{ secrets.MPDEPLOYKEY }}
         run: |
           echo "$UPLOAD_PRIVATE_KEY" > private.key
-          npx mp-ci preview --appid wx9fc6778640e4fa4f --pp ./packages/mp/dist/ --pkp ./private.key -r 1 --uv 0.0.1
+          npx miniprogram-ci preview --appid wx9fc6778640e4fa4f --pp ./packages/mp/dist/ --pkp ./private.key -r 1 --uv 0.0.1
