@@ -1,0 +1,49 @@
+{
+  "name": "tally-book",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "lerna run build",
+    "format": "prettier --write \"packages/**/*.{ts,tsx,scss,js,json}\"",
+    "lint": "cd packages/mp && npm run lint",
+    "preinstall": "./script/preinstall.sh"
+  },
+  "devDependencies": {
+    "lerna": "^3.22.1",
+    "prettier": "^2.5.0",
+    "miniprogram-ci": "^1.6.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.4",
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "packages/**/*.{ts,tsx,js}": [
+      "npm run format",
+      "git add"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@localhost:122/root/tally-book.git"
+  },
+  "keywords": [],
+  "author": "Thomas Trainset",
+  "license": "ISC",
+  "workspaces": {
+    "packages": [
+      "packages/mp"
+    ]
+  }
+}

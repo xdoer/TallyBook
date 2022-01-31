@@ -1,0 +1,56 @@
+stages:
+  - deploy
+
+cache:
+  - key: ${CI_COMMIT_REF_NAME}
+    paths:
+      - node_modules/
+      - .yarn
+
+# 公共逻辑
+# https://docs.gitlab.com/ee/ci/yaml/#extends
+.mp_ci:
+  stage: deploy
+  tags:
+    - common
+  cache:
+    - key: ${CI_COMMIT_REF_NAME}
+      paths:
+        - node_modules/
+        - .yarn
+  before_script:
+    - shopt -s expand_aliases # 开启扩展aliases功能 issue https://gitlab.com/gitlab-org/gitlab-runner/issues/1083
+    - alias mp_ci="./node_modules/.bin/miniprogram-ci"
+    - MP_CI_CONFIG="--appid wx9fc6778640e4fa4f --pp ./packages/mp/dist/ --pkp ./config/ci.key"
+    - echo $PATH
+    - node -v
+    - yarn -v
+    - yarn config set registry https://npmmirror.com/
+    # - yarn install --cache-folder .yarn
+    - yarn install
+    - yarn build
+
+# 开发版
+preview:
+  extends: .mp_ci
+  except:
+    - test
+  script:
+    - mp_ci preview $MP_CI_CONFIG -r 1 --uv 0.0.1
+
+# 体验版
+test:
+  extends: .mp_ci
+  only:
+    - test
+  script:
+    - mp_ci upload $MP_CI_CONFIG -r 2 --uv 0.0.1
+
+# 生产版
+prod:
+  extends: .mp_ci
+  only:
+    - tags
+  script:
+    - version=`node -p "require('./packages/mp/package.json').version"`
+    - mp_ci upload $MP_CI_CONFIG -r 3 --uv $version

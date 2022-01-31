@@ -1,0 +1,115 @@
+@import '../../../variables.scss';
+
+@font-face {
+  font-family: 'iconfont'; /* Project id  */
+  src: url('iconfont.ttf?t=1638633357970') format('truetype');
+}
+
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 48px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $fontColor;
+}
+
+.icon-asset:before {
+  content: '\e74b';
+}
+
+.icon-statistics:before {
+  content: '\e74c';
+}
+
+.icon-tally:before {
+  content: '\e754';
+}
+
+.tab-bar-wrapper {
+  position: fixed;
+  padding-bottom: calc(constant(safe-area-inset-bottom) + 20px);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: $bgColor;
+  padding-top: 20px;
+
+  .tab-bar {
+    box-sizing: border-box;
+    border-radius: 20px;
+    background: white;
+    display: flex;
+    color: $fontColor;
+    justify-content: space-around;
+    font-size: 20px;
+    margin: 0 auto;
+    position: relative;
+
+    .item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+
+      .icon {
+        display: block;
+        position: relative;
+        transition: 0.5s;
+      }
+
+      .text {
+        position: absolute;
+        bottom: -20px;
+        opacity: 0;
+        transition: 0.5s;
+      }
+    }
+
+    .active {
+      .icon {
+        z-index: 2;
+      }
+      .text {
+        opacity: 1;
+      }
+    }
+
+    .indicator {
+      position: absolute;
+      background: $primaryColor;
+      border: 10px solid $bgColor;
+      z-index: 1;
+      box-sizing: border-box;
+      transition: 0.5s;
+
+      &::before {
+        content: '';
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: transparent;
+        position: absolute;
+        top: 50%;
+        left: -25px;
+        border-top-right-radius: 20px;
+        box-shadow: 0 -10px 0 0 $bgColor;
+      }
+
+      &::after {
+        content: '';
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: transparent;
+        position: absolute;
+        top: 50%;
+        right: -25px;
+        border-top-left-radius: 20px;
+        box-shadow: 0 -10px 0 0 $bgColor;
+      }
+    }
+  }
+}

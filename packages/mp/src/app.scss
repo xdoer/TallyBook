@@ -1,0 +1,12 @@
+@import './variables.scss';
+
+.page {
+  padding: 30px;
+  min-height: 140vh;
+  background: $bgColor;
+}
+
+.safe-bottom {
+  bottom: calc(constant(safe-area-inset-bottom) + 200px);
+  bottom: calc(env(safe-area-inset-bottom) + 200px);
+}

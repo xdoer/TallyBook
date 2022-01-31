@@ -1,0 +1,4 @@
+dist
+packages/mp/src/common/modal/modals.config.ts
+packages/mp/src/modals/index.ts
+packages/mp/src/service/routerService.ts
