@@ -34,10 +34,6 @@
       "git add"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@localhost:122/root/tally-book.git"
-  },
   "keywords": [],
   "author": "Thomas Trainset",
   "license": "ISC",
