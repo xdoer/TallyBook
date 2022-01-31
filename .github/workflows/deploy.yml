@@ -27,12 +27,9 @@ jobs:
       - name: Build
         run: npx lerna run build
 
-      - name: Generate private key for upload
-        env:
-          UPLOAD_PRIVATE_KEY: ${{ secrets.MPDEPLOYKEY }}
-        run: echo "$UPLOAD_PRIVATE_KEY" > private.key
-
       - name: Deploy
         env:
-          MP_CI_CONFIG: '--appid wx9fc6778640e4fa4f --pp ./packages/mp/dist/ --pkp ./private.key'
-        run: npx mp-ci preview $MP_CI_CONFIG -r 1 --uv 0.0.1
+          UPLOAD_PRIVATE_KEY: ${{ secrets.MPDEPLOYKEY }}
+        run: |
+          echo "$UPLOAD_PRIVATE_KEY" > private.key
+          npx mp-ci preview --appid wx9fc6778640e4fa4f --pp ./packages/mp/dist/ --pkp ./private.key -r 1 --uv 0.0.1
