@@ -40,7 +40,7 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
   }
 
   const { tabBarWidth, itemWidth, indicatorSize } = useMemo(() => {
-    const itemWidth = Math.ceil(finalWidth * 0.8 / 3)
+    const itemWidth = Math.ceil((finalWidth * 0.8) / 3)
     const tabBarWidth = itemWidth * 3
     return { tabBarWidth, itemWidth, indicatorSize }
   }, [finalWidth])
@@ -48,7 +48,7 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
   const indicatorLeft = itemWidth * data + itemWidth / 2 - 25
 
   return (
-    <View className='tab-bar-wrapper'>
+    <View className="tab-bar-wrapper">
       <View className="tab-bar" w={tabBarWidth + 'px'} h-50px>
         {list.map((item, index) => {
           const selected = data === index
@@ -63,12 +63,13 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
               onLongPress={() => onRecord(index)}
             >
               <Text
-                className={`icon iconfont ${className[(index === data && data === 1) ? 1 : 0]}`}
-                style={{ transform: selected ? 'translateY(-30px)' : undefined }}>
-              </Text>
+                className={`icon iconfont ${className[index === data && data === 1 ? 1 : 0]}`}
+                style={{ transform: selected ? 'translateY(-30px)' : undefined }}
+              ></Text>
               <Text
                 className="text"
-                style={{ transform: selected ? 'translateY(-20px)' : undefined }}>
+                style={{ transform: selected ? 'translateY(-20px)' : undefined }}
+              >
                 {text}
               </Text>
             </View>

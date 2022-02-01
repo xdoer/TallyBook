@@ -2,9 +2,9 @@ import React, { FC, useState } from 'react'
 import { View } from '@fower/taro'
 import { Tabs, TabOption } from '@/components/Tabs'
 
-interface CategoryTabProps { }
+interface CategoryTabProps {}
 
-export const CategoryTab: FC<CategoryTabProps> = ({ }) => {
+export const CategoryTab: FC<CategoryTabProps> = ({}) => {
   const [active, setActive] = useState(0)
 
   return (
@@ -16,12 +16,12 @@ export const CategoryTab: FC<CategoryTabProps> = ({ }) => {
 
 const options: TabOption[] = [
   {
-    text: '支出'
+    text: '支出',
   },
   {
-    text: '收入'
+    text: '收入',
   },
   {
-    text: '转账'
-  }
+    text: '转账',
+  },
 ]

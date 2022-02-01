@@ -3,22 +3,7 @@ export class Asset {
 
   name: string // 资产名称
 
-  type: string // 资产类型
+  type: string // 资产类型 支付宝、银行卡
 
   icon: string
 }
-
-export const assetData: Asset[] = [
-  {
-    id: '1',
-    name: '微信支付',
-    type: '现金',
-    icon: ''
-  },
-  {
-    id: '2',
-    name: '支付宝',
-    type: '现金',
-    icon: ''
-  }
-]

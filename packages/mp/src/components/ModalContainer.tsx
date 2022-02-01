@@ -16,10 +16,10 @@ export interface ModalType {
 export const modalService = new LayerService<ModalType>({
   visible: false,
   title: '标题',
-  okText: '确认'
+  okText: '确认',
 })
 
-export const ModalContainer: FC<{}> = ({ }) => {
+export const ModalContainer: FC<{}> = ({}) => {
   const { state, close } = modalService.useLayer()
   const { title, visible, content, okText, cancelText, onOk, onCancel } = state
 
@@ -27,17 +27,31 @@ export const ModalContainer: FC<{}> = ({ }) => {
     <View catchMove>
       <Dialog open={visible} onClose={close}>
         {title && <Dialog.Header>{title}</Dialog.Header>}
-        <Dialog.Content>
-          {content}
-        </Dialog.Content>
-        {
-          (okText || cancelText) && (
-            <Dialog.Actions theme="round">
-              {cancelText && <Button onClick={() => { onOk?.(); close() }}>{cancelText}</Button>}
-              {okText && <Button onClick={() => { onCancel?.(); close() }}>{okText}</Button>}
-            </Dialog.Actions>
-          )
-        }
+        <Dialog.Content>{content}</Dialog.Content>
+        {(okText || cancelText) && (
+          <Dialog.Actions theme="round">
+            {cancelText && (
+              <Button
+                onClick={() => {
+                  onOk?.()
+                  close()
+                }}
+              >
+                {cancelText}
+              </Button>
+            )}
+            {okText && (
+              <Button
+                onClick={() => {
+                  onCancel?.()
+                  close()
+                }}
+              >
+                {okText}
+              </Button>
+            )}
+          </Dialog.Actions>
+        )}
       </Dialog>
     </View>
   )

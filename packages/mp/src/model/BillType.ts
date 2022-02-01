@@ -2,22 +2,12 @@
 export class BillType {
   id: string
 
-  // 账单类型
-  value: string
+  // 账单类型 income / outcome
+  type: 'income' | 'outcome' | 'none'
 
   // 账单 icon
   icon: string
-}
 
-export const billTypeData: BillType[] = [
-  {
-    id: '1',
-    value: '餐饮',
-    icon: ''
-  },
-  {
-    id: '2',
-    value: '旅游',
-    icon: ''
-  }
-]
+  // 展示的文字: 餐饮、旅游...
+  text: string
+}

@@ -7,7 +7,7 @@ import runScript from '@xdoer/script-runner/lib/runScript'
 
 const debounceExec = debounce((script = '@xdoer/taro-router') => {
   console.log(`监听到变化, 脚本${script}执行中...`, script)
-  runScript(config.scripts.find(v => v.module === script)!)
+  runScript(config.scripts.find((v) => v.module === script)!)
 }, 1000)
 
 const basePath = process.cwd()
@@ -42,7 +42,7 @@ const config: Config = {
             {
               target: basePath + '/src/**/pages/**/index.tsx',
               watch: {
-                add: () => debounceExec()
+                add: () => debounceExec(),
               },
             },
             {
@@ -56,7 +56,7 @@ const config: Config = {
               watch: {
                 change: () => {
                   debounceExec(basePath + '/script/mock.ts')
-                }
+                },
               },
             },
           ],
@@ -68,10 +68,10 @@ const config: Config = {
       args: <MockArgs>[
         {
           port: 3000,
-          mockDir: './mock/routes'
+          mockDir: './mock/routes',
         },
       ],
-      subProcess: true
+      subProcess: true,
     },
   ],
 }

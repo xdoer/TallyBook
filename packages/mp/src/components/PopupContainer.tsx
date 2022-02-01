@@ -12,7 +12,7 @@ export const popUpService = new LayerService<PopupContainerType>({
   visible: false,
 })
 
-export const PopupContainer: FC<{}> = ({ }) => {
+export const PopupContainer: FC<{}> = ({}) => {
   const { state, close } = popUpService.useLayer()
   const { visible, content } = state
 

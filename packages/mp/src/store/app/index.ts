@@ -20,7 +20,6 @@ export const useSystemInfo = createShareHook((state) => {
 }, undefined as any)
 
 export const useShare = () => {
-
   useEffect(() => {
     showShareMenu({
       withShareTicket: true,

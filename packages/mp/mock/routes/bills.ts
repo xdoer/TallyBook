@@ -10,11 +10,11 @@ export default () => {
           response: (req) => {
             return {
               success: true,
-              result: bills.find(bill => bill.id === req.params.id)
+              result: bills.find((bill) => bill.id === req.params.id),
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       path: '/bills',
@@ -23,10 +23,10 @@ export default () => {
           scene: 'success',
           response: {
             success: true,
-            result: bills
-          }
-        }
-      ]
-    }
+            result: bills,
+          },
+        },
+      ],
+    },
   ]
 }

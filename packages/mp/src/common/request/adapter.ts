@@ -9,7 +9,7 @@ export function adapter<T, N>(request: any) {
       const { getNativeRequestInstance, cancelToken, ...rest } = finalOption
 
       let resolvePromise: any
-      let promise = new Promise(resolve => (resolvePromise = resolve))
+      let promise = new Promise((resolve) => (resolvePromise = resolve))
       getNativeRequestInstance?.(promise)
 
       let instance = request({

@@ -3,7 +3,7 @@ import { View } from '@fower/taro'
 import { usePageScroll } from '@tarojs/taro'
 import { useSystemInfo } from '@/store/app'
 
-interface FloatNavBarProps { }
+interface FloatNavBarProps {}
 
 export const FloatNavBar: FC<FloatNavBarProps> = ({ children }) => {
   const [show, setShow] = useState(0.01)

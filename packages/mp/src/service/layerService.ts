@@ -1,4 +1,4 @@
-import StateBus from "@xdoer/state-bus";
+import StateBus from '@xdoer/state-bus'
 
 export class LayerService<T extends { visible: boolean }> {
   state: StateBus<T>
@@ -12,7 +12,7 @@ export class LayerService<T extends { visible: boolean }> {
   }
 
   close() {
-    this.state.setState(prev => {
+    this.state.setState((prev) => {
       prev.visible = false
       return { ...prev }
     })
@@ -23,7 +23,7 @@ export class LayerService<T extends { visible: boolean }> {
     return {
       state,
       close: this.close.bind(this),
-      open: this.open.bind(this)
+      open: this.open.bind(this),
     }
   }
 }

@@ -1,13 +1,11 @@
 import { FC, useState } from 'react'
-import { NumberKeyboard } from "@taroify/core"
+import { NumberKeyboard } from '@taroify/core'
 import { View } from '@fower/taro'
 import { popUpService } from '../PopupContainer'
 
-interface KeyboardProps {
+interface KeyboardProps {}
 
-}
-
-export const Keyboard: FC<KeyboardProps> = ({ }) => {
+export const Keyboard: FC<KeyboardProps> = ({}) => {
   const [value, setValue] = useState('')
 
   function onKeyPress(key, type) {
@@ -31,7 +29,7 @@ export const Keyboard: FC<KeyboardProps> = ({ }) => {
   return (
     <NumberKeyboard
       open
-      extraKey={[undefined, "."]}
+      extraKey={[undefined, '.']}
       onKeyPress={onKeyPress}
       title={Title}
       onBackspace={onBackspace}

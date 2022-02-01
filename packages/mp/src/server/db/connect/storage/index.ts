@@ -1,8 +1,9 @@
 import { setStorage, getStorage } from '@tarojs/taro'
 import { AtLeastOne } from '@/types/util'
 import { safeJsonParse } from './util'
+import { uuid } from '@/common/utils'
 
-export default class DBService<T extends { id: string }> {
+export default class DBService<T> {
   // name 为表名称
   constructor(private name: string) {}
 
@@ -23,14 +24,14 @@ export default class DBService<T extends { id: string }> {
     return setStorage({ key: this.name, data: JSON.stringify(data) })
   }
 
+  private uuid() {
+    return `${this.name}-${uuid()}`
+  }
+
   async add(data: T) {
     const table = await this.getTable()
-    const idx = table.findIndex((row) => row.id === data.id)
-
-    if (idx === -1) {
-      table.push({ ...data, createdAt: Date.now() })
-      this.setTable(table)
-    }
+    table.push({ ...data, createdAt: Date.now(), id: this.uuid() })
+    this.setTable(table)
   }
 
   get(condition?: string | AtLeastOne<T>) {

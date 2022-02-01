@@ -14,7 +14,7 @@ export default function main(config: MockConfig) {
   const app = express()
   const { port = 3000, mockDir = 'mock', method = 'get' } = config
 
-  fs.readdirSync(path.resolve(basePath, mockDir)).forEach(file => {
+  fs.readdirSync(path.resolve(basePath, mockDir)).forEach((file) => {
     const modulePath = path.resolve(basePath, mockDir, file)
     const module = require(modulePath)
 
@@ -24,7 +24,7 @@ export default function main(config: MockConfig) {
 
     const mockList = Array.isArray(config) ? config : [config]
 
-    mockList.forEach(meta => {
+    mockList.forEach((meta) => {
       app[meta.method || method](meta.path, (req, res) => {
         const queryScene = req.query
         const data = meta.data.find(({ scene }) => scene === queryScene) || meta.data[0]
@@ -39,4 +39,4 @@ export default function main(config: MockConfig) {
   })
 }
 
-export type MockArgs = Parameters<typeof main>;
+export type MockArgs = Parameters<typeof main>

@@ -10,11 +10,11 @@ export default () => {
           response: (req) => {
             return {
               success: true,
-              result: accounts.find(account => account.id === req.params.id)
+              result: accounts.find((account) => account.id === req.params.id),
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       path: '/accounts',
@@ -23,10 +23,10 @@ export default () => {
           scene: 'success',
           response: {
             success: true,
-            result: accounts
-          }
-        }
-      ]
-    }
+            result: accounts,
+          },
+        },
+      ],
+    },
   ]
 }

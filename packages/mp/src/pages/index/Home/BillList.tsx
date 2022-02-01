@@ -4,9 +4,9 @@ import { useQuery } from '@/common/request'
 import { formatDate } from '@/common/utils'
 import { Card } from '@/components/Card'
 
-interface BillListProps { }
+interface BillListProps {}
 
-export const BillList: FC<BillListProps> = ({ }) => {
+export const BillList: FC<BillListProps> = ({}) => {
   const { data: _ } = useQuery({ path: '/bills' })
 
   return (
@@ -29,14 +29,27 @@ export const BillList: FC<BillListProps> = ({ }) => {
               {list.map((i, idx) => {
                 const { icon, type, money } = i
                 return (
-                  <View toBetween toCenterY key={type} p-30 borderBottom="1px solid transparent" borderBottomGray100={idx !== list.length - 1}>
+                  <View
+                    toBetween
+                    toCenterY
+                    key={type}
+                    p-30
+                    borderBottom="1px solid transparent"
+                    borderBottomGray100={idx !== list.length - 1}
+                  >
                     <View toCenterY>
                       <Image src={icon} circle-60 mr-20 />
-                      <View text3XL gray500>{type}</View>
+                      <View text3XL gray500>
+                        {type}
+                      </View>
                     </View>
                     <View textRight>
-                      <View text2XL gray500>{money}</View>
-                      <View textXL gray400>现金</View>
+                      <View text2XL gray500>
+                        {money}
+                      </View>
+                      <View textXL gray400>
+                        现金
+                      </View>
                     </View>
                   </View>
                 )

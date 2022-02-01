@@ -2,28 +2,39 @@ import React, { FC } from 'react'
 import { Image, View } from '@fower/taro'
 import { Card } from '@/components/Card'
 
-interface AssetListProps { }
+interface AssetListProps {}
 
-export const AssetList: FC<AssetListProps> = ({ }) => {
+export const AssetList: FC<AssetListProps> = ({}) => {
   return (
     <Card>
-      {
-        list.map((item, idx) => {
-          const { icon, name, type, money } = item
-          return (
-            <View toBetween toCenterY key={type} p-30 borderBottom="1px solid transparent" borderBottomGray100={idx !== list.length - 1}>
-              <View toCenterY>
-                <Image src={icon} circle-60 mr-20 />
-                <View text3XL gray500>
-                  <View text2XL gray500>{name}</View>
-                  <View textXL gray400>{type}</View>
+      {list.map((item, idx) => {
+        const { icon, name, type, money } = item
+        return (
+          <View
+            toBetween
+            toCenterY
+            key={type}
+            p-30
+            borderBottom="1px solid transparent"
+            borderBottomGray100={idx !== list.length - 1}
+          >
+            <View toCenterY>
+              <Image src={icon} circle-60 mr-20 />
+              <View text3XL gray500>
+                <View text2XL gray500>
+                  {name}
+                </View>
+                <View textXL gray400>
+                  {type}
                 </View>
               </View>
-              <View text2XL gray500>{money}</View>
             </View>
-          )
-        })
-      }
+            <View text2XL gray500>
+              {money}
+            </View>
+          </View>
+        )
+      })}
     </Card>
   )
 }

@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import { AtLeastOne } from '@/types/util'
 
-export default class DBService<T extends { id: string }> {
+export default class DBService<T> {
   private db = Taro.cloud.database()
   private collection: Taro.DB.Collection
   command = this.db.command
@@ -16,8 +16,6 @@ export default class DBService<T extends { id: string }> {
   }
 
   async add(data: T) {
-    const row = await this.get(data.id)
-    if (row.length) return Promise.reject('add fail')
     return this.collection.add({ data: { ...data, createdAt: Date.now() } })
   }
 

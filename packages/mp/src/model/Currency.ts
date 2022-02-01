@@ -5,18 +5,9 @@ export class Currency {
   // 符号
   symbol: '￥' | '$' | ({} & string)
 
-  value: string
-}
+  // RMB
+  code: string
 
-export const currencyData: Currency[] = [
-  {
-    id: '1',
-    symbol: '￥',
-    value: '人民币'
-  },
-  {
-    id: '2',
-    symbol: '$',
-    value: '美元'
-  }
-]
+  // 名称 人民币
+  text: string
+}

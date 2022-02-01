@@ -9,5 +9,5 @@ setTheme({
     brandDark: '#0ea5e9',
     brandDarker: '#0284c7',
     brandDarkest: '#0369a1',
-  }
+  },
 })

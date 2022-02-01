@@ -57,7 +57,7 @@ export default function <T, N>(prequest: PreQuestInstance<T, N>) {
         loadingRef.current = true
         const res = await prequest(opt)
         loadingRef.current = false
-        setRes(prev => {
+        setRes((prev) => {
           const { data } = prev
           return {
             loading: false,

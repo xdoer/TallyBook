@@ -3,21 +3,19 @@ import { Swiper, SwiperItem } from '@fower/taro'
 import { Card } from '@/components/Card'
 import { ReportCard } from '@/components/ReportCard'
 
-interface SwiperCardProps { }
+interface SwiperCardProps {}
 
-export const SwiperCard: FC<SwiperCardProps> = ({ }) => {
+export const SwiperCard: FC<SwiperCardProps> = ({}) => {
   return (
     <Card>
       <Swiper indicatorDots indicatorActiveColor="#FCD423" indicatorColor="#F0F0F0" h-250>
-        {
-          list.map(item => {
-            return (
-              <SwiperItem>
-                <ReportCard report={item} />
-              </SwiperItem>
-            )
-          })
-        }
+        {list.map((item) => {
+          return (
+            <SwiperItem>
+              <ReportCard report={item} />
+            </SwiperItem>
+          )
+        })}
       </Swiper>
     </Card>
   )
@@ -35,5 +33,5 @@ const list = [
   {
     title: '待报销',
     money: 1000,
-  }
+  },
 ]

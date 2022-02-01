@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { DatetimePicker } from "@taroify/core"
+import { DatetimePicker } from '@taroify/core'
 import { popUpService } from './PopupContainer'
 
 interface YearMonthPickerProps {
@@ -20,10 +20,10 @@ export const YearMonthPicker: FC<YearMonthPickerProps> = ({ value, onConfirm }) 
       value={value}
       defaultValue={defaultValue}
       formatter={(type, val) => {
-        if (type === "year") {
+        if (type === 'year') {
           return `${val}年`
         }
-        if (type === "month") {
+        if (type === 'month') {
           return `${val}月`
         }
         return val

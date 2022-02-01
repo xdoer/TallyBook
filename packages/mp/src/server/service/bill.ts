@@ -5,8 +5,8 @@ import { dataBaseService } from '../db'
 class BillService {
   // 首页接口
   async getBills({ year, month, date }: any) {
-    return dataBaseService.bill.get().then(bills => {
-      return bills.filter(bill => {
+    return dataBaseService.bill.get().then((bills) => {
+      return bills.filter((bill) => {
         const { createdAt } = bill
         const createDate = new Date(createdAt)
 
@@ -25,8 +25,6 @@ class BillService {
   }
 
   //
-
 }
 
 export const billService = new BillService()
-

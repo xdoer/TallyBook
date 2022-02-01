@@ -9,10 +9,10 @@ export default () => {
           scene: 'success',
           response: {
             success: true,
-            result: recordTypes
-          }
-        }
-      ]
-    }
+            result: recordTypes,
+          },
+        },
+      ],
+    },
   ]
 }
