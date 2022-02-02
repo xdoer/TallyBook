@@ -1,6 +1,7 @@
 import { formatDate } from '@/common/utils'
-import { Bill, BillType } from '@/model'
+import { BillType } from '@/model'
 import { dataBaseService } from '../db'
+import { mpRequest } from '../types'
 
 class BillService {
   // 首页接口
@@ -22,16 +23,18 @@ class BillService {
   }
 
   // 添加账单
-  async setBill(bill: Bill) {
+  async createBill(bill: mpRequest.createBillOptions) {
+    const { id: typeId, ...rest } = bill
     const bills = await dataBaseService.bill()
-    return bills.add(bill)
+    return bills.add({ typeId, ...rest })
   }
 
+  // 获取类型
   async getBillTypes() {
     const billTypesDB = await dataBaseService.billType()
     const types: BillType[] = <any>await billTypesDB.get() || []
 
-    const result = [
+    const result: mpRequest.billTypes[] = [
       {
         type: 'outcome',
         value: '支出',

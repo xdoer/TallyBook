@@ -10,9 +10,25 @@ export class Router {
     return this
   }
 
-  call(options) {
+  async call(options) {
     const { path, ...opts } = options
-    return this.routers[path](opts)
+
+    try {
+      return {
+        success: true,
+        data: await this.routers[path](opts),
+        error: null,
+      }
+    } catch (e) {
+      return {
+        success: false,
+        data: null,
+        error: {
+          code: e.code,
+          message: e.message,
+        },
+      }
+    }
   }
 
   routes() {

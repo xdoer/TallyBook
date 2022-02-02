@@ -27,9 +27,9 @@ export default class DBService<T> implements BaseDBConnect {
     return `${this.name}-${uuid()}`
   }
 
-  async add(data: T) {
+  async add(data: Omit<T, 'id'>) {
     const table = await this.getTable()
-    table.push({ ...data, createdAt: Date.now(), id: this.uuid() })
+    table.push({ ...data, createdAt: Date.now(), id: this.uuid() } as any)
     this.setTable(table)
   }
 

@@ -9,7 +9,7 @@ interface RecordBillProps {}
 
 export const RecordBill: FC<RecordBillProps> = memo(({}) => {
   const res = useQuery<any>({ path: '/billTypes' })
-  const { data = [] } = res.data || []
+  const data = res.data?.data || []
   const [tab, setTab] = useState(0)
   const [selected, setSelected] = useState(0)
 

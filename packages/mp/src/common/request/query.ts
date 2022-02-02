@@ -9,7 +9,7 @@ async function adapter(options: Request): Promise<Response> {
   const { isServer } = await PLATFORM.getState()
   if (isServer) return pqAdapter(Taro.request)(options) as any
 
-  return localRouter.call(options)
+  return localRouter.call(options) as any
 }
 
 export const prequest = PreQuest.create<Request, Response>(adapter, {

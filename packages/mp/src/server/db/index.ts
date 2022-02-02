@@ -4,13 +4,13 @@ import { init } from './init'
 import { PLATFORM } from '@/store/app'
 
 class DataBaseService {
-  table = () => this.connect<{ name: string }>('table')
-  user = () => this.connect<User>('user')
-  account = () => this.connect<Account>('account')
-  currency = () => this.connect<Currency>('currency')
-  bill = () => this.connect<Bill>('bill')
-  billType = () => this.connect<BillType>('billType')
-  asset = () => this.connect<Asset>('asset')
+  table = () => this.connect<{ name: string }>('db-table')
+  user = () => this.connect<User>('db-user')
+  account = () => this.connect<Account>('db-account')
+  currency = () => this.connect<Currency>('db-currency')
+  bill = () => this.connect<Bill>('db-bill')
+  billType = () => this.connect<BillType>('db-billType')
+  asset = () => this.connect<Asset>('db-asset')
 
   async init() {
     const table = await this.table()

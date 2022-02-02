@@ -16,7 +16,7 @@ export default class DBService<T> implements BaseDBConnect {
     Taro.cloud.init()
   }
 
-  async add(data: T) {
+  async add(data: Omit<T, 'id'>) {
     return this.collection.add({ data: { ...data, createdAt: Date.now() } })
   }
 
