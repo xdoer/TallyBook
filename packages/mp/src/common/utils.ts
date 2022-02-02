@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro'
 import { Common } from '@/types/util'
 
 export const convertSearchParamsToObj = (searchParams = '') => {
@@ -45,4 +46,22 @@ export function uuid() {
   s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1)
   s[8] = s[13] = s[18] = s[23] = '-'
   return s.join('')
+}
+
+export function isUndefined(d: any) {
+  return typeof d === 'undefined'
+}
+
+export function getStorage<T>(key: string): Promise<T | undefined> {
+  return new Promise((resolve) => {
+    Taro.getStorage({
+      key,
+      success(res) {
+        resolve(res.data as any)
+      },
+      fail() {
+        resolve(undefined as any)
+      },
+    })
+  })
 }

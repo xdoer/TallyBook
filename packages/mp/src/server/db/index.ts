@@ -1,61 +1,50 @@
-import { PLATFORM } from '@/common/constants'
-import { Currency, Bill, BillType, User } from '@/model'
-import { Account } from '@/model/Account'
-import { Asset } from '@/model/Asset'
-import { Common } from '@/types/util'
-import StorageDBService from './connect/storage'
-import WxCloudDBService from './connect/wxCloud'
-import { accounts, assets, billTypes } from './data'
-
-const BaseDBService = PLATFORM.isWxCloud ? WxCloudDBService : StorageDBService
-// const BaseDBService = StorageDBService
-// const BaseDBService = WxCloudDBService
-
-BaseDBService.init()
+import { Currency, Bill, BillType, User, Account, Asset } from '@/model'
+import { WxCloudDBConnect, StorageDBConnect } from './connect'
+import { init } from './init'
+import { PLATFORM } from '@/store/app'
 
 class DataBaseService {
-  // 数据库的表映射
-  table = new BaseDBService<any>('table')
-  bill = new BaseDBService<Bill>('bill')
-  billType = new BaseDBService<BillType>('billType')
-  user = new BaseDBService<User>('user')
-  currency = new BaseDBService<Currency>('currency')
-  account = new BaseDBService<Account>('account')
-  asset = new BaseDBService<Asset>('asset')
+  table = () => this.connect<{ name: string }>('table')
+  user = () => this.connect<User>('user')
+  account = () => this.connect<Account>('account')
+  currency = () => this.connect<Currency>('currency')
+  bill = () => this.connect<Bill>('bill')
+  billType = () => this.connect<BillType>('billType')
+  asset = () => this.connect<Asset>('asset')
 
-  async initData() {
-    const table = await this.table.get()
-    const data = [
-      {
-        name: 'account',
-        data: accounts,
-      },
-      {
-        name: 'billType',
-        data: billTypes,
-      },
-      {
-        name: 'asset',
-        data: assets,
-      },
-    ]
+  async init() {
+    const table = await this.table()
+    const tables = await table.get()
 
-    for await (const iterator of data) {
-      const { name } = iterator
-      const has = table.find((tb) => tb.name === name)
+    for await (const meta of init) {
+      const { name } = meta
+
+      // @ts-ignore
+      const has = tables.find((tb) => tb.name === name)
 
       if (!!has) continue
 
-      for await (const it of iterator.data) {
-        await this[name].add(it)
+      for await (const it of meta.data) {
+        const t = await this[name]()
+        await t.add(it)
       }
 
-      await this.table.add({ name })
+      await table.add({ name })
     }
   }
 
+  connect<T>(key: string) {
+    return PLATFORM.getState()
+      .then(({ isLocal }) => {
+        const Connect = isLocal ? StorageDBConnect : WxCloudDBConnect
+        Connect.init()
+        return Connect
+      })
+      .then((Connect) => new Connect<T>(key))
+  }
+
   constructor() {
-    this.initData()
+    this.init()
   }
 }
 

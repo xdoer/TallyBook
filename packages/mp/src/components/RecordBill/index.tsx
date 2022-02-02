@@ -8,8 +8,8 @@ import { useQuery } from '@/common/request'
 interface RecordBillProps {}
 
 export const RecordBill: FC<RecordBillProps> = memo(({}) => {
-  const { data } = useQuery<any>({ path: '/recordTypes' })
-  const { result = [] } = data || {}
+  const res = useQuery<any>({ path: '/billTypes' })
+  const { data = [] } = res.data || []
   const [tab, setTab] = useState(0)
   const [selected, setSelected] = useState(0)
 
@@ -21,10 +21,10 @@ export const RecordBill: FC<RecordBillProps> = memo(({}) => {
   return (
     <View className="record-bill" minH-500 maxH-700 overflowScroll relative pb-500>
       <Tabs value={tab} onChange={onTanChange}>
-        {result.map((option) => {
-          const { text, grid } = option
+        {data.map((option) => {
+          const { value, grid } = option
           return (
-            <Tabs.TabPane key={text} title={text} style={{ padding: '10px' }}>
+            <Tabs.TabPane key={value} title={value} style={{ padding: '10px' }}>
               <Grid columns={4} square>
                 {grid.map((i, idx) => {
                   const { text } = i

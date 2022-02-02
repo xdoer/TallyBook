@@ -1,6 +1,6 @@
 import { Currency } from '@/model'
 
-export const currency: Omit<Currency, 'id'>[] = [
+export const currencies: Omit<Currency, 'id'>[] = [
   {
     symbol: '￥',
     code: 'RMB',

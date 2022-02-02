@@ -1,7 +1,8 @@
 import Taro from '@tarojs/taro'
 import { AtLeastOne } from '@/types/util'
+import { BaseDBConnect } from '../BaseDBConnect'
 
-export default class DBService<T> {
+export default class DBService<T> implements BaseDBConnect {
   private db = Taro.cloud.database()
   private collection: Taro.DB.Collection
   command = this.db.command

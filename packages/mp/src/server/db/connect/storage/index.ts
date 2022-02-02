@@ -1,27 +1,26 @@
 import { setStorage, getStorage } from '@tarojs/taro'
 import { AtLeastOne } from '@/types/util'
-import { safeJsonParse } from './util'
 import { uuid } from '@/common/utils'
+import { BaseDBConnect } from '../BaseDBConnect'
 
-export default class DBService<T> {
+export default class DBService<T> implements BaseDBConnect {
   // name 为表名称
   constructor(private name: string) {}
 
   static init() {}
 
   private async getTable(): Promise<T[]> {
-    let tableJson = '[]'
     try {
-      const { data } = await getStorage<string>({ key: this.name })
-      tableJson = data
+      const res = await getStorage<T[]>({ key: this.name })
+      return res.data || []
     } catch (e) {
       await this.setTable([])
     }
-    return Promise.resolve(tableJson).then(safeJsonParse)
+    return []
   }
 
   private setTable(data: T[]) {
-    return setStorage({ key: this.name, data: JSON.stringify(data) })
+    return setStorage({ key: this.name, data })
   }
 
   private uuid() {
