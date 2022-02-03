@@ -30,7 +30,7 @@ export const useShare = () => {
 }
 
 export const PLATFORM = new StorageState(appStoreEnum.platform, {
-  isWxCloud: false,
-  isLocal: true,
+  isWxCloud: true,
+  isLocal: false,
   isServer: false,
 })

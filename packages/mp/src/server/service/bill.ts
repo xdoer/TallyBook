@@ -6,7 +6,7 @@ import { mpRequest } from '../types'
 class BillService {
   // 首页接口
   async getBills({ year, month, date }: any) {
-    const bills = await dataBaseService.bill()
+    const bills = await dataBaseService.bill
 
     return bills.get().then((bills) => {
       return bills.filter((bill) => {
@@ -25,15 +25,16 @@ class BillService {
   // 添加账单
   async createBill(bill: mpRequest.createBillOptions) {
     const { id: typeId, ...rest } = bill
-    const bills = await dataBaseService.bill()
+    const bills = await dataBaseService.bill
     return bills.add({ typeId, ...rest })
   }
 
   // 获取类型
   async getBillTypes() {
-    const billTypesDB = await dataBaseService.billType()
+    const billTypesDB = await dataBaseService.billType
     const types: BillType[] = <any>await billTypesDB.get() || []
 
+    console.log('查看数据', types)
     const result: mpRequest.billTypes[] = [
       {
         type: 'outcome',

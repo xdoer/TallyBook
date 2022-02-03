@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import { AtLeastOne } from '@/types/util'
 import { BaseDBConnect } from '../BaseDBConnect'
+import { uuid } from '@/common/utils'
 
 export default class DBService<T> implements BaseDBConnect {
   private db = Taro.cloud.database()
@@ -16,8 +17,12 @@ export default class DBService<T> implements BaseDBConnect {
     Taro.cloud.init()
   }
 
+  private uuid() {
+    return `${this.name}-${uuid()}`
+  }
+
   async add(data: Omit<T, 'id'>) {
-    return this.collection.add({ data: { ...data, createdAt: Date.now() } })
+    return this.collection.add({ data: { ...data, createdAt: Date.now(), id: this.uuid() } })
   }
 
   get(condition?: string | AtLeastOne<T>) {

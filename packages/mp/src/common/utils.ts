@@ -65,3 +65,9 @@ export function getStorage<T>(key: string): Promise<T | undefined> {
     })
   })
 }
+
+export function sleep(t = 1000) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, t)
+  })
+}
