@@ -55,7 +55,7 @@ export function isUndefined(d: any) {
 export function getStorage<T>(key: string, init?: any): Promise<T> {
   return new Promise((resolve) => {
     // @ts-ignore
-    wx.getStorage({
+    Taro.getStorage({
       key,
       success(res) {
         resolve(res.data as any)

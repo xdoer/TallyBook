@@ -18,16 +18,8 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
   const { width } = safeArea || {}
   const finalWidth = width || windowWidth
 
-  function onChange(idx) {
-    onChoose(idx)
-
-    if (idx !== data) {
-      vibrateShort()
-    }
-  }
-
   function onRecord(idx) {
-    if (idx === 1) {
+    if (idx === data && idx === 1) {
       vibrateShort()
       popUpService.open({ content: <RecordBill /> })
     }
@@ -53,7 +45,7 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
               key={text}
               w={itemWidth + 'px'}
               className={`item ${selected ? 'active' : ''}`}
-              onClick={() => onChange(index)}
+              onClick={() => onChoose(index)}
               onLongPress={() => onRecord(index)}
             >
               <Text

@@ -22,15 +22,19 @@ export const RecordBill: FC<RecordBillProps> = memo(({}) => {
     <View className="record-bill" minH-500 maxH-700 overflowScroll relative pb-500>
       <Tabs value={tab} onChange={onTanChange}>
         {data.map((option) => {
-          const { value, grid } = option
+          const { value, grid, type } = option
+          const key = `${type}-${value}`
+
           return (
-            <Tabs.TabPane key={value} title={value} style={{ padding: '10px' }}>
+            <Tabs.TabPane key={key} title={value} style={{ padding: '10px' }}>
               <Grid columns={4} square>
                 {grid.map((i, idx) => {
                   const { text } = i
                   const active = selected === idx
+
                   return (
                     <Grid.Item
+                      key={i.id}
                       icon={<PhotoOutlined />}
                       text={text}
                       style={{ color: active ? 'yellow' : 'red' }}

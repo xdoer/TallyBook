@@ -9,9 +9,9 @@ export const SwiperCard: FC<SwiperCardProps> = ({}) => {
   return (
     <Card>
       <Swiper indicatorDots indicatorActiveColor="#FCD423" indicatorColor="#F0F0F0" h-250>
-        {list.map((item) => {
+        {list.map((item, idx) => {
           return (
-            <SwiperItem>
+            <SwiperItem key={idx}>
               <ReportCard report={item} />
             </SwiperItem>
           )
