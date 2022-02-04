@@ -1,20 +1,20 @@
 import Taro from '@tarojs/taro'
 import { AtLeastOne } from '@/types/util'
-import { BaseDBConnect } from '../BaseDBConnect'
-import { uuid } from '@/common/utils'
+import { BaseDBConnect, DBConnect } from '../BaseDBConnect'
+import { clone, uuid } from '@/common/utils'
 
-export default class DBService<T> implements BaseDBConnect {
+export default class DBService<T> extends DBConnect implements BaseDBConnect {
   private db = Taro.cloud.database()
   private collection: Taro.DB.Collection
   command = this.db.command
 
-  // name 为表名称
   constructor(private name: string) {
+    super()
     this.collection = this.db.collection(this.name)
   }
 
-  static init() {
-    Taro.cloud.init()
+  static async init() {
+    return Taro.cloud.init()
   }
 
   private uuid() {

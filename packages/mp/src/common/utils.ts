@@ -52,15 +52,16 @@ export function isUndefined(d: any) {
   return typeof d === 'undefined'
 }
 
-export function getStorage<T>(key: string): Promise<T | undefined> {
+export function getStorage<T>(key: string, init?: any): Promise<T> {
   return new Promise((resolve) => {
-    Taro.getStorage({
+    // @ts-ignore
+    wx.getStorage({
       key,
       success(res) {
         resolve(res.data as any)
       },
       fail() {
-        resolve(undefined as any)
+        resolve(init)
       },
     })
   })
@@ -70,4 +71,8 @@ export function sleep(t = 1000) {
   return new Promise((resolve) => {
     setTimeout(resolve, t)
   })
+}
+
+export function clone(v) {
+  return JSON.parse(JSON.stringify(v))
 }

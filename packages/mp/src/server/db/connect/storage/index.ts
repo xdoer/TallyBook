@@ -1,21 +1,20 @@
-import { setStorage, getStorage } from '@tarojs/taro'
+import { setStorage } from '@tarojs/taro'
 import { AtLeastOne } from '@/types/util'
-import { uuid } from '@/common/utils'
-import { BaseDBConnect } from '../BaseDBConnect'
+import { uuid, getStorage } from '@/common/utils'
+import { BaseDBConnect, DBConnect } from '../BaseDBConnect'
 
-export default class DBService<T> implements BaseDBConnect {
-  // name 为表名称
-  constructor(private name: string) {}
-
-  static init() {}
+export default class DBService<T> extends DBConnect implements BaseDBConnect {
+  constructor(private name: string) {
+    super()
+  }
 
   private async getTable(): Promise<T[]> {
-    try {
-      const res = await getStorage<T[]>({ key: this.name })
-      return res.data || []
-    } catch (e) {
-      await this.setTable([])
-    }
+    const table = await getStorage<T[]>(this.name)
+
+    if (table) return table
+
+    await this.setTable([])
+
     return []
   }
 

@@ -2,23 +2,21 @@ import { User } from '@/model'
 import { dataBaseService } from '../db'
 
 class UserService {
-  userDB = dataBaseService.user
-
   async login() {
-    const users = await this.userDB
+    const users = await dataBaseService.user
     const u = await users.get()
     return u[0]
   }
 
   // 首页接口
   async getUsers(): Promise<User[]> {
-    const users = await this.userDB
+    const users = await dataBaseService.user
     return users.get() as any
   }
 
   // 新增用户
   async addUser(user) {
-    const users = await this.userDB
+    const users = await dataBaseService.user
     users.add(user)
   }
 }
