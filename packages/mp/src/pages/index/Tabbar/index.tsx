@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useMemo } from 'react'
+import { FC, memo, useMemo } from 'react'
 import { useSystemInfo } from '@/store/app'
 import { vibrateShort } from '@tarojs/taro'
 import { View, Text } from '@fower/taro'
@@ -17,12 +17,6 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
   const { safeArea, windowWidth } = systemInfo || {}
   const { width } = safeArea || {}
   const finalWidth = width || windowWidth
-
-  useEffect(() => {
-    setTimeout(() => {
-      popUpService.open({ content: <RecordBill /> })
-    }, 1000)
-  }, [])
 
   function onChange(idx) {
     onChoose(idx)
