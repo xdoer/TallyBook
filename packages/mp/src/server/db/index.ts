@@ -1,4 +1,13 @@
-import { Currency, Bill, BillType, User, Account, Asset, dataInit, tableName } from '@tally-book/model'
+import {
+  Currency,
+  Bill,
+  BillType,
+  User,
+  Account,
+  Asset,
+  dataInit,
+  tableName,
+} from '@tally-book/model'
 import { WxCloudDBConnect, StorageDBConnect, BaseDBConnect } from './connect'
 import { PLATFORM } from '@/store/app'
 import { DBConnect } from './connect/BaseDBConnect'
