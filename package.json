@@ -39,7 +39,9 @@
   "license": "ISC",
   "workspaces": {
     "packages": [
-      "packages/mp"
+      "packages/mp",
+      "packages/model",
+      "packages/types"
     ]
   }
 }

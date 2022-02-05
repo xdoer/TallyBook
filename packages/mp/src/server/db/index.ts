@@ -1,6 +1,5 @@
-import { Currency, Bill, BillType, User, Account, Asset } from '@/model'
+import { Currency, Bill, BillType, User, Account, Asset, dataInit, tableName } from '@tally-book/model'
 import { WxCloudDBConnect, StorageDBConnect, BaseDBConnect } from './connect'
-import { init } from './init'
 import { PLATFORM } from '@/store/app'
 import { DBConnect } from './connect/BaseDBConnect'
 
@@ -10,12 +9,12 @@ class DataBaseService {
   table: BaseDBConnect
   dbTableList: { name: string }[] = []
 
-  user = this.connect().then((Connect) => this.init<User>(Connect, 'user'))
-  account = this.connect().then((Connect) => this.init<Account>(Connect, 'account'))
-  currency = this.connect().then((Connect) => this.init<Currency>(Connect, 'currency'))
-  bill = this.connect().then((Connect) => this.init<Bill>(Connect, 'bill'))
-  billType = this.connect().then((Connect) => this.init<BillType>(Connect, 'billType'))
-  asset = this.connect().then((Connect) => this.init<Asset>(Connect, 'asset'))
+  user = this.connect().then((Connect) => this.init<User>(Connect, tableName.user))
+  account = this.connect().then((Connect) => this.init<Account>(Connect, tableName.account))
+  currency = this.connect().then((Connect) => this.init<Currency>(Connect, tableName.currency))
+  bill = this.connect().then((Connect) => this.init<Bill>(Connect, tableName.bill))
+  billType = this.connect().then((Connect) => this.init<BillType>(Connect, tableName.billType))
+  asset = this.connect().then((Connect) => this.init<Asset>(Connect, tableName.asset))
 
   // 初始化表数据
   async init<T>(Connect: Connect, name: string) {
@@ -33,7 +32,7 @@ class DataBaseService {
       return connect
     }
 
-    const getInitData = init.find((i) => i.name === name)
+    const getInitData = dataInit.find((i) => i.name === name)
 
     if (getInitData) {
       const { data } = getInitData
@@ -45,7 +44,7 @@ class DataBaseService {
     }
 
     this.dbTableList.push({ name })
-    if (this.dbTableList.length === init.length) {
+    if (this.dbTableList.length === dataInit.length) {
       // 顺序插入数据，并发在 Storage 模式下会丢数据
       for await (const i of this.dbTableList) {
         await this.table.add(i)

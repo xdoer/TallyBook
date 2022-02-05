@@ -1,26 +1,26 @@
 // 账单模型
 export class Bill {
   // 账单 ID
-  id: string
+  id: string;
 
   // 账单类型
-  typeId: string
+  typeId: string;
 
   // 创建人
-  userId: string
+  userId: string;
 
   // 账本 id
-  accountId: string
+  accountId: string;
 
   // 币种 id
-  currencyId: string
+  currencyId: string;
 
   // 资产 id
-  assetId: string
+  assetId: string;
 
   // 金额
-  money: number
+  money: number;
 
   // 备注
-  remark: string
+  remark: string;
 }

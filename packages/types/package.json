@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "license": "MIT",
+  "name": "@tally-book/types",
+  "author": "xdoer",
+  "browserslist": [
+    "> 5%"
+  ],
+  "dependencies": {
+    "@tally-book/model": "1.0.0"
+  }
+}

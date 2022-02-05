@@ -1,13 +1,13 @@
 // 账单类型
 export class BillType {
-  id: string
+  id: string;
 
   // 账单类型 income / outcome
-  type: 'income' | 'outcome' | 'none'
+  type: 'income' | 'outcome' | 'none';
 
   // 账单 icon
-  icon: string
+  icon: string;
 
   // 展示的文字: 餐饮、旅游...
-  text: string
+  text: string;
 }

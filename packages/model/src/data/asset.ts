@@ -1,4 +1,4 @@
-import { Asset } from '@/model'
+import { Asset } from '../model';
 
 export const assets: Omit<Asset, 'id'>[] = [
   {
@@ -6,4 +6,4 @@ export const assets: Omit<Asset, 'id'>[] = [
     type: '',
     icon: '',
   },
-]
+];

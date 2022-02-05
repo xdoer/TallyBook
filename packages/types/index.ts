@@ -1,6 +1,6 @@
-import { BillType } from '@/model'
+import { BillType } from '@tally-book/model'
 
-export namespace mpRequest {
+export namespace TallyBook {
   export interface billTypes {
     type: 'income' | 'outcome'
     value: '收入' | '支出'

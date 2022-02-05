@@ -1,4 +1,4 @@
-import { User } from '@/model'
+import { User } from '@tally-book/model'
 import { dataBaseService } from '../db'
 
 class UserService {

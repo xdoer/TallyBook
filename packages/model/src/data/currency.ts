@@ -1,4 +1,4 @@
-import { Currency } from '@/model'
+import { Currency } from '../model';
 
 export const currencies: Omit<Currency, 'id'>[] = [
   {
@@ -6,4 +6,4 @@ export const currencies: Omit<Currency, 'id'>[] = [
     code: 'RMB',
     text: '人民币',
   },
-]
+];

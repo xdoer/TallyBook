@@ -1,4 +1,4 @@
-import { BillType } from '@/model'
+import { BillType } from '../model';
 
 export const billTypes: Omit<BillType, 'id'>[] = [
   {
@@ -31,4 +31,4 @@ export const billTypes: Omit<BillType, 'id'>[] = [
     text: '游玩',
     type: 'income',
   },
-]
+];

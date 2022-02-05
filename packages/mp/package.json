@@ -1,5 +1,5 @@
 {
-  "name": "tally-book",
+  "name": "@tally-book/mp",
   "version": "1.0.0",
   "description": "账本",
   "templateInfo": {
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "scr -g 1 && taro build --type weapp",
-    "dev": "scr & taro build --type weapp --watch",
+    "dev": "taro build --type weapp --watch",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix"
   },
@@ -25,7 +25,8 @@
     "@prequest/miniprogram": "^1.2.6",
     "@xdoer/state-bus": "^1.0.2",
     "@xdoer/timeout-interval": "^1.0.2",
-    "@taroify/core": "^0.0.24-alpha.1"
+    "@taroify/core": "^0.0.24-alpha.1",
+    "@tally-book/model": "1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
@@ -54,6 +55,7 @@
     "babel-plugin-import": "^1.13.3",
     "express": "^4.17.2",
     "@faker-js/faker": "^6.0.0-alpha.3",
-    "@types/faker": "^6.6.9"
+    "@types/faker": "^6.6.9",
+    "@tally-book/types": "1.0.0"
   }
 }

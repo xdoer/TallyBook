@@ -1,4 +1,4 @@
-import { Account } from '@/model/Account'
+import { Account } from '../model';
 
 export const accounts: Omit<Account, 'id'>[] = [
   {
@@ -8,4 +8,4 @@ export const accounts: Omit<Account, 'id'>[] = [
     remark: '',
     icon: '',
   },
-]
+];
