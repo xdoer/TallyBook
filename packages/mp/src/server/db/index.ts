@@ -10,34 +10,38 @@ import {
 } from '@tally-book/model'
 import { WxCloudDBConnect, StorageDBConnect, BaseDBConnect } from './connect'
 import { PLATFORM } from '@/store/app'
-import { DBConnect } from './connect/BaseDBConnect'
-
-type Connect = typeof WxCloudDBConnect | typeof StorageDBConnect | typeof DBConnect
+import { Connect as ConnectType } from './connect/BaseDBConnect'
 
 class DataBaseService {
-  table: BaseDBConnect
+  table: BaseDBConnect<{ name: string }>
   dbTableList: { name: string }[] = []
 
-  user = this.connect().then((Connect) => this.init<User>(Connect, tableName.user))
-  account = this.connect().then((Connect) => this.init<Account>(Connect, tableName.account))
-  currency = this.connect().then((Connect) => this.init<Currency>(Connect, tableName.currency))
-  bill = this.connect().then((Connect) => this.init<Bill>(Connect, tableName.bill))
-  billType = this.connect().then((Connect) => this.init<BillType>(Connect, tableName.billType))
-  asset = this.connect().then((Connect) => this.init<Asset>(Connect, tableName.asset))
+  user = () => this.init<User>(tableName.user)
+  account = () => this.init<Account>(tableName.account)
+  currency = () => this.init<Currency>(tableName.currency)
+  bill = () => this.init<Bill>(tableName.bill)
+  billType = () => this.init<BillType>(tableName.billType)
+  asset = () => this.init<Asset>(tableName.asset)
+
+  async init<T>(name: tableName) {
+    return this.connect().then((Connect) => this.initTable<T>(Connect as any, name))
+  }
 
   // 初始化表数据
-  async init<T>(Connect: Connect, name: string) {
-    const db = await Connect.get(name)
+  async initTable<T>(Connect: typeof ConnectType, name: string) {
+    const table = await Connect.get<T>(name)
 
-    if (db.isInit) return db.promise
-    db.isInit = true
+    table.promise.then((res) => res.add)
+
+    if (table.isInit) return table.promise
+    table.isInit = true
 
     const connect = new Connect<T>(name)
 
     const has = this.dbTableList.find((tb) => tb.name === name)
 
     if (!!has) {
-      db.resolve(connect)
+      table.resolve(connect)
       return connect
     }
 
@@ -53,23 +57,19 @@ class DataBaseService {
     }
 
     this.dbTableList.push({ name })
-    if (this.dbTableList.length === dataInit.length) {
-      // 顺序插入数据，并发在 Storage 模式下会丢数据
-      for await (const i of this.dbTableList) {
-        await this.table.add(i)
-      }
-    }
+    await this.table.add({ name })
 
-    db.resolve(connect)
+    table.resolve(connect)
     return connect
   }
 
-  async connect() {
+  // 初始化数据库链接
+  async connect(): Promise<typeof Connect> {
     const { isLocal } = await PLATFORM.getState()
     const Connect = isLocal ? StorageDBConnect : WxCloudDBConnect
 
     // 初始化数据库链接
-    if (Connect.isInit) return Connect.promise
+    if (Connect.isInit) return Connect.promise as any
     Connect.isInit = true
 
     await Connect.init()

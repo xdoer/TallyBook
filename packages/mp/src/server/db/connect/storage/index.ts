@@ -1,9 +1,9 @@
 import { setStorage } from '@tarojs/taro'
 import { AtLeastOne } from '@/types/util'
 import { getStorage } from '@/common/utils'
-import { BaseDBConnect, DBConnect } from '../BaseDBConnect'
+import { DBConnect, BaseDBConnect } from '../BaseDBConnect'
 
-export default class DBService<T> extends DBConnect implements BaseDBConnect {
+export default class DBService<T> extends DBConnect implements BaseDBConnect<T> {
   name: string
 
   constructor(name: string) {
@@ -25,13 +25,13 @@ export default class DBService<T> extends DBConnect implements BaseDBConnect {
     return setStorage({ key: this.name, data })
   }
 
-  async add(data: Omit<T, 'id'>) {
+  add = async (data: Omit<T, 'id'>) => {
     const table = await this.getTable()
     table.push({ ...data, createdAt: Date.now(), id: this.uuid() } as any)
     this.setTable(table)
   }
 
-  get(condition?: string | AtLeastOne<T>) {
+  get = (condition?: string | AtLeastOne<T>) => {
     if (!condition) return this.getTable()
     const query: any = typeof condition === 'string' ? { id: condition } : condition
     return this.getTable().then((table) => {
@@ -41,7 +41,7 @@ export default class DBService<T> extends DBConnect implements BaseDBConnect {
     })
   }
 
-  async remove(condition: string | AtLeastOne<T>) {
+  remove = async (condition: string | AtLeastOne<T>) => {
     const query: any = typeof condition === 'string' ? { id: condition } : condition
     const table = await this.getTable()
     const targetIdx = table.findIndex((row) => {
@@ -55,7 +55,7 @@ export default class DBService<T> extends DBConnect implements BaseDBConnect {
     return this.setTable(table)
   }
 
-  async update(condition: string | AtLeastOne<T>, data: Partial<T>) {
+  update = async (condition: string | AtLeastOne<T>, data: Partial<T>) => {
     const query: any = typeof condition === 'string' ? { id: condition } : condition
     const table = await this.getTable()
     const targetIdx = table.findIndex((row) => {

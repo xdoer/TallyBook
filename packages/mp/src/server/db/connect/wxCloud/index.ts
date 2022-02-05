@@ -1,8 +1,8 @@
 import Taro from '@tarojs/taro'
 import { AtLeastOne } from '@/types/util'
-import { BaseDBConnect, DBConnect } from '../BaseDBConnect'
+import { DBConnect, BaseDBConnect } from '../BaseDBConnect'
 
-export default class DBService<T> extends DBConnect implements BaseDBConnect {
+export default class DBService<T> extends DBConnect implements BaseDBConnect<T> {
   private db = Taro.cloud.database()
   private collection: Taro.DB.Collection
   command = this.db.command
@@ -16,11 +16,11 @@ export default class DBService<T> extends DBConnect implements BaseDBConnect {
     return Taro.cloud.init()
   }
 
-  async add(data: Omit<T, 'id'>) {
+  add = async (data: Omit<T, 'id'>) => {
     return this.collection.add({ data: { ...data, createdAt: Date.now(), id: this.uuid() } })
   }
 
-  get(condition?: string | AtLeastOne<T>) {
+  get = (condition?: string | AtLeastOne<T>) => {
     if (!condition) return this.collection.get().then(({ data }) => data)
     const query: any = typeof condition === 'string' ? { id: condition } : condition
     return this.collection
@@ -29,13 +29,13 @@ export default class DBService<T> extends DBConnect implements BaseDBConnect {
       .then(({ data }) => data)
   }
 
-  remove(condition: string | AtLeastOne<T>) {
+  remove = (condition: string | AtLeastOne<T>) => {
     const query: any = typeof condition === 'string' ? { id: condition } : condition
     // @ts-ignore
     return this.collection.where(query).remove()
   }
 
-  update(condition: string | AtLeastOne<T>, data: Partial<T>) {
+  update = (condition: string | AtLeastOne<T>, data: Partial<T>) => {
     const query: any = typeof condition === 'string' ? { id: condition } : condition
     // @ts-ignore
     return this.collection.where(query).update({ data })

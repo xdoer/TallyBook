@@ -6,7 +6,7 @@ import { TallyBook } from '@tally-book/types'
 class BillService {
   // 首页接口
   async getBills({ year, month, date }: any) {
-    const bills = await dataBaseService.bill
+    const bills = await dataBaseService.bill()
 
     return bills.get().then((bills) => {
       return bills.filter((bill) => {
@@ -25,13 +25,13 @@ class BillService {
   // 添加账单
   async createBill(bill: TallyBook.createBillOptions) {
     const { id: typeId, ...rest } = bill
-    const bills = await dataBaseService.bill
+    const bills = await dataBaseService.bill()
     return bills.add({ typeId, ...rest })
   }
 
   // 获取类型
   async getBillTypes() {
-    const billTypesDB = await dataBaseService.billType
+    const billTypesDB = await dataBaseService.billType()
     const types: BillType[] = <any>await billTypesDB.get() || []
 
     const result: TallyBook.billTypes[] = [
