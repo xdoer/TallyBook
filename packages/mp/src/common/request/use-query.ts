@@ -1,17 +1,18 @@
 import { PreQuestInstance } from '@prequest/core'
+import { TallyBook } from '@tally-book/types'
 import { setTimeoutInterval, clearTimeoutInterval } from '@xdoer/timeout-interval'
 import { useEffect, useRef, useState } from 'react'
 import { Res, Config } from './types'
 import { parseOptions, defaultUpdate } from './utils'
 
 export default function <T, N>(prequest: PreQuestInstance<T, N>) {
-  return function <Q>(opt: T | (() => T), config?: Config<Q>) {
-    const [res, setRes] = useState<Res<Q>>({ data: null, error: null, loading: true })
+  return function <Q>(opt: T | (() => T), config?: Config<TallyBook.Response<Q>>) {
+    const [res, setRes] = useState<Res<TallyBook.Response<Q>>>({} as any)
     const calledRef = useRef(false)
-    const variables = useRef<T | null>(null)
+    const variables = useRef<T>()
     const loadingRef = useRef(false)
     const { lazy, loop, onUpdate = defaultUpdate } = config || {}
-    const timerId = useRef<any>(null)
+    const timerId = useRef<any>()
     const [_loop, setLoop] = useState(false)
 
     useEffect(() => {
@@ -68,7 +69,7 @@ export default function <T, N>(prequest: PreQuestInstance<T, N>) {
         return res
       } catch (e) {
         loadingRef.current = false
-        setRes({ loading: false, error: e, data: null })
+        setRes({ loading: false, error: e, data: undefined as any })
         return e
       }
     }

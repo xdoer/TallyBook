@@ -27,8 +27,10 @@ export default class DBService<T> extends DBConnect implements BaseDBConnect<T> 
 
   add = async (data: Omit<T, 'id'>) => {
     const table = await this.getTable()
-    table.push({ ...data, createdAt: Date.now(), id: this.uuid() } as any)
+    const d = { ...data, createdAt: Date.now(), id: this.uuid() } as any
+    table.push(d)
     this.setTable(table)
+    return d
   }
 
   get = (condition?: string | AtLeastOne<T>) => {

@@ -26,9 +26,11 @@
     "@xdoer/state-bus": "^1.0.2",
     "@xdoer/timeout-interval": "^1.0.2",
     "@taroify/core": "^0.0.24-alpha.1",
-    "@tally-book/model": "1.0.0"
+    "@tally-book/model": "1.0.0",
+    "lodash-es": "^4.17.21"
   },
   "devDependencies": {
+    "@types/lodash-es": "4.17.5",
     "@babel/core": "^7.8.0",
     "@babel/runtime": "^7.7.7",
     "@tarojs/runtime": "3.3.18",

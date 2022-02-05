@@ -1,5 +1,5 @@
-import { Router } from './Base'
-import { billService } from '../service'
+import { Router } from '../Base'
+import { billService } from '../../service'
 
 const router = new Router()
 

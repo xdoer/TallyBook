@@ -41,8 +41,8 @@ interface TablePromise<T> {
 }
 
 export declare class Connect<T> extends DBConnect implements BaseDBConnect<T> {
-  add(d: Omit<T, 'id'>): any
-  get(condition?: string | AtLeastOne<T>): any
+  add(d: Omit<T, 'id'>): Promise<T>
+  get(condition?: string | AtLeastOne<T>): Promise<T[]>
   remove(condition?: string | AtLeastOne<T>): any
   update(condition: string | AtLeastOne<T>, data: Partial<Omit<T, 'id'>>): any
 }

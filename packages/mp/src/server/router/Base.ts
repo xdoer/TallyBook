@@ -1,5 +1,8 @@
+import { MPError } from '@/common/Error'
+import { Common } from '@/types/util'
+
 interface Route {
-  [key: string]: (options: any) => Promise<any>
+  [key: string]: (data: Common, options: Common) => Promise<any>
 }
 
 export class Router {
@@ -11,22 +14,19 @@ export class Router {
   }
 
   async call(options) {
-    const { path, ...opts } = options
+    const { path, method, data = {}, params = {} } = options
 
     try {
       return {
         success: true,
-        data: await this.routers[path](opts),
+        result: await this.routers[path](method === 'POST' ? data : params, options),
         error: null,
       }
     } catch (e) {
       return {
         success: false,
-        data: null,
-        error: {
-          code: e.code,
-          message: e.message,
-        },
+        result: null,
+        error: MPError.enhance(e),
       }
     }
   }

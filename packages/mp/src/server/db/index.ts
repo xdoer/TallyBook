@@ -13,8 +13,8 @@ import { PLATFORM } from '@/store/app'
 import { Connect as ConnectType } from './connect/BaseDBConnect'
 
 class DataBaseService {
-  table: BaseDBConnect<{ name: string }>
-  dbTableList: { name: string }[] = []
+  private table: BaseDBConnect<{ name: string }>
+  private dbTableList: { name: string }[] = []
 
   user = () => this.init<User>(tableName.user)
   account = () => this.init<Account>(tableName.account)
@@ -23,12 +23,12 @@ class DataBaseService {
   billType = () => this.init<BillType>(tableName.billType)
   asset = () => this.init<Asset>(tableName.asset)
 
-  async init<T>(name: tableName) {
+  private async init<T>(name: tableName) {
     return this.connect().then((Connect) => this.initTable<T>(Connect as any, name))
   }
 
   // 初始化表数据
-  async initTable<T>(Connect: typeof ConnectType, name: string) {
+  private async initTable<T>(Connect: typeof ConnectType, name: string) {
     const table = await Connect.get<T>(name)
 
     table.promise.then((res) => res.add)
@@ -64,7 +64,7 @@ class DataBaseService {
   }
 
   // 初始化数据库链接
-  async connect(): Promise<typeof Connect> {
+  private async connect(): Promise<typeof Connect> {
     const { isLocal } = await PLATFORM.getState()
     const Connect = isLocal ? StorageDBConnect : WxCloudDBConnect
 

@@ -2,57 +2,50 @@ import { formatDate } from '@/common/utils'
 import { BillType } from '@tally-book/model'
 import { dataBaseService } from '../db'
 import { TallyBook } from '@tally-book/types'
+import _, { groupBy } from 'lodash-es'
 
 class BillService {
   // 首页接口
-  async getBills({ year, month, date }: any) {
-    const bills = await dataBaseService.bill()
+  async getBills(req: any) {
+    const { pageStart, pageSize } = req
+    const billDB = await dataBaseService.bill()
+    const bills = await billDB.get()
 
-    return bills.get().then((bills) => {
-      return bills.filter((bill) => {
-        const { createdAt } = bill
-        const createDate = new Date(createdAt)
-
-        if (year) return year === formatDate(createDate, 'yyyy')
-        if (month) return month === formatDate(createDate, 'yyyy-MM')
-        if (date) return month === formatDate(createDate, 'yyyy-MM-dd')
-
-        return true
-      })
-    })
+    return _.chain(bills)
+      .slice(pageStart)
+      .take(pageSize)
+      .groupBy(({ createdAt }) => formatDate(new Date(createdAt), 'yyyy-MM-dd'))
+      .mapValues((v, k) => ({ date: k, list: v }))
+      .values()
+      .value()
   }
 
   // 添加账单
   async createBill(bill: TallyBook.createBillOptions) {
-    const { id: typeId, ...rest } = bill
     const bills = await dataBaseService.bill()
-    return bills.add({ typeId, ...rest })
+    return bills.add(bill as any)
   }
 
   // 获取类型
   async getBillTypes() {
     const billTypesDB = await dataBaseService.billType()
-    const types: BillType[] = <any>await billTypesDB.get() || []
+    const types: BillType[] = (await billTypesDB.get()) || []
 
+    const group = groupBy(types, 'type')
     const result: TallyBook.billTypes[] = [
       {
         type: 'outcome',
         value: '支出',
-        grid: [],
+        grid: group.outcome,
       },
       {
         type: 'income',
         value: '收入',
-        grid: [],
+        grid: group.income,
       },
     ]
 
-    return types.reduce((result, cur) => {
-      const { type } = cur
-      const idx = result.findIndex((i) => i.type === type)
-      result[idx].grid.push(cur)
-      return result
-    }, result)
+    return result
   }
 }
 

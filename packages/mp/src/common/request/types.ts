@@ -1,5 +1,5 @@
 export interface Res<Q> {
-  data: Q | null
+  data: Q
   error: any
   loading: boolean
 }

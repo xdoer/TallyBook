@@ -1,8 +1,13 @@
-import { prequest } from '@/common/request/query'
+import { prequest } from '@/common/request'
+import { TallyBook } from '@tally-book/types'
 
 class ApiService {
   createUser(data: any) {
-    prequest.post('/createUser', { data })
+    return prequest.post('/createUser', { data })
+  }
+
+  createBill(data: TallyBook.createBillOptions) {
+    return prequest.post('/createBill', { data })
   }
 }
 

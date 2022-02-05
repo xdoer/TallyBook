@@ -1,5 +1,5 @@
-import { Router } from './Base'
-import { userService } from '../service'
+import { Router } from '../Base'
+import { userService } from '../../service'
 
 const router = new Router()
 
@@ -10,8 +10,7 @@ router
   .use('/user', () => {
     return userService.getUsers()
   })
-  .use('/createUser', (options) => {
-    const { data } = options
+  .use('/createUser', (data) => {
     return userService.addUser(data as any)
   })
 

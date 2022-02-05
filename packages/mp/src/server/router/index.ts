@@ -1,6 +1,6 @@
 import { localRouter } from './Base'
-import { userRouter } from './user'
-import { billRouter } from './bill'
+import { userRouter } from './routes/user'
+import { billRouter } from './routes/bill'
 
 localRouter.merge(userRouter.routes()).merge(billRouter.routes())
 

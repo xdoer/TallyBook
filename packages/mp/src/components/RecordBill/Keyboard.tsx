@@ -1,21 +1,23 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { NumberKeyboard } from '@taroify/core'
 import { View } from '@fower/taro'
 import { popUpService } from '../PopupContainer'
 
-interface KeyboardProps {}
+interface KeyboardProps {
+  value: string
+  onChange: (v: string) => void
+  onConfirm: () => void
+}
 
-export const Keyboard: FC<KeyboardProps> = ({}) => {
-  const [value, setValue] = useState('')
-
+export const Keyboard: FC<KeyboardProps> = ({ value, onChange, onConfirm }) => {
   function onKeyPress(key, type) {
     if (type === 'extra') {
-      setValue(value + key)
+      onChange(value + key)
     }
   }
 
   function onBackspace() {
-    setValue(value.slice(0, -1))
+    onChange(value.slice(0, -1))
   }
 
   const Title = (
@@ -39,7 +41,7 @@ export const Keyboard: FC<KeyboardProps> = ({}) => {
     >
       <NumberKeyboard.Sidebar>
         <NumberKeyboard.Key size="large" code="backspace" />
-        <NumberKeyboard.Key size="large" code="keyboard-hide" color="blue">
+        <NumberKeyboard.Key size="large" code="keyboard-hide" color="blue" onPress={onConfirm}>
           完成
         </NumberKeyboard.Key>
       </NumberKeyboard.Sidebar>
