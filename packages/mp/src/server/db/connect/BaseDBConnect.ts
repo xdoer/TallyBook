@@ -1,3 +1,5 @@
+import { uuid } from "@/common/utils"
+
 export abstract class BaseDBConnect {
   abstract add(d: any): any
   abstract get(d?: any): any
@@ -6,12 +8,19 @@ export abstract class BaseDBConnect {
 }
 
 export class DBConnect {
+
+  constructor(protected name: string) { }
+
+  protected uuid() {
+    return `${this.name}-${uuid()}`
+  }
+
   static resolve
   static promise: Promise<typeof DBConnect> = new Promise(
     (resolve) => (DBConnect.resolve = resolve),
   )
   static isInit = false
-  static async init() {}
+  static async init() { }
 
   static get = (() => {
     const map = {}

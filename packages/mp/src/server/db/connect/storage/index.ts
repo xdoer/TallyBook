@@ -1,11 +1,14 @@
 import { setStorage } from '@tarojs/taro'
 import { AtLeastOne } from '@/types/util'
-import { uuid, getStorage } from '@/common/utils'
+import { getStorage } from '@/common/utils'
 import { BaseDBConnect, DBConnect } from '../BaseDBConnect'
 
 export default class DBService<T> extends DBConnect implements BaseDBConnect {
-  constructor(private name: string) {
-    super()
+  name: string
+
+  constructor(name: string) {
+    super(name)
+    this.name = `db-${name}`
   }
 
   private async getTable(): Promise<T[]> {
@@ -20,10 +23,6 @@ export default class DBService<T> extends DBConnect implements BaseDBConnect {
 
   private setTable(data: T[]) {
     return setStorage({ key: this.name, data })
-  }
-
-  private uuid() {
-    return `${this.name}-${uuid()}`
   }
 
   async add(data: Omit<T, 'id'>) {
