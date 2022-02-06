@@ -31,8 +31,6 @@ class DataBaseService {
   private async initTable<T>(Connect: typeof ConnectType, name: string) {
     const table = await Connect.get<T>(name)
 
-    table.promise.then((res) => res.add)
-
     if (table.isInit) return table.promise
     table.isInit = true
 
