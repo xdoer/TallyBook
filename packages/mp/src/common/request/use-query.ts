@@ -3,107 +3,73 @@ import { TallyBook } from '@tally-book/types'
 import { setTimeoutInterval, clearTimeoutInterval } from '@xdoer/timeout-interval'
 import { useEffect, useRef, useState } from 'react'
 import { Res, Config } from './types'
-import { parseOptions, defaultUpdate } from './utils'
 
-export default function <T, N>(prequest: PreQuestInstance<T, N>) {
-  return function <Q>(opt: T | (() => T), config?: Config<TallyBook.Response<Q>>) {
-    const [res, setRes] = useState<Res<TallyBook.Response<Q>>>({} as any)
-    const calledRef = useRef(false)
-    const variables = useRef<T>()
-    const loadingRef = useRef(false)
-    const { lazy, loop, onUpdate = defaultUpdate } = config || {}
-    const timerId = useRef<any>()
-    const [_loop, setLoop] = useState(false)
+// declare function queryHook<T, Q>(opt: T | (() => T), config?: Config<TallyBook.Response<Q>>): void
+// declare function queryHook<T, Q>(path: string, opt?: T | (() => T), config?: Config<TallyBook.Response<Q>>): void
+
+type GlobalCache = { [key: string]: Cache }
+
+type Cache = {
+  loading: boolean
+  error: any
+  request: any
+  response: any
+}
+
+export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) {
+  const globalCache: GlobalCache = {}
+
+  function getOptions(path: string, opt?: T | (() => T)) {
+    // @ts-ignore
+    return typeof path === 'string' ? { path, ...(typeof opt === 'function' ? opt() : opt) } : path
+  }
+
+  function getQueryOptions(cache: any, options: any) {
+    if (cache.request) return cache.request
+
+    return (cache.request = options)
+  }
+
+  function getUniqueKey(options) {
+    return options.path
+  }
+
+  function initCache(key) {
+    globalCache[key] = {
+      loading: false,
+      error: null,
+      request: null,
+      response: null,
+    }
+    return globalCache[key]
+  }
+
+  return function <Q>(path: string, opt?: T | (() => T), config?: Config<TallyBook.Response<Q>>) {
+    const options = getOptions(path, opt)
+    const uniqueKey = getUniqueKey(options)
+    const cache = globalCache[uniqueKey] || initCache(uniqueKey)
+    const queryOptions = getQueryOptions(cache, options)
+    const rerender = useState({})[1]
 
     useEffect(() => {
-      if (!_loop) return
-      // 这里 options 参数在循环请求接口的过程中是不变的，避免其他 hook 变更引起参数变化
-      timerId.current = setTimeoutInterval(() => fetchData(variables.current!), loop)
-    }, [_loop, loop])
-
-    useEffect(() => {
-      return () => {
-        clearTimeoutInterval(timerId.current)
-      }
+      makeFetch()
     }, [])
 
-    useEffect(() => {
-      // 首次发请求调用
-      if (calledRef.current) return
+    async function makeFetch() {
+      if (cache.loading) return
 
-      // 获取参数
-      const options = parseOptions(opt, variables.current)
-
-      // 参数不满足，不发起请求
-      if (!options) return
-
-      // 保存初始参数
-      variables.current = options
-
-      // lazy 状态下不立即请求
-      if (lazy) return
-
-      // 循环请求
-      if (loop) {
-        setLoop(true)
-      } else {
-        fetchData(options)
-      }
-    }, [opt, lazy, loop])
-
-    // 获取数据
-    async function fetchData(opt: T) {
+      cache.loading = true
+      rerender({})
       try {
-        calledRef.current = true
-        loadingRef.current = true
-        const res = await prequest(opt)
-        loadingRef.current = false
-        setRes((prev) => {
-          const { data } = prev
-          return {
-            loading: false,
-            data: onUpdate(data!, res as any),
-            error: null,
-          }
-        })
-        return res
+        const res = await prequest(queryOptions)
+        cache.response = res
       } catch (e) {
-        loadingRef.current = false
-        setRes({ loading: false, error: e, data: undefined as any })
-        return e
+        cache.error = e
       }
+      cache.loading = false
+      rerender({})
     }
 
-    // 刷新数据
-    async function request(opt: T | ((v: T) => T)) {
-      const options = parseOptions(opt, variables.current)
-      // request 场景是在事件触发中，所以 options 参数应当是一定有的
-      variables.current = options!
-
-      const res = await fetchData(options!)
-
-      // request 应当可以正常抛出异常
-      if (res instanceof Error) throw res
-
-      // 如果是 lazy 与 loop
-      if (lazy && loop) {
-        setLoop(true)
-      }
-
-      return res
-    }
-
-    // 清除循环
-    function clearLoop() {
-      setLoop(false)
-      clearTimeoutInterval(timerId.current)
-    }
-
-    return {
-      request,
-      loadingRef,
-      clearLoop,
-      ...res,
-    }
+    return cache
   }
 }

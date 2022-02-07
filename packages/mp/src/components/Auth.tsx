@@ -9,8 +9,8 @@ import { useQuery } from '@/common/request'
 interface AuthProps {}
 
 export const Auth: FC<AuthProps> = ({}) => {
-  const res = useQuery<any>({ path: '/login' })
-  const user = res.data?.data
+  const { response } = useQuery<any>('/login')
+  const user = response?.result
 
   console.log('查看', user)
 

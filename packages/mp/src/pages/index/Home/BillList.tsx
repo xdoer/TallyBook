@@ -8,11 +8,10 @@ import { TallyBook } from '@tally-book/types'
 interface BillListProps {}
 
 export const BillList: FC<BillListProps> = ({}) => {
-  const { data } = useQuery<TallyBook.bills[]>({
-    path: '/bills',
+  const { response } = useQuery<TallyBook.bills[]>('/bills', {
     params: { pageStart: 0, pageSize: 10 },
   })
-  const result = data?.result || []
+  const result = response?.result || []
 
   return (
     <View mt-20>

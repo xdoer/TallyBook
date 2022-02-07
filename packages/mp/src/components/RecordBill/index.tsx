@@ -7,14 +7,14 @@ import { useQuery } from '@/common/request'
 import { apiService } from '@/service/apiService'
 import { TallyBook } from '@tally-book/types'
 
-interface RecordBillProps {}
+interface RecordBillProps { }
 
-export const RecordBill: FC<RecordBillProps> = memo(({}) => {
-  const { data } = useQuery<TallyBook.billTypes[]>({ path: '/billTypes' })
+export const RecordBill: FC<RecordBillProps> = memo(({ }) => {
+  const { response } = useQuery<TallyBook.billTypes[]>('/billTypes')
   const [tab, setTab] = useState(0)
   const [selected, setSelected] = useState(0)
   const [money, setMoney] = useState('')
-  const result = data?.result || []
+  const result = response?.result || []
 
   function onTanChange(e) {
     setTab(e)
@@ -22,7 +22,7 @@ export const RecordBill: FC<RecordBillProps> = memo(({}) => {
   }
 
   async function onConfirm() {
-    const { id } = data[tab].grid[selected]
+    const { id } = result[tab].grid[selected]
     const res = await apiService.createBill({ typeId: id, money: Number.parseInt(money) })
     console.log('---', res)
   }

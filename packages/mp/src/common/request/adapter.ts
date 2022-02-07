@@ -1,7 +1,17 @@
+import { localRouter } from '@/server/router'
+import { PLATFORM } from '@/store/app'
 import { createError, createRequestUrl, ErrorCode } from '@prequest/helper'
 import { Request } from '@prequest/miniprogram'
+import Taro from '@tarojs/taro'
 
-export function adapter<T, N>(request: any) {
+export async function adapter(options: Request): Promise<Response> {
+  const { isServer } = await PLATFORM.getState()
+  if (isServer) return mpAdapter(Taro.request)(options) as any
+
+  return localRouter.call(options) as any
+}
+
+function mpAdapter<T, N>(request: any) {
   return (opt: T): Promise<N> => {
     return new Promise((resolve, reject) => {
       const finalOption = (opt || {}) as Required<Request>
