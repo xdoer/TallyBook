@@ -1,38 +1,33 @@
 import StateBus from '@xdoer/state-bus'
 
 export class LayerService<T extends { visible: boolean }> {
-  state: StateBus<T>
+  private state: StateBus<T>
 
-  visible = false
-  queue: T[] = []
+  private visible = false
+  private queue: T[] = []
 
   constructor(init: T) {
     this.state = new StateBus<T>(init)
   }
 
   open(data?: Omit<T, 'visible'>) {
-    const d: any = { ...data, visible: true }
-
-    if (this.visible) {
-      this.queue.push(d)
-      return
-    }
+    if (this.visible) return this.queue.push(data as any)
 
     this.visible = true
-    this.state.setState(d)
+    this.state.setState((prev) => ({ ...prev, ...data, visible: true }))
   }
 
   close() {
-    this.state.setState((prev) => {
-      prev.visible = false
-      return { ...prev }
-    })
+    if (!this.visible) return
 
-    this.visible = false
+    this.state.setState((prev) => ({ ...prev, visible: false }))
 
-    if (this.queue.length) {
+    if (!this.queue.length) return (this.visible = false)
+
+    setTimeout(() => {
+      this.visible = false
       this.open(this.queue.shift())
-    }
+    }, 500)
   }
 
   useLayer() {
