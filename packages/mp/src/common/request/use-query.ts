@@ -6,19 +6,19 @@ import { Config } from './types'
 
 type GlobalCache = { [key: string]: Cache }
 
-type Cache = {
+type Cache<T = any, Q = any> = {
   called: boolean
   valid: boolean
   loading: boolean
   error: any
-  request: any
-  response: any
+  request: T
+  response: Q
 }
 
 export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) {
   const globalCache: GlobalCache = {}
 
-  function getCache(key: string, opt: any) {
+  function getCache<T, Q>(key: string, opt: any): Cache<T, Q> {
     const cached = globalCache[key]
     if (cached?.valid) return cached
 
@@ -36,19 +36,19 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
   }
 
   function initCache(key) {
-    const cache: Cache = {
+    const cache = {
       valid: true,
       called: false,
-      loading: false,
+      loading: true,
       error: null,
-      request: null,
-      response: null,
+      request: null as any,
+      response: null as any,
     }
     return (globalCache[key] = cache)
   }
 
   return function <Q>(path: string, opt?: T | (() => T), config?: Config<Q>) {
-    const cache = getCache(path, opt)
+    const cache = getCache<T, Q>(path, opt)
     const { onUpdate, deps = [], loop } = config || {}
     const rerender = useStore(path, {})[1]
     const timerRef = useRef<any>()
@@ -86,7 +86,7 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     async function makeFetch() {
       cache.loading = true
       try {
-        const res = await prequest(cache.request)
+        const res = await prequest<Q>(cache.request)
         cache.response = onUpdate?.(cache.response, res as any) || res
       } catch (e) {
         cache.error = e
