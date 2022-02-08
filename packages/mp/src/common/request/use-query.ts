@@ -1,15 +1,14 @@
 import { PreQuestInstance } from '@prequest/core'
-import { TallyBook } from '@tally-book/types'
+import { useStore } from '@xdoer/state-bus'
 import { setTimeoutInterval, clearTimeoutInterval } from '@xdoer/timeout-interval'
-import { useEffect, useRef, useState } from 'react'
-import { Res, Config } from './types'
-
-// declare function queryHook<T, Q>(opt: T | (() => T), config?: Config<TallyBook.Response<Q>>): void
-// declare function queryHook<T, Q>(path: string, opt?: T | (() => T), config?: Config<TallyBook.Response<Q>>): void
+import { useEffect, useRef } from 'react'
+import { Config } from './types'
 
 type GlobalCache = { [key: string]: Cache }
 
 type Cache = {
+  called: boolean
+  valid: boolean
   loading: boolean
   error: any
   request: any
@@ -19,50 +18,76 @@ type Cache = {
 export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) {
   const globalCache: GlobalCache = {}
 
-  function getOptions(path: string, opt?: T | (() => T)) {
-    // @ts-ignore
-    return typeof path === 'string' ? { path, ...(typeof opt === 'function' ? opt() : opt) } : path
-  }
+  function getCache(key: string, opt: any) {
+    const cached = globalCache[key]
+    if (cached?.valid) return cached
 
-  function getQueryOptions(cache: any, options: any) {
-    if (cache.request) return cache.request
+    const cache = cached || initCache(key)
 
-    return (cache.request = options)
-  }
+    try {
+      const _ = typeof opt === 'function' ? opt() : opt
+      cache.request = { path: key, ..._ }
+      cache.valid = true
+    } catch (e) {
+      cache.valid = false
+    }
 
-  function getUniqueKey(options) {
-    return options.path
+    return cache
   }
 
   function initCache(key) {
-    globalCache[key] = {
+    const cache: Cache = {
+      valid: true,
+      called: false,
       loading: false,
       error: null,
       request: null,
       response: null,
     }
-    return globalCache[key]
+    return (globalCache[key] = cache)
   }
 
-  return function <Q>(path: string, opt?: T | (() => T), config?: Config<TallyBook.Response<Q>>) {
-    const options = getOptions(path, opt)
-    const uniqueKey = getUniqueKey(options)
-    const cache = globalCache[uniqueKey] || initCache(uniqueKey)
-    const queryOptions = getQueryOptions(cache, options)
-    const rerender = useState({})[1]
+  return function <Q>(path: string, opt?: T | (() => T), config?: Config<Q>) {
+    const cache = getCache(path, opt)
+    const { onUpdate, deps = [], loop } = config || {}
+    const rerender = useStore(path, {})[1]
+    const timerRef = useRef<any>()
 
+    // 初次加载
     useEffect(() => {
-      makeFetch()
+      if (!cache.valid || cache.called) return
+      cache.called = true
+      if (!loop) {
+        makeFetch()
+        return
+      }
+      clearTimeoutInterval(timerRef.current)
+      timerRef.current = setTimeoutInterval(makeFetch, loop)
+    }, [cache.valid])
+
+    // 依赖变更
+    useEffect(() => {
+      if (!cache.valid || !cache.called || !deps.length) return
+      if (!loop) {
+        makeFetch()
+        return
+      }
+      clearTimeoutInterval(timerRef.current)
+      timerRef.current = setTimeoutInterval(makeFetch, loop)
+    }, [...deps])
+
+    // 卸载时清除计时器
+    useEffect(() => {
+      return () => {
+        clearTimeoutInterval(timerRef.current)
+      }
     }, [])
 
     async function makeFetch() {
-      if (cache.loading) return
-
       cache.loading = true
-      rerender({})
       try {
-        const res = await prequest(queryOptions)
-        cache.response = res
+        const res = await prequest(cache.request)
+        cache.response = onUpdate?.(cache.response, res as any) || res
       } catch (e) {
         cache.error = e
       }

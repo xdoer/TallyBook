@@ -5,7 +5,7 @@ export interface Res<Q> {
 }
 
 export interface Config<Q> {
-  lazy?: boolean
+  deps?: any[]
   loop?: number
   onUpdate?: (prev: Q, value: Q) => Q
 }
