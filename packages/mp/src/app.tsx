@@ -5,5 +5,6 @@ import './fower.config'
 
 export default ({ children }) => {
   useSystemInfo()
+
   return children
 }

@@ -7,9 +7,9 @@ import { useQuery } from '@/common/request'
 import { apiService } from '@/service/apiService'
 import { TallyBook } from '@tally-book/types'
 
-interface RecordBillProps { }
+interface RecordBillProps {}
 
-export const RecordBill: FC<RecordBillProps> = memo(({ }) => {
+export const RecordBill: FC<RecordBillProps> = memo(({}) => {
   const { response } = useQuery<TallyBook.billTypes[]>('/billTypes')
   const [tab, setTab] = useState(0)
   const [selected, setSelected] = useState(0)

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { View } from '@fower/taro'
 import { Button } from '@taroify/core'
 import { getUserProfile } from '@tarojs/taro'
@@ -8,11 +8,15 @@ import { useQuery } from '@/common/request'
 
 interface AuthProps {}
 
+interface User {
+  id: number
+  name: string
+}
+
 export const Auth: FC<AuthProps> = ({}) => {
   const { response } = useQuery<any>('/login')
-  const user = response?.result
 
-  console.log('查看', user)
+  console.log(response)
 
   function onGetUserInfo() {
     getUserProfile({
