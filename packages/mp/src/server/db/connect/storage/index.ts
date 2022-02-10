@@ -1,6 +1,5 @@
-import { setStorage } from '@tarojs/taro'
-import { AtLeastOne } from '@/types/util'
-import { getStorage } from '@/common/utils'
+import { getStorageSync, setStorageSync } from '@tarojs/taro'
+import { AtLeastOne } from '@/types'
 import { DBConnect, BaseDBConnect } from '../BaseDBConnect'
 
 export default class DBService<T> extends DBConnect implements BaseDBConnect<T> {
@@ -12,17 +11,17 @@ export default class DBService<T> extends DBConnect implements BaseDBConnect<T> 
   }
 
   private async getTable(): Promise<T[]> {
-    const table = await getStorage<T[]>(this.name)
+    const table = getStorageSync<T[]>(this.name)
 
     if (table) return table
 
-    await this.setTable([])
+    this.setTable([])
 
     return []
   }
 
   private setTable(data: T[]) {
-    return setStorage({ key: this.name, data })
+    return setStorageSync(this.name, data)
   }
 
   add = async (data: Omit<T, 'id'>) => {

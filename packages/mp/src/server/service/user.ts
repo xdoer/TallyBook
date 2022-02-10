@@ -3,9 +3,16 @@ import { dataBaseService } from '../db'
 
 class UserService {
   async login() {
-    const users = await dataBaseService.user()
-    const u = await users.get()
-    return u[0]
+    const userDB = await dataBaseService.user()
+    const accountDB = await dataBaseService.account()
+
+    const users = await userDB.get()
+    const accounts = await accountDB.get()
+
+    return {
+      user: users[0],
+      account: accounts.find((account) => account.default),
+    }
   }
 
   // 首页接口

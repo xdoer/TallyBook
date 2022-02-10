@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { Common } from '@/types/util'
+import { Common } from '@/types'
 
 export const convertSearchParamsToObj = (searchParams = '') => {
   const obj: Common = {}

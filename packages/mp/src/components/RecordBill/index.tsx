@@ -6,11 +6,15 @@ import { PhotoOutlined } from '@taroify/icons'
 import { useQuery } from '@/common/request'
 import { apiService } from '@/service/apiService'
 import { TallyBook } from '@tally-book/types'
+import { userStore } from '@/store/user'
+import { accountStore } from '@/store'
 
 interface RecordBillProps {}
 
 export const RecordBill: FC<RecordBillProps> = memo(({}) => {
-  const { response } = useQuery<TallyBook.billTypes[]>('/billTypes')
+  const { response } = useQuery<TallyBook.Response<TallyBook.billTypes[]>>('/billTypes')
+  const [user] = userStore.useState()
+  const [account] = accountStore.useState()
   const [tab, setTab] = useState(0)
   const [selected, setSelected] = useState(0)
   const [money, setMoney] = useState('')
@@ -23,7 +27,12 @@ export const RecordBill: FC<RecordBillProps> = memo(({}) => {
 
   async function onConfirm() {
     const { id } = result[tab].grid[selected]
-    const res = await apiService.createBill({ typeId: id, money: Number.parseInt(money) })
+    const res = await apiService.createBill({
+      typeId: id,
+      userId: user.id,
+      accountId: account.id,
+      money: Number.parseInt(money),
+    })
     console.log('---', res)
   }
 

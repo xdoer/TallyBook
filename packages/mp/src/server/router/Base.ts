@@ -1,5 +1,5 @@
 import { MPError } from '@/common/Error'
-import { Common } from '@/types/util'
+import { Common } from '@/types'
 
 interface Route {
   [key: string]: (data: Common, options: Common) => Promise<any>

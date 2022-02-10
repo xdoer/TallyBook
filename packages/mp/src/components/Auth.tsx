@@ -1,29 +1,22 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { View } from '@fower/taro'
 import { Button } from '@taroify/core'
 import { getUserProfile } from '@tarojs/taro'
 import { popUpService } from './PopupContainer'
 import { apiService } from '@/service/apiService'
-import { useQuery } from '@/common/request'
 
-interface AuthProps {}
-
-interface User {
-  id: number
-  name: string
+interface AuthProps {
+  success(): void
 }
 
-export const Auth: FC<AuthProps> = ({}) => {
-  const { response } = useQuery<any>('/login')
-
-  console.log(response)
-
+export const Auth: FC<AuthProps> = ({ success }) => {
   function onGetUserInfo() {
     getUserProfile({
       desc: '授权获取用户信息',
-      success(res) {
+      async success(res) {
         const { nickName, avatarUrl } = res.userInfo
-        apiService.createUser({ nickName, avatarUrl })
+        await apiService.createUser({ nickName, avatarUrl })
+        success()
         popUpService.close()
       },
     })

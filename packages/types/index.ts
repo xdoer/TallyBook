@@ -1,12 +1,30 @@
 import { Bill, BillType } from '@tally-book/model'
 
+export type Common = Record<string, any>
+
 export namespace TallyBook {
-  export interface Response<T> {
+  export interface Response<T = any> {
     success: boolean
     result: T
     error: {
       code: string
       message: string
+    }
+  }
+
+  export interface User {
+    id: string
+  }
+
+  export interface Account {
+    id: string
+  }
+
+  export namespace Login {
+    export type Args = Common
+    export interface Res {
+      user: User
+      account: Account
     }
   }
 
@@ -19,7 +37,6 @@ export namespace TallyBook {
   export interface createBillOptions {
     typeId: string
     money: number
-
     remark?: string
     currencyId?: string
     accountId?: string

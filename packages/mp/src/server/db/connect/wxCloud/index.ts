@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { AtLeastOne } from '@/types/util'
+import { AtLeastOne } from '@/types'
 import { DBConnect, BaseDBConnect } from '../BaseDBConnect'
 
 export default class DBService<T> extends DBConnect implements BaseDBConnect<T> {
