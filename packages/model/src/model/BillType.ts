@@ -10,4 +10,6 @@ export class BillType {
 
   // 展示的文字: 餐饮、旅游...
   text: string;
+
+  createdAt?: string;
 }

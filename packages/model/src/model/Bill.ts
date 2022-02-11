@@ -23,4 +23,6 @@ export class Bill {
 
   // 备注
   remark: string;
+
+  createdAt?: string;
 }

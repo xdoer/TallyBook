@@ -10,4 +10,6 @@ export class Currency {
 
   // 名称 人民币
   text: string;
+
+  createdAt?: string;
 }

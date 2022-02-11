@@ -10,4 +10,6 @@ export class Account {
   icon: string; // 图标
 
   remark: string; // 备注
+
+  createdAt?: string;
 }

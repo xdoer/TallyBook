@@ -6,4 +6,6 @@ export class Asset {
   type: string; // 资产类型 支付宝、银行卡
 
   icon: string;
+
+  createdAt?: string;
 }

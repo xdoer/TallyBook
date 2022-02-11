@@ -8,4 +8,6 @@ export class User {
   phone?: string;
 
   password?: string;
+
+  createdAt?: string;
 }
