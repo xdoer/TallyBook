@@ -12,7 +12,7 @@ import { accountStore } from '@/store'
 interface RecordBillProps {}
 
 export const RecordBill: FC<RecordBillProps> = memo(({}) => {
-  const { response } = useQuery<TallyBook.Response<TallyBook.billTypes[]>>('/billTypes')
+  const { response } = useQuery<TallyBook.Response<TallyBook.GetBillTypes.Res[]>>('/getBillTypes')
   const [user] = userStore.useState()
   const [account] = accountStore.useState()
   const [tab, setTab] = useState(0)

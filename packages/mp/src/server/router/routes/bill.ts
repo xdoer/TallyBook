@@ -4,10 +4,10 @@ import { billService } from '../../service'
 const router = new Router()
 
 router
-  .use('/bills', (options) => {
+  .use('/getBills', (options) => {
     return billService.getBills(options)
   })
-  .use('/billTypes', async () => {
+  .use('/getBillTypes', async () => {
     return billService.getBillTypes()
   })
   .use('/createBill', async (options) => {

@@ -1,21 +1,66 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Image, View } from '@fower/taro'
 import { useQuery } from '@/common/request'
 import { formatDate } from '@/common/utils'
 import { Card } from '@/components/Card'
 import { TallyBook } from '@tally-book/types'
+import { useReachBottom } from '@tarojs/taro'
+import { groupBy } from 'lodash-es'
+import { Bill } from '@tally-book/model'
 
 interface BillListProps {}
 
+interface D {
+  date: string
+  money: number
+  list: Bill[]
+}
+
 export const BillList: FC<BillListProps> = ({}) => {
-  const { response } = useQuery<TallyBook.Response<TallyBook.bills[]>>('/bills', {
-    params: { pageStart: 0, pageSize: 10 },
+  const [data, setData] = useState<D[]>([])
+  const [pageNo, setPageNo] = useState(0)
+  const { response } = useQuery<TallyBook.Response<TallyBook.GetBills.Res>>(
+    '/getBills',
+    {
+      params: { pageNo, pageSize: 10 },
+    },
+    {
+      deps: [pageNo],
+      onUpdate(_, cur) {
+        const x = groupBy(cur.result.list, (i) => formatDate(new Date(i.createdAt!), 'yyyy-MM-dd'))
+        const find = data.find((i) => x[i.date])
+        if (find) {
+          const newList = x[find.date]
+          const money = newList.reduce((t, c) => t + c.money, 0)
+          find.list = find.list.concat(newList)
+          find.money += money
+          setData([...data])
+        } else {
+          setData(
+            data.concat(
+              Object.keys(x).map((i) => ({
+                date: i,
+                money: x[i].reduce((t, c) => t + c.money, 0),
+                list: x[i],
+              })),
+            ),
+          )
+        }
+
+        return cur
+      },
+    },
+  )
+
+  useReachBottom(() => {
+    if (response.result.hasNext) {
+      setPageNo((i) => i + 1)
+    }
   })
-  const result = response?.result || []
 
   return (
     <View mt-20>
-      {result.map((t) => {
+      {data.map((t) => {
         const { date, list } = t
         const tt = new Date(date)
         const idx = tt.getDay()

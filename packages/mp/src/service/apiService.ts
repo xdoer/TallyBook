@@ -10,8 +10,10 @@ class ApiService {
     return prequest.post('/createUser', { data })
   }
 
-  createBill(data: TallyBook.createBillOptions) {
-    return prequest.post('/createBill', { data })
+  createBill(data) {
+    return prequest.post<TallyBook.Response<TallyBook.CreateBillOptions.Res>>('/createBill', {
+      data,
+    })
   }
 }
 

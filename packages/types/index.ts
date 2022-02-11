@@ -28,24 +28,40 @@ export namespace TallyBook {
     }
   }
 
-  export interface billTypes {
-    type: 'income' | 'outcome'
-    value: '收入' | '支出'
-    grid: BillType[]
+  export namespace GetBills {
+    export interface Args {
+      pageNo: number
+      pageSize: number
+    }
+
+    export interface Res {
+      hasNext: boolean
+      total: number
+      list: Bill[]
+    }
   }
 
-  export interface createBillOptions {
-    typeId: string
-    money: number
-    remark?: string
-    currencyId?: string
-    accountId?: string
-    assetId?: string
-    userId?: string
+  export namespace GetBillTypes {
+    export interface Args {}
+
+    export interface Res {
+      type: 'income' | 'outcome'
+      value: '收入' | '支出'
+      grid: BillType[]
+    }
   }
 
-  export interface bills {
-    date: string
-    list: Bill[]
+  export namespace CreateBillOptions {
+    export interface Args {
+      typeId: string
+      money: number
+      remark?: string
+      currencyId?: string
+      accountId?: string
+      assetId?: string
+      userId?: string
+    }
+
+    export interface Res {}
   }
 }

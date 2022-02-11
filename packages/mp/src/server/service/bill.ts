@@ -1,4 +1,3 @@
-import { formatDate } from '@/common/utils'
 import { BillType } from '@tally-book/model'
 import { dataBaseService } from '../db'
 import { TallyBook } from '@tally-book/types'
@@ -6,22 +5,24 @@ import _, { groupBy } from 'lodash-es'
 
 class BillService {
   // 首页接口
-  async getBills(req: any) {
-    const { pageStart, pageSize } = req
+  async getBills(req: TallyBook.GetBills.Args): Promise<TallyBook.GetBills.Res> {
+    const { pageNo, pageSize } = req
     const billDB = await dataBaseService.bill()
     const bills = await billDB.get()
 
-    return _.chain(bills)
-      .slice(pageStart)
-      .take(pageSize)
-      .groupBy(({ createdAt }) => formatDate(new Date(createdAt), 'yyyy-MM-dd'))
-      .mapValues((v, k) => ({ date: k, list: v }))
-      .values()
-      .value()
+    const data = bills
+      .sort((a, b) => Number(b.createdAt) - Number(a.createdAt))
+      .slice(pageNo * pageSize, (pageNo + 1) * pageSize)
+
+    return {
+      hasNext: (pageNo + 1) * pageSize < bills.length,
+      list: data,
+      total: bills.length,
+    }
   }
 
   // 添加账单
-  async createBill(bill: TallyBook.createBillOptions) {
+  async createBill(bill: TallyBook.CreateBillOptions.Args) {
     const bills = await dataBaseService.bill()
     return bills.add(bill as any)
   }
@@ -32,7 +33,7 @@ class BillService {
     const types: BillType[] = (await billTypesDB.get()) || []
 
     const group = groupBy(types, 'type')
-    const result: TallyBook.billTypes[] = [
+    const result: TallyBook.GetBillTypes.Res[] = [
       {
         type: 'outcome',
         value: '支出',
