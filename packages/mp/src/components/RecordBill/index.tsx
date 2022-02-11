@@ -32,6 +32,8 @@ export const RecordBill: FC<RecordBillProps> = memo(({}) => {
       userId: user.id,
       accountId: account.id,
       money: Number.parseInt(money),
+      assetId: '', // 哪个资产账户扣的款
+      remark: '',
     })
     console.log('---', res)
   }

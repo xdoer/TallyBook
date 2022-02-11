@@ -20,11 +20,16 @@ export namespace TallyBook {
     id: string
   }
 
+  export interface Asset {
+    id: string
+  }
+
   export namespace Login {
     export type Args = Common
     export interface Res {
       user: User
       account: Account
+      asset: Asset
     }
   }
 
@@ -56,7 +61,6 @@ export namespace TallyBook {
       typeId: string
       money: number
       remark?: string
-      currencyId?: string
       accountId?: string
       assetId?: string
       userId?: string

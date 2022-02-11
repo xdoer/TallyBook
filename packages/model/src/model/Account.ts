@@ -1,11 +1,11 @@
 export class Account {
   id: string; // 账本 id
 
-  name: string; // 账户名称
+  name: string; // 账本名称
 
-  default: boolean;
+  isDefault: boolean; // 是默认账本
 
-  money: number; // 账户余额
+  money: number; // 账本余额
 
   icon: string; // 图标
 

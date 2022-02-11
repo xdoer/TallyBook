@@ -5,6 +5,8 @@ export class Asset {
 
   type: string; // 资产类型 支付宝、银行卡
 
+  isDefault: boolean; // 默认资产账户
+
   icon: string;
 
   createdAt?: string;
