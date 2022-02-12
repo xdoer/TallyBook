@@ -86,4 +86,12 @@ export namespace TallyBook {
 
     export type Res = Asset[]
   }
+
+  export namespace GetAsset {
+    export interface Args {
+      id: string
+    }
+
+    export type Res = Asset
+  }
 }

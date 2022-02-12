@@ -4,6 +4,8 @@ import { Card } from '@/components/Card'
 import { useQuery } from '@/common/request'
 import { ApiName } from '@tally-book/model'
 import { TallyBook } from '@tally-book/types'
+import { popUpService } from '@/service/layer'
+import { AssetDetail } from '@/components/AssetDetail'
 
 interface AssetListProps {}
 
@@ -25,7 +27,7 @@ export const AssetList: FC<AssetListProps> = ({}) => {
       </View>
       <Card>
         {list.map((item, idx) => {
-          const { icon, name, type, money } = item
+          const { icon, name, type, money, id } = item
           return (
             <View
               toBetween
@@ -34,6 +36,11 @@ export const AssetList: FC<AssetListProps> = ({}) => {
               p-30
               borderBottom="1px solid transparent"
               borderBottomGray100={idx !== list.length - 1}
+              onClick={() => {
+                popUpService.open({
+                  content: <AssetDetail id={id} />,
+                })
+              }}
             >
               <View toCenterY>
                 <Image src={icon} circle-60 mr-20 />

@@ -19,4 +19,7 @@ export enum ApiName {
 
   // 获取账户资产列表
   GetAssets = '/getAssets',
+
+  // 获取资产详情
+  GetAsset = '/getAsset',
 }
