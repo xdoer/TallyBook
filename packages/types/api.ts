@@ -110,4 +110,9 @@ export namespace TallyBook {
 
     export type Res = Boolean
   }
+
+  export namespace CreateAsset {
+    export interface Args {}
+    export type Res = boolean
+  }
 }

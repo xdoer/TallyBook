@@ -22,6 +22,10 @@ class ApiService {
     return prequest.post<TallyBook.Response<TallyBook.RemoveBill.Res>>(ApiName.RemoveBill, { data })
   }
 
+  createAsset(data: TallyBook.CreateAsset.Args) {
+    return prequest.post<TallyBook.CreateAsset.Res>(ApiName.CreateAsset, { data })
+  }
+
   removeAsset(data: TallyBook.RemoveAsset.Args) {
     return prequest.post<TallyBook.Response<TallyBook.RemoveAsset.Res>>(ApiName.RemoveAsset, {
       data,

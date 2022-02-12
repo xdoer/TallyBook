@@ -4,7 +4,8 @@ import { vibrateShort } from '@tarojs/taro'
 import { View, Text } from '@fower/taro'
 import { list } from './options'
 import { popUpService } from '@/service/layer'
-import { RecordBill } from '@/components/RecordBill'
+import { CreateBill } from '@/components/CreateBill'
+import { CreateAsset } from '@/components/CreateAsset'
 import './index.scss'
 
 interface TabBarProps {
@@ -19,9 +20,15 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
   const finalWidth = width || windowWidth
 
   function onRecord(idx) {
-    if (idx === data && idx === 1) {
-      vibrateShort()
-      popUpService.open({ content: <RecordBill /> })
+    if (idx === data) {
+      if (idx === 1) {
+        vibrateShort()
+        popUpService.open({ content: <CreateBill /> })
+      }
+      if (idx === 0) {
+        vibrateShort()
+        popUpService.open({ content: <CreateAsset /> })
+      }
     }
   }
 
@@ -49,7 +56,9 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
               onLongPress={() => onRecord(index)}
             >
               <Text
-                className={`icon iconfont ${className[index === data && data === 1 ? 1 : 0]}`}
+                className={`icon iconfont ${
+                  selected ? className[className.length - 1] : className[0]
+                }`}
                 style={{ transform: selected ? 'translateY(-30px)' : undefined }}
               ></Text>
               <Text

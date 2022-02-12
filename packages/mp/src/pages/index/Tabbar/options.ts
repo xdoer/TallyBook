@@ -1,7 +1,7 @@
 export const list = [
   {
     text: '资产',
-    className: ['icon-asset'],
+    className: ['icon-asset', 'icon-add-circle'],
   },
   {
     text: '账本',
