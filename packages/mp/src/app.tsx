@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSystemInfo } from './store/app'
 import { apiService } from './service/apiService'
-import { popUpService } from './components/PopupContainer'
+import { popUpService } from '@/service/layer'
 import { Auth } from './components/Auth'
 import { loginStore } from './store/login'
 import './app.scss'

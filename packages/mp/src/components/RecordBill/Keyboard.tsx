@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { NumberKeyboard } from '@taroify/core'
 import { View } from '@fower/taro'
-import { popUpService } from '../PopupContainer'
+import { popUpService } from '@/service/layer'
 
 interface KeyboardProps {
   value: string

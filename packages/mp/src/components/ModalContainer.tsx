@@ -1,23 +1,7 @@
 import { FC } from 'react'
 import { Dialog, Button } from '@taroify/core'
-import { LayerService } from '@/service/layerService'
 import { View } from '@fower/taro'
-
-export interface ModalType {
-  visible: boolean
-  title?: string
-  content?: JSX.Element | string
-  okText?: string
-  cancelText?: string
-  onOk?(): void
-  onCancel?(): void
-}
-
-export const modalService = new LayerService<ModalType>({
-  visible: false,
-  title: '标题',
-  okText: '确认',
-})
+import { modalService } from '@/service/layer'
 
 export const ModalContainer: FC<{}> = ({}) => {
   const { state, close } = modalService.useLayer()

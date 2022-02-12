@@ -3,7 +3,7 @@ import { useSystemInfo } from '@/store/app'
 import { vibrateShort } from '@tarojs/taro'
 import { View, Text } from '@fower/taro'
 import { list } from './options'
-import { popUpService } from '@/components/PopupContainer'
+import { popUpService } from '@/service/layer'
 import { RecordBill } from '@/components/RecordBill'
 import './index.scss'
 

@@ -1,16 +1,7 @@
 import { FC } from 'react'
 import { Popup } from '@taroify/core'
-import { LayerService } from '@/service/layerService'
 import { View } from '@fower/taro'
-
-export interface PopupContainerType {
-  visible: boolean
-  content?: JSX.Element | string
-}
-
-export const popUpService = new LayerService<PopupContainerType>({
-  visible: false,
-})
+import { popUpService } from '@/service/layer'
 
 export const PopupContainer: FC<{}> = ({}) => {
   const { state, close } = popUpService.useLayer()

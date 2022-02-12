@@ -3,7 +3,7 @@ import { View } from '@fower/taro'
 import { useSystemInfo } from '@/store/app'
 import { OpenData } from '@tarojs/components'
 import { FloatNavBar } from './FloatNavBar'
-import { popUpService } from './PopupContainer'
+import { popUpService } from '@/service/layer'
 import { Setting } from './Setting'
 
 interface TabBarPageWrapperProps {

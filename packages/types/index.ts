@@ -12,24 +12,28 @@ export namespace TallyBook {
     }
   }
 
-  export interface User {
+  export interface UserVO {
     id: string
   }
 
-  export interface Account {
+  export interface AccountVO {
     id: string
   }
 
-  export interface Asset {
+  export interface AssetVO {
+    id: string
+  }
+
+  export interface BillVO {
     id: string
   }
 
   export namespace Login {
     export type Args = Common
     export interface Res {
-      user: User
-      account: Account
-      asset: Asset
+      user: UserVO
+      account: AccountVO
+      asset: AssetVO
     }
   }
 

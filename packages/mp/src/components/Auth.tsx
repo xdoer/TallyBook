@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { View } from '@fower/taro'
 import { Button } from '@taroify/core'
 import { getUserProfile } from '@tarojs/taro'
-import { popUpService } from './PopupContainer'
+import { popUpService } from '@/service/layer'
 import { apiService } from '@/service/apiService'
 
 interface AuthProps {
