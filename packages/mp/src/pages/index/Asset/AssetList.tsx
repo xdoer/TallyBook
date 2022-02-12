@@ -1,10 +1,16 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Image, View } from '@fower/taro'
 import { Card } from '@/components/Card'
+import { useQuery } from '@/common/request'
+import { ApiName } from '@tally-book/model'
+import { TallyBook } from '@tally-book/types'
 
 interface AssetListProps {}
 
 export const AssetList: FC<AssetListProps> = ({}) => {
+  const { response } = useQuery<TallyBook.Response<TallyBook.GetAssets.Res>>(ApiName.GetAssets)
+  const list = response?.result || []
+
   return (
     <Card>
       {list.map((item, idx) => {
@@ -38,36 +44,3 @@ export const AssetList: FC<AssetListProps> = ({}) => {
     </Card>
   )
 }
-
-const list = [
-  {
-    icon: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0173f65e47c9d4a80120a8950572bd.jpg%401280w_1l_2o_100sh.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1642497965&t=5fdcc069c2c0db464db8fe2bde413f69',
-    name: 'haha',
-    type: '现金',
-    money: 10000,
-  },
-  {
-    icon: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0173f65e47c9d4a80120a8950572bd.jpg%401280w_1l_2o_100sh.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1642497965&t=5fdcc069c2c0db464db8fe2bde413f69',
-    name: 'haha',
-    type: '现金',
-    money: 10000,
-  },
-  {
-    icon: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0173f65e47c9d4a80120a8950572bd.jpg%401280w_1l_2o_100sh.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1642497965&t=5fdcc069c2c0db464db8fe2bde413f69',
-    name: 'haha',
-    type: '现金',
-    money: 10000,
-  },
-  {
-    icon: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0173f65e47c9d4a80120a8950572bd.jpg%401280w_1l_2o_100sh.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1642497965&t=5fdcc069c2c0db464db8fe2bde413f69',
-    name: 'haha',
-    type: '现金',
-    money: 10000,
-  },
-  {
-    icon: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0173f65e47c9d4a80120a8950572bd.jpg%401280w_1l_2o_100sh.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1642497965&t=5fdcc069c2c0db464db8fe2bde413f69',
-    name: 'haha',
-    type: '现金',
-    money: 10000,
-  },
-]

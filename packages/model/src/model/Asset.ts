@@ -9,5 +9,7 @@ export class Asset {
 
   icon: string;
 
+  money: number;
+
   createdAt?: string;
 }

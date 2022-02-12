@@ -1,3 +1,4 @@
+import { Asset } from '@tally-book/model'
 import { Common } from './utils'
 
 export namespace TallyBook {
@@ -85,5 +86,11 @@ export namespace TallyBook {
     }
 
     export type Res = BillVO
+  }
+
+  export namespace GetAssets {
+    export interface Args {}
+
+    export type Res = Asset[]
   }
 }
