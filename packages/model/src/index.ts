@@ -1,6 +1,7 @@
 import { accounts, assets, billTypes, users, currencies, bills } from './data';
 
 export * from './model';
+export * from './apiName';
 
 export enum tableName {
   user = 'user',

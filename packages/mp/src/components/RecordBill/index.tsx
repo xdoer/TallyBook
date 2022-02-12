@@ -1,19 +1,21 @@
 import { FC, useState, memo } from 'react'
-import { View } from '@fower/taro'
+import { View, Image } from '@fower/taro'
 import { Keyboard } from './Keyboard'
 import { Tabs, Grid } from '@taroify/core'
-import { PhotoOutlined } from '@taroify/icons'
 import { useQuery } from '@/common/request'
 import { apiService } from '@/service/apiService'
 import { TallyBook } from '@tally-book/types'
 import { loginStore } from '@/store/login'
 import { formatBills } from '@/function/formatBills'
 import { billListStore } from '@/store'
+import { ApiName } from '@tally-book/model'
 
 interface RecordBillProps {}
 
 export const RecordBill: FC<RecordBillProps> = memo(({}) => {
-  const { response } = useQuery<TallyBook.Response<TallyBook.GetBillTypes.Res[]>>('/getBillTypes')
+  const { response } = useQuery<TallyBook.Response<TallyBook.GetBillTypes.Res[]>>(
+    ApiName.GetBillTypes,
+  )
   const [tab, setTab] = useState(0)
   const [selected, setSelected] = useState(0)
   const [money, setMoney] = useState('')
@@ -51,13 +53,13 @@ export const RecordBill: FC<RecordBillProps> = memo(({}) => {
             <Tabs.TabPane key={key} title={value} style={{ padding: '10px' }}>
               <Grid columns={4} square>
                 {grid.map((i, idx) => {
-                  const { text } = i
+                  const { text, icon } = i
                   const active = selected === idx
 
                   return (
                     <Grid.Item
                       key={i.id}
-                      icon={<PhotoOutlined />}
+                      icon={<Image src={icon} circle-50 />}
                       text={text}
                       style={{ color: active ? 'yellow' : 'red' }}
                       onClick={() => setSelected(idx)}

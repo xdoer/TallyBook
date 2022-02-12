@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { Block, View } from '@fower/taro'
+import { TabBarPageWrapper } from '@/components/TabBarPageWrapper'
+import { TabBarPageTitleList } from '@/common/constants'
+import { useShare } from '@/store/app'
 import { Home } from './Home'
 import { Asset } from './Asset'
 import { Statistics } from './Statistics'
 import { TabBar } from './Tabbar'
-import { TabBarPageWrapper } from '@/components/TabBarPageWrapper'
-import { TabBarPageTitleList } from '@/common/constants'
-import { useShare } from '@/store/app'
 
 export default function () {
   const [tabBar, setTabBar] = useState(1)

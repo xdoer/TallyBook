@@ -1,5 +1,5 @@
 import { getStorageSync, setStorageSync } from '@tarojs/taro'
-import { AtLeastOne } from '@/types'
+import { AtLeastOne } from '@tally-book/types'
 import { DBConnect, BaseDBConnect } from '../BaseDBConnect'
 
 export default class DBService<T> extends DBConnect implements BaseDBConnect<T> {

@@ -1,5 +1,6 @@
 import { MPError } from '@/common/Error'
-import { Common } from '@/types'
+import { ApiName } from '@tally-book/model'
+import { Common } from '@tally-book/types'
 
 interface Route {
   [key: string]: (data: Common, options: Common) => Promise<any>
@@ -8,7 +9,7 @@ interface Route {
 export class Router {
   private routers: Route = {}
 
-  use(path, cb) {
+  use(path: ApiName, cb) {
     this.routers[path] = cb
     return this
   }

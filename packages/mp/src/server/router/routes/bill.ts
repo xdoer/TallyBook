@@ -1,16 +1,17 @@
+import { ApiName } from '@tally-book/model'
 import { Router } from '../Base'
 import { billService } from '../../service'
 
 const router = new Router()
 
 router
-  .use('/getBills', (options) => {
+  .use(ApiName.GetBills, (options) => {
     return billService.getBills(options)
   })
-  .use('/getBillTypes', async () => {
+  .use(ApiName.GetBillTypes, async () => {
     return billService.getBillTypes()
   })
-  .use('/createBill', async (options) => {
+  .use(ApiName.CreateBill, async (options) => {
     return billService.createBill(options)
   })
 

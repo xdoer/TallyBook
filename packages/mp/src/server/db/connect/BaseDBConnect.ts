@@ -1,5 +1,5 @@
 import { uuid } from '@/common/utils'
-import { AtLeastOne } from '@/types'
+import { AtLeastOne } from '@tally-book/types'
 
 // 抽象类-每个 Connect 需要实现的方法
 export abstract class BaseDBConnect<T> {

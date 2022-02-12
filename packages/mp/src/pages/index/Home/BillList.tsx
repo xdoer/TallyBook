@@ -7,6 +7,7 @@ import { TallyBook } from '@tally-book/types'
 import { useReachBottom } from '@tarojs/taro'
 import { formatBills } from '@/function/formatBills'
 import { billListStore } from '@/store'
+import { ApiName } from '@tally-book/model'
 
 interface BillListProps {}
 
@@ -14,7 +15,7 @@ export const BillList: FC<BillListProps> = ({}) => {
   const [data, setData] = billListStore.useState()
   const [pageNo, setPageNo] = useState(0)
   const { response } = useQuery<TallyBook.Response<TallyBook.GetBills.Res>>(
-    '/getBills',
+    ApiName.GetBills,
     {
       params: { pageNo, pageSize: 10 },
     },
@@ -55,12 +56,13 @@ export const BillList: FC<BillListProps> = ({}) => {
             </View>
             <Card>
               {list.map((i, idx) => {
-                const { icon, type, money } = i
+                const { id, type, money } = i
+                const { icon, text } = type
                 return (
                   <View
                     toBetween
                     toCenterY
-                    key={type}
+                    key={id}
                     p-30
                     borderBottom="1px solid transparent"
                     borderBottomGray100={idx !== list.length - 1}
@@ -68,7 +70,7 @@ export const BillList: FC<BillListProps> = ({}) => {
                     <View toCenterY>
                       <Image src={icon} circle-60 mr-20 />
                       <View text3XL gray500>
-                        {type}
+                        {text}
                       </View>
                     </View>
                     <View textRight>

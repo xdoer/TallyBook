@@ -1,4 +1,4 @@
-import { PickAttr } from '@/types'
+import { PickAttr } from '@tally-book/types'
 import { TallyBook } from '@tally-book/types'
 import { formatDate } from '@/common/utils'
 import { groupBy } from 'lodash-es'
