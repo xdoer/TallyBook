@@ -1,4 +1,4 @@
-import { MPError } from '@/common/Error'
+import { ErrorCode, MPError } from '@/common/Error'
 import { ApiName } from '@tally-book/model'
 import { Common } from '@tally-book/types'
 
@@ -18,9 +18,12 @@ export class Router {
     const { path, method, data = {}, params = {} } = options
 
     try {
+      const cb = this.routers[path]
+      if (!cb) throw new MPError('no route', ErrorCode.NotFound)
+
       return {
         success: true,
-        result: await this.routers[path](method === 'POST' ? data : params, options),
+        result: await cb(method === 'POST' ? data : params, options),
         error: null,
       }
     } catch (e) {

@@ -8,6 +8,8 @@ import { useReachBottom } from '@tarojs/taro'
 import { formatBills } from '@/function/formatBills'
 import { billListStore } from '@/store'
 import { ApiName } from '@tally-book/model'
+import { popUpService } from '@/service/layer'
+import { BillDetail } from '@/components/BillDetail'
 
 interface BillListProps {}
 
@@ -37,17 +39,15 @@ export const BillList: FC<BillListProps> = ({}) => {
   return (
     <View mt-20>
       {data.map((t) => {
-        const { date, list } = t
+        const { date, list, money } = t
         const tt = new Date(date)
-        const idx = tt.getDay()
-        const money = list.reduce((t, c) => t + c.money, 0)
 
         return (
           <View key={date} mb-30>
             <View toBetween text2XL gray500 mb-15>
               <View flex>
                 <View mr-10>{formatDate(tt, 'MM/dd')}</View>
-                <View>星期{['日', '一', '二', '三', '四', '五', '六'][idx]}</View>
+                <View>星期{['日', '一', '二', '三', '四', '五', '六'][tt.getDay()]}</View>
               </View>
               <View flex>
                 <View mr-10>支出:</View>
@@ -66,6 +66,11 @@ export const BillList: FC<BillListProps> = ({}) => {
                     p-30
                     borderBottom="1px solid transparent"
                     borderBottomGray100={idx !== list.length - 1}
+                    onClick={() => {
+                      popUpService.open({
+                        content: <BillDetail id={id} />,
+                      })
+                    }}
                   >
                     <View toCenterY>
                       <Image src={icon} circle-60 mr-20 />

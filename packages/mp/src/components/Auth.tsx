@@ -14,7 +14,7 @@ export const Auth: FC<AuthProps> = ({ success }) => {
     getUserProfile({
       desc: '授权获取用户信息',
       async success(res) {
-        await apiService.createUser(res.userInfo)
+        await apiService.register(res.userInfo)
         success()
         popUpService.close()
       },

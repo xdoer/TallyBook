@@ -8,8 +8,8 @@ router
   .use(ApiName.Login, () => {
     return userService.login()
   })
-  .use(ApiName.CreateUser, (data) => {
-    return userService.createUser(data as any)
+  .use(ApiName.Register, (data) => {
+    return userService.register(data as any)
   })
 
 export const userRouter = router

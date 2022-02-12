@@ -5,6 +5,9 @@ import { billService } from '../../service'
 const router = new Router()
 
 router
+  .use(ApiName.GetBill, (options) => {
+    return billService.getBill(options)
+  })
   .use(ApiName.GetBills, (options) => {
     return billService.getBills(options)
   })

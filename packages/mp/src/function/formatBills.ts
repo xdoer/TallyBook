@@ -30,7 +30,7 @@ export function formatBills(
   return newData
 }
 
-function getMoney(list: TallyBook.BillVO[] = []) {
+function getMoney(list: TallyBook.GetBills.BillRes[] = []) {
   return list.reduce((t, c) => {
     if (c.type.type === 'income') return t - c.money
     if (c.type.type === 'outcome') return t + c.money

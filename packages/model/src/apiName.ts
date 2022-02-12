@@ -2,11 +2,14 @@ export enum ApiName {
   // 登录
   Login = '/login',
 
-  // 创建用户
-  CreateUser = '/createUser',
+  // 注册
+  Register = '/register',
 
-  // 获取账单
+  // 获取账单列表
   GetBills = '/getBills',
+
+  // 获取账单详情
+  GetBill = '/getBill',
 
   // 获取账单类型
   GetBillTypes = '/getBillTypes',

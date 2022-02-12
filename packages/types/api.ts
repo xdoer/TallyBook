@@ -1,4 +1,4 @@
-import { Asset } from '@tally-book/model'
+import { Account, Asset, Bill, BillType, Currency, User } from '@tally-book/model'
 import { Common } from './utils'
 
 export namespace TallyBook {
@@ -11,48 +11,25 @@ export namespace TallyBook {
     }
   }
 
-  export interface UserVO {
-    id: string
-    name: string
-    avatar: string
-  }
-
-  export interface AccountVO {
-    id: string
-    name: string
-    icon: string
-  }
-
-  export interface AssetVO {
-    id: string
-  }
-
-  export interface BillTypeVO {
-    id: string
-    icon: string
-    type: 'income' | 'outcome' | 'none'
-    text: string
-  }
-
-  export interface CurrencyVO {}
-
-  export interface BillVO {
-    id: string
-    type: BillTypeVO
-    money: number
-    createdAt: string
+  export namespace Register {
+    export type Args = Common
+    export type Res = boolean
   }
 
   export namespace Login {
     export type Args = Common
     export interface Res {
-      user: UserVO
-      account: AccountVO
-      asset: AssetVO
+      user: User
+      account: Account
+      asset: Asset
     }
   }
 
   export namespace GetBills {
+    export interface BillRes extends Bill {
+      type: BillType
+    }
+
     export interface Args {
       pageNo: number
       pageSize: number
@@ -61,7 +38,19 @@ export namespace TallyBook {
     export interface Res {
       hasNext: boolean
       total: number
-      list: BillVO[]
+      list: BillRes[]
+    }
+  }
+
+  export namespace GetBill {
+    export interface Args {
+      id: string
+    }
+
+    export interface Res extends Bill {
+      type: BillType
+      account: Account
+      asset: Asset
     }
   }
 
@@ -71,11 +60,15 @@ export namespace TallyBook {
     export interface Res {
       type: 'income' | 'outcome'
       value: '收入' | '支出'
-      grid: BillTypeVO[]
+      grid: BillType[]
     }
   }
 
   export namespace CreateBill {
+    export interface BillRes extends Bill {
+      type: BillType
+    }
+
     export interface Args {
       typeId: string
       money: number
@@ -85,7 +78,7 @@ export namespace TallyBook {
       userId?: string
     }
 
-    export type Res = BillVO
+    export type Res = BillRes
   }
 
   export namespace GetAssets {
