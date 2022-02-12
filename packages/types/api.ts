@@ -1,4 +1,4 @@
-import { Account, Asset, Bill, BillType, Currency, User } from '@tally-book/model'
+import { Account, Asset, Bill, BillType, User } from '@tally-book/model'
 import { Common } from './utils'
 
 export namespace TallyBook {
@@ -54,6 +54,14 @@ export namespace TallyBook {
     }
   }
 
+  export namespace RemoveBill {
+    export interface Args {
+      id: string
+    }
+
+    export type Res = boolean
+  }
+
   export namespace GetBillTypes {
     export interface Args {}
 
@@ -93,5 +101,13 @@ export namespace TallyBook {
     }
 
     export type Res = Asset
+  }
+
+  export namespace RemoveAsset {
+    export interface Args {
+      id: string
+    }
+
+    export type Res = Boolean
   }
 }

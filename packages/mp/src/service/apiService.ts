@@ -17,6 +17,16 @@ class ApiService {
       data,
     })
   }
+
+  removeBill(data: TallyBook.RemoveBill.Args) {
+    return prequest.post<TallyBook.Response<TallyBook.RemoveBill.Res>>(ApiName.RemoveBill, { data })
+  }
+
+  removeAsset(data: TallyBook.RemoveAsset.Args) {
+    return prequest.post<TallyBook.Response<TallyBook.RemoveAsset.Res>>(ApiName.RemoveAsset, {
+      data,
+    })
+  }
 }
 
 export const apiService = new ApiService()

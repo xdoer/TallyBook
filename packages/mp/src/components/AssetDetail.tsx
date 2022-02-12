@@ -3,6 +3,8 @@ import { View } from '@fower/taro'
 import { useQuery } from '@/common/request'
 import { ApiName } from '@tally-book/model'
 import { TallyBook } from '@tally-book/types'
+import { apiService } from '@/service/apiService'
+import { popUpService } from '@/service/layer'
 
 interface AssetDetailProps {
   id: string
@@ -17,7 +19,19 @@ export const AssetDetail: FC<AssetDetailProps> = ({ id }) => {
     { deps: [id] },
   )
 
-  console.log(response?.result)
+  async function onDelete() {
+    const res = await apiService.removeAsset({ id })
+    console.log(res)
+    if (res.success) {
+      await useQuery.get(ApiName.GetAssets).toFetch()
+      popUpService.close()
+    }
+  }
 
-  return <View minH-400>{JSON.stringify(response?.result)}</View>
+  return (
+    <View minH-400>
+      <View onClick={() => onDelete()}>删除</View>
+      {JSON.stringify(response?.result)}
+    </View>
+  )
 }

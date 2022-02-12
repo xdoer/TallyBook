@@ -5,6 +5,9 @@ import { assetService } from '../../service'
 const router = new Router()
 
 router
+  .use(ApiName.RemoveAsset, (data) => {
+    return assetService.removeAsset(data)
+  })
   .use(ApiName.GetAssets, () => {
     return assetService.getAssets()
   })

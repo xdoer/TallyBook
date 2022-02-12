@@ -8,6 +8,9 @@ router
   .use(ApiName.GetBill, (options) => {
     return billService.getBill(options)
   })
+  .use(ApiName.RemoveBill, (options) => {
+    return billService.removeBill(options)
+  })
   .use(ApiName.GetBills, (options) => {
     return billService.getBills(options)
   })

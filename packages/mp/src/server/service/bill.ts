@@ -7,11 +7,10 @@ import { ErrorCode, MPError } from '@/common/Error'
 class BillService {
   // 账单详情
   async getBill(req: TallyBook.GetBill.Args): Promise<TallyBook.GetBill.Res> {
-    const { id } = req
     const billDB = await dataBaseService.bill()
     const bills = await billDB.get()
 
-    const bill = bills.find((bill) => bill.id === id)
+    const bill = bills.find((bill) => bill.id === req.id)
 
     if (!bill) throw new MPError('no bill', ErrorCode.Params)
 
@@ -31,6 +30,13 @@ class BillService {
       account: accounts.find((account) => account.id === accountId)!,
       asset: assets.find((asset) => asset.id === assetId)!,
     }
+  }
+
+  // 删除账单
+  async removeBill(req: TallyBook.RemoveBill.Args): Promise<TallyBook.RemoveBill.Res> {
+    const billDB = await dataBaseService.bill()
+    await billDB.remove({ id: req.id })
+    return true
   }
 
   // 首页接口
@@ -74,7 +80,7 @@ class BillService {
   }
 
   // 获取类型
-  async getBillTypes() {
+  async getBillTypes(): Promise<TallyBook.GetBillTypes.Res[]> {
     const billTypesDB = await dataBaseService.billType()
     const types: BillType[] = (await billTypesDB.get()) || []
 

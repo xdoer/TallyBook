@@ -38,7 +38,7 @@ export const BillList: FC<BillListProps> = ({}) => {
 
   return (
     <View mt-20>
-      {data.map((t) => {
+      {data.map((t, pIdx) => {
         const { date, list, money } = t
         const tt = new Date(date)
 
@@ -55,7 +55,7 @@ export const BillList: FC<BillListProps> = ({}) => {
               </View>
             </View>
             <Card>
-              {list.map((i, idx) => {
+              {list.map((i, cIdx) => {
                 const { id, type, money } = i
                 const { icon, text } = type
                 return (
@@ -65,10 +65,10 @@ export const BillList: FC<BillListProps> = ({}) => {
                     key={id}
                     p-30
                     borderBottom="1px solid transparent"
-                    borderBottomGray100={idx !== list.length - 1}
+                    borderBottomGray100={cIdx !== list.length - 1}
                     onClick={() => {
                       popUpService.open({
-                        content: <BillDetail id={id} />,
+                        content: <BillDetail id={id} pIdx={pIdx} cIdx={cIdx} />,
                       })
                     }}
                   >

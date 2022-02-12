@@ -11,6 +11,9 @@ export enum ApiName {
   // 获取账单详情
   GetBill = '/getBill',
 
+  // 删除账单
+  RemoveBill = '/removeBill',
+
   // 获取账单类型
   GetBillTypes = '/getBillTypes',
 
@@ -22,4 +25,7 @@ export enum ApiName {
 
   // 获取资产详情
   GetAsset = '/getAsset',
+
+  // 删除资产
+  RemoveAsset = '/removeAsset',
 }
