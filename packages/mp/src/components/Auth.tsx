@@ -14,8 +14,7 @@ export const Auth: FC<AuthProps> = ({ success }) => {
     getUserProfile({
       desc: '授权获取用户信息',
       async success(res) {
-        const { nickName, avatarUrl } = res.userInfo
-        await apiService.createUser({ nickName, avatarUrl })
+        await apiService.createUser(res.userInfo)
         success()
         popUpService.close()
       },
@@ -23,9 +22,29 @@ export const Auth: FC<AuthProps> = ({ success }) => {
   }
 
   return (
-    <View>
-      <Button openType="getUserInfo" onClick={onGetUserInfo}>
-        授权
+    <View minH-40vh maxH-80vh p-30 pb-100 position="relative">
+      哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+      哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+      哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+      哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+      哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+      哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+      <Button
+        color="primary"
+        size="large"
+        block
+        shape="round"
+        openType="getUserInfo"
+        style={{
+          background: '#38bdf8',
+          position: 'fixed',
+          bottom: '20px',
+          width: '80%',
+          left: '10%',
+        }}
+        onClick={onGetUserInfo}
+      >
+        授权基本信息
       </Button>
     </View>
   )

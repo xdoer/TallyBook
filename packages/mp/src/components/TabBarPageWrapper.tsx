@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import { View } from '@fower/taro'
+import { View, Image } from '@fower/taro'
 import { useSystemInfo } from '@/store/app'
-import { OpenData } from '@tarojs/components'
 import { FloatNavBar } from './FloatNavBar'
 import { popUpService } from '@/service/layer'
 import { Setting } from './Setting'
+import { loginStore } from '@/store'
 
 interface TabBarPageWrapperProps {
   title: string
@@ -12,6 +12,9 @@ interface TabBarPageWrapperProps {
 
 export const TabBarPageWrapper: FC<TabBarPageWrapperProps> = ({ children, title }) => {
   const { systemInfo } = useSystemInfo()
+  const [loginInfo] = loginStore.useState()
+  const { user } = loginInfo || {}
+  const { avatar } = user || {}
 
   function onSetting() {
     popUpService.open({ content: <Setting /> })
@@ -24,9 +27,7 @@ export const TabBarPageWrapper: FC<TabBarPageWrapperProps> = ({ children, title 
         <View text7XL fontBold color="#333">
           {title}
         </View>
-        <View circle-80 overflowHidden onClick={() => onSetting()}>
-          <OpenData type="userAvatarUrl" />
-        </View>
+        <Image src={avatar} circle-80 onClick={() => onSetting()} />
       </View>
       {children}
     </View>

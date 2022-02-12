@@ -12,6 +12,6 @@ export interface ModalType {
 
 export const modalService = new LayerService<ModalType>({
   visible: false,
-  title: '标题',
+  title: '提示',
   okText: '确认',
 })

@@ -9,12 +9,11 @@ export function formatBills(
   data: RenderBillList[] = [],
 ) {
   let newData = [...data]
-
   const x = groupBy(bills, (i) => formatDate(new Date(i.createdAt!), 'yyyy-MM-dd'))
   const find = newData.find((i) => x[i.date])
   if (find) {
     const newList = x[find.date]
-    const money = newList.reduce((t, c) => t + c.money, 0)
+    const money = getMoney(newList)
     find.list = find.list.concat(newList)
     find.list.sort((a, b) => Number(b.createdAt) - Number(a.createdAt))
     find.money += money
@@ -22,11 +21,19 @@ export function formatBills(
     newData = newData.concat(
       Object.keys(x).map((i) => ({
         date: i,
-        money: x[i].reduce((t, c) => t + c.money, 0),
+        money: getMoney(x[i]),
         list: x[i],
       })),
     )
   }
 
   return newData
+}
+
+function getMoney(list: TallyBook.BillVO[] = []) {
+  return list.reduce((t, c) => {
+    if (c.type.type === 'income') return t - c.money
+    if (c.type.type === 'outcome') return t + c.money
+    return t
+  }, 0)
 }

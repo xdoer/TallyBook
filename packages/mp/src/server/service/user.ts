@@ -1,9 +1,11 @@
 import { MPError } from '@/common/Error'
-import { User } from '@tally-book/model'
+import { WxUser } from '@/types'
+import { TallyBook } from '@tally-book/types'
 import { dataBaseService } from '../db'
 
 class UserService {
-  async login() {
+  // 用户登录
+  async login(): Promise<TallyBook.Login.Res> {
     const userDB = await dataBaseService.user()
     const accountDB = await dataBaseService.account()
     const assetDB = await dataBaseService.asset()
@@ -21,16 +23,11 @@ class UserService {
     }
   }
 
-  // 首页接口
-  async getUsers(): Promise<User[]> {
-    const users = await dataBaseService.user()
-    return users.get() as any
-  }
-
   // 新增用户
-  async addUser(user) {
+  async createUser(user: WxUser) {
     const users = await dataBaseService.user()
-    users.add(user)
+    const { avatarUrl, nickName } = user
+    users.add({ name: nickName, avatar: avatarUrl })
   }
 }
 

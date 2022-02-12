@@ -13,6 +13,7 @@ export namespace TallyBook {
   export interface UserVO {
     id: string
     name: string
+    avatar: string
   }
 
   export interface AccountVO {

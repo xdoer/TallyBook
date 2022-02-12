@@ -69,12 +69,14 @@ export const BillList: FC<BillListProps> = ({}) => {
                   >
                     <View toCenterY>
                       <Image src={icon} circle-60 mr-20 />
-                      <View text3XL gray500>
+                      <View text2XL gray500>
                         {text}
                       </View>
                     </View>
                     <View textRight>
                       <View text2XL gray500>
+                        {type.type === 'income' && '+'}
+                        {type.type === 'outcome' && '-'}
                         {money}
                       </View>
                       <View textXL gray400>

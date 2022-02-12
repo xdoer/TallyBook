@@ -9,7 +9,7 @@ router
     return userService.login()
   })
   .use(ApiName.CreateUser, (data) => {
-    return userService.addUser(data as any)
+    return userService.createUser(data as any)
   })
 
 export const userRouter = router
