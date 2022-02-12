@@ -1,5 +1,5 @@
 import { Request } from '@prequest/miniprogram'
-import createQueryHook from '@prequest/use-request'
+import createQueryHook from './use-request'
 import { TallyBook } from '@tally-book/types'
 import { prequest } from './query'
 

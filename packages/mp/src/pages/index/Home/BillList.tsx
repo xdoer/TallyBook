@@ -5,19 +5,13 @@ import { formatDate } from '@/common/utils'
 import { Card } from '@/components/Card'
 import { TallyBook } from '@tally-book/types'
 import { useReachBottom } from '@tarojs/taro'
-import { groupBy } from 'lodash-es'
-import { Bill } from '@tally-book/model'
+import { formatBills } from '@/function/formatBills'
+import { billListStore } from '@/store'
 
 interface BillListProps {}
 
-interface D {
-  date: string
-  money: number
-  list: Bill[]
-}
-
 export const BillList: FC<BillListProps> = ({}) => {
-  const [data, setData] = useState<D[]>([])
+  const [data, setData] = billListStore.useState()
   const [pageNo, setPageNo] = useState(0)
   const { response } = useQuery<TallyBook.Response<TallyBook.GetBills.Res>>(
     '/getBills',
@@ -27,26 +21,7 @@ export const BillList: FC<BillListProps> = ({}) => {
     {
       deps: [pageNo],
       onUpdate(_, cur) {
-        const x = groupBy(cur.result.list, (i) => formatDate(new Date(i.createdAt!), 'yyyy-MM-dd'))
-        const find = data.find((i) => x[i.date])
-        if (find) {
-          const newList = x[find.date]
-          const money = newList.reduce((t, c) => t + c.money, 0)
-          find.list = find.list.concat(newList)
-          find.money += money
-          setData([...data])
-        } else {
-          setData(
-            data.concat(
-              Object.keys(x).map((i) => ({
-                date: i,
-                money: x[i].reduce((t, c) => t + c.money, 0),
-                list: x[i],
-              })),
-            ),
-          )
-        }
-
+        setData(formatBills(cur.result.list, data))
         return cur
       },
     },

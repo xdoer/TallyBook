@@ -66,6 +66,6 @@ export namespace TallyBook {
       userId?: string
     }
 
-    export interface Res {}
+    export type Res = Bill
   }
 }
