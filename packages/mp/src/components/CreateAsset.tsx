@@ -37,6 +37,12 @@ export const CreateAsset: FC<CreateAssetProps> = ({}) => {
             <Input placeholder="请输入数字" type="digit" />
           </Form.Control>
         </Form.Item>
+        <Form.Item name="budget" rules={[{ required: true, message: '请输入消费预算' }]}>
+          <Form.Label>消费预算</Form.Label>
+          <Form.Control>
+            <Input placeholder="请输入数字" type="digit" />
+          </Form.Control>
+        </Form.Item>
         <Form.Item name="isDefault">
           <Form.Label>设为默认</Form.Label>
           <Form.Control>
