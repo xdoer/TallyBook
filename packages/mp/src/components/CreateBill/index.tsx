@@ -5,7 +5,6 @@ import { Tabs, Grid, Toast } from '@taroify/core'
 import { useQuery } from '@/common/request'
 import { apiService } from '@/service/apiService'
 import { TallyBook } from '@tally-book/types'
-import { loginStore } from '@/store/login'
 import { formatBills } from '@/function/formatBills'
 import { billListStore } from '@/store'
 import { ApiName } from '@tally-book/model'
@@ -36,12 +35,8 @@ export const CreateBill: FC<CreateBillProps> = memo(({}) => {
   async function onConfirm() {
     if (!money) return Toast.open('请输入金额')
 
-    const { user, account, asset } = loginStore.getState()
     const res = await apiService.createBill({
       typeId: result[tab].grid[selected].id,
-      userId: user.id,
-      accountId: account.id,
-      assetId: asset.id,
       money: Number.parseInt(money),
       time: '' + Date.now(),
     })

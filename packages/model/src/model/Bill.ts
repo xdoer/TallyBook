@@ -12,9 +12,6 @@ export class Bill {
   // 账本 id
   accountId: string;
 
-  // 币种 id
-  currencyId: string;
-
   // 资产 id
   assetId: string;
 

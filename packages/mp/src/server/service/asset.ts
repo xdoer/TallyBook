@@ -4,7 +4,7 @@ import { ErrorCode, MPError } from '@/common/Error'
 
 class AssetService {
   // 获取资产详情
-  async createAsset(opt: TallyBook.CreateAsset.Args): Promise<TallyBook.CreateAsset.Res> {
+  async createAsset(opt: TallyBook.CreateAsset.Args, token): Promise<TallyBook.CreateAsset.Res> {
     const assetDB = await dataBaseService.asset()
 
     // 如果设置为默认
@@ -14,7 +14,7 @@ class AssetService {
       await assetDB.update({ id: asset!.id }, { isDefault: false })
     }
 
-    assetDB.add({ ...opt, delete: false, cost: 0 })
+    assetDB.add({ ...opt, delete: false, cost: 0, userId: token.user.id })
     return true
   }
 

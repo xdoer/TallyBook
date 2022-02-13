@@ -5,20 +5,10 @@ import { billService } from '../../service'
 const router = new Router()
 
 router
-  .use(ApiName.GetBill, (options) => {
-    return billService.getBill(options)
-  })
-  .use(ApiName.RemoveBill, (options) => {
-    return billService.removeBill(options)
-  })
-  .use(ApiName.GetBills, (options) => {
-    return billService.getBills(options)
-  })
-  .use(ApiName.GetBillTypes, async () => {
-    return billService.getBillTypes()
-  })
-  .use(ApiName.CreateBill, async (options) => {
-    return billService.createBill(options)
-  })
+  .use(ApiName.GetBill, billService.getBill)
+  .use(ApiName.RemoveBill, billService.removeBill)
+  .use(ApiName.GetBills, billService.getBills)
+  .use(ApiName.GetBillTypes, billService.getBillTypes)
+  .use(ApiName.CreateBill, billService.createBill)
 
 export const billRouter = router

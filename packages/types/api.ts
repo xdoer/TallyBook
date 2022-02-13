@@ -81,7 +81,6 @@ export namespace TallyBook {
       remark?: string
       accountId?: string
       assetId?: string
-      userId?: string
     }
 
     export type Res = BillRes

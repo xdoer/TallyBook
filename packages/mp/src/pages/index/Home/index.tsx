@@ -84,7 +84,7 @@ export const Home = memo(() => {
                   <View>星期{['日', '一', '二', '三', '四', '五', '六'][tt.getDay()]}</View>
                 </View>
                 <View flex>
-                  <View mr-10>{money > 0 ? '支出' : '收入'}:</View>
+                  <View mr-10>{money < 0 ? '支出' : '收入'}:</View>
                   <View>{Math.abs(money)}</View>
                 </View>
               </View>

@@ -23,6 +23,9 @@ export enum ApiName {
   // 获取账户资产列表
   GetAssets = '/getAssets',
 
+  // 创建资产
+  CreateAsset = '/createAsset',
+
   // 获取资产详情
   GetAsset = '/getAsset',
 
@@ -30,5 +33,5 @@ export enum ApiName {
   RemoveAsset = '/removeAsset',
 
   // 收支统计
-  statistics = '/statistics',
+  Statistics = '/statistics',
 }

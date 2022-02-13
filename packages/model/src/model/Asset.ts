@@ -1,6 +1,8 @@
 export class Asset {
   id: string; // 资产 id
 
+  userId: string;
+
   name: string; // 资产名称
 
   isDefault: boolean; // 默认资产账户

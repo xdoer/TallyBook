@@ -4,12 +4,6 @@ import { userService } from '../../service'
 
 const router = new Router()
 
-router
-  .use(ApiName.Login, () => {
-    return userService.login()
-  })
-  .use(ApiName.Register, (data) => {
-    return userService.register(data as any)
-  })
+router.use(ApiName.Login, userService.login).use(ApiName.Register, userService.register)
 
 export const userRouter = router

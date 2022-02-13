@@ -3,7 +3,7 @@ import { ApiName } from '@tally-book/model'
 import { Common } from '@tally-book/types'
 
 interface Route {
-  [key: string]: (data: Common, options: Common) => Promise<any>
+  [key: string]: (data: Common, token: Common, options: Common) => Promise<any>
 }
 
 export class Router {
@@ -14,7 +14,7 @@ export class Router {
     return this
   }
 
-  async call(options) {
+  async call(options, token) {
     const { path, method, data = {}, params = {} } = options
 
     try {
@@ -23,7 +23,7 @@ export class Router {
 
       return {
         success: true,
-        result: await cb(method === 'POST' ? data : params, options),
+        result: await cb(method === 'POST' ? data : params, token, options),
         error: null,
       }
     } catch (e) {

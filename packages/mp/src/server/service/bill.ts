@@ -87,30 +87,49 @@ class BillService {
   }
 
   // 添加账单
-  async createBill(bill: TallyBook.CreateBill.Args): Promise<TallyBook.CreateBill.Res> {
+  async createBill(args: TallyBook.CreateBill.Args, token): Promise<TallyBook.CreateBill.Res> {
+    const { accountId, assetId, remark = '', typeId, money, time } = args
+    const { id: userId } = token.user
+
     const bills = await dataBaseService.bill()
     const assetDB = await dataBaseService.asset()
-
-    const newBill = await bills.add(bill as any)
-
-    const assets = await assetDB.get({ id: bill.assetId })
     const typeDB = await dataBaseService.billType()
-    const types = await typeDB.get({ id: bill.typeId })
+    const accountDB = await dataBaseService.account()
+
+    const assets = await assetDB.get()
+    const accounts = await accountDB.get()
+
+    const types = await typeDB.get({ id: typeId })
 
     const { type } = types[0]
+    const asset = assets.find((asset) => (assetId ? asset.id === assetId : asset.isDefault))
+    const account = accounts.find((account) =>
+      accountId ? account.id === accountId : account.isDefault,
+    )
 
+    // 收入加资产总额
     if (type === 'income') {
-      // 收入的话，加资产总额
-      await assetDB.update({ id: bill.assetId }, { money: assets[0].money + bill.money })
+      await assetDB.update({ id: asset!.id }, { money: asset!.money + money })
     }
+
+    // 支出扣消费预算
     if (type === 'outcome') {
-      // 支出扣消费预算
-      await assetDB.update({ id: bill.assetId }, { cost: assets[0].cost + bill.money })
+      await assetDB.update({ id: asset!.id }, { cost: asset!.cost + money })
     }
+
+    const newBill = await bills.add({
+      money,
+      time,
+      typeId,
+      accountId: account!.id,
+      assetId: asset!.id,
+      userId,
+      remark,
+    })
 
     return {
       ...newBill,
-      type: types.find((t) => t.id === bill.typeId)!,
+      type: types[0],
     }
   }
 
