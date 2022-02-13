@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { View } from '@fower/taro'
 
-interface CardProps { }
+interface CardProps {}
 
 export const Card: FC<CardProps> = ({ children }) => {
   return (

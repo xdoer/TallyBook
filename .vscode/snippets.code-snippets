@@ -37,46 +37,5 @@
       "}"
     ],
     "description": "create new page"
-  },
-  "New Modal": {
-    "scope": "javascript,typescript,typescriptreact",
-    "prefix": "newM",
-    "body": [
-      "import { View } from '@fower/taro'",
-      "import { ModalInject } from '@/common/modal'",
-      "",
-      "interface Props extends ModalInject{",
-      "}",
-      "",
-      "export default function $1Modal ({}: Props){",
-      "",
-      "  return (",
-      "    <View>",
-      "    </View>",
-      "  )",
-      "}"
-    ],
-    "description": "create new modal"
-  },
-  "New BottomModal": {
-    "scope": "javascript,typescript,typescriptreact",
-    "prefix": "newBM",
-    "body": [
-      "import React, { memo } from 'react'",
-      "import { View, Text } from '@styli/taro'",
-      "import { BottomModal } from '@components/BottomModal'",
-      "import { useModal, modalService } from '@business/modal'",
-      "",
-      "export const $1 = memo(({}) => {",
-      "  const model = useModal(modalService.$1)",
-      "",
-      "  return (",
-      "    <BottomModal model={model}>",
-      "      <Text>Hello world!</Text>",
-      "    </BottomModal>",
-      "  )",
-      "})"
-    ],
-    "description": "create new modal"
   }
 }

@@ -37,9 +37,7 @@ export const AssetList: FC<AssetListProps> = ({}) => {
               borderBottom="1px solid transparent"
               borderBottomGray100={idx !== list.length - 1}
               onClick={() => {
-                popUpService.open({
-                  content: <AssetDetail id={id} />,
-                })
+                popUpService.open(<AssetDetail id={id} />)
               }}
             >
               <View toCenterY>

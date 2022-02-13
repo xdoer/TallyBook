@@ -67,9 +67,7 @@ export const BillList: FC<BillListProps> = ({}) => {
                     borderBottom="1px solid transparent"
                     borderBottomGray100={cIdx !== list.length - 1}
                     onClick={() => {
-                      popUpService.open({
-                        content: <BillDetail id={id} pIdx={pIdx} cIdx={cIdx} />,
-                      })
+                      popUpService.open(<BillDetail id={id} pIdx={pIdx} cIdx={cIdx} />)
                     }}
                   >
                     <View toCenterY>

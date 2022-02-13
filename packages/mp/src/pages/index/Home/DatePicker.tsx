@@ -11,9 +11,7 @@ export const DatePicker: FC<DatePickerProps> = ({}) => {
   const [date, setDate] = useState(new Date())
 
   function chooseDate() {
-    popUpService.open({
-      content: <YearMonthPicker value={date} onConfirm={setDate} />,
-    })
+    popUpService.open(<YearMonthPicker value={date} onConfirm={setDate} />)
   }
 
   return (

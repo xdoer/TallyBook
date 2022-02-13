@@ -1,4 +1,5 @@
 import StateBus from '@xdoer/state-bus'
+import React from 'react'
 
 export class LayerService<T extends { visible: boolean }> {
   private state: StateBus<T>
@@ -10,11 +11,16 @@ export class LayerService<T extends { visible: boolean }> {
     this.state = new StateBus<T>(init)
   }
 
-  open(data?: Omit<T, 'visible'>) {
+  open(data?: Omit<T, 'visible'> | React.ReactElement) {
     if (this.visible) return this.queue.push(data as any)
 
     this.visible = true
-    this.state.setState((prev) => ({ ...prev, ...data, visible: true }))
+
+    if (React.isValidElement(data)) {
+      this.state.setState((prev) => ({ ...prev, content: data, visible: true }))
+    } else {
+      this.state.setState((prev) => ({ ...prev, ...data, visible: true }))
+    }
   }
 
   close() {

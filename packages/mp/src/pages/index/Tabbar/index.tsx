@@ -23,11 +23,11 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
     if (idx === data) {
       if (idx === 1) {
         vibrateShort()
-        popUpService.open({ content: <CreateBill /> })
+        popUpService.open(<CreateBill />)
       }
       if (idx === 0) {
         vibrateShort()
-        popUpService.open({ content: <CreateAsset /> })
+        popUpService.open(<CreateAsset />)
       }
     }
   }

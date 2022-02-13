@@ -20,9 +20,7 @@ export default ({ children }) => {
     if (login.success) {
       loginStore.setState(login.result)
     } else {
-      popUpService.open({
-        content: <Auth success={init} />,
-      })
+      popUpService.open(<Auth success={init} />)
     }
   }
 
