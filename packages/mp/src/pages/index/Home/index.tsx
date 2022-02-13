@@ -9,12 +9,10 @@ import { formatDate, getTime } from '@/common/utils'
 import { TallyBook } from '@tally-book/types'
 import { formatBills, getMoney } from '@/function/formatBills'
 import { BillDetail } from '@/components/BillDetail'
-import { billListStore } from '@/store'
 import { ApiName } from '@tally-book/model'
 
 export const Home = memo(() => {
   const [date, setDate] = useState(new Date())
-  const [data, setData] = billListStore.useState()
   const { response } = useQuery<TallyBook.Response<TallyBook.GetBills.Res>>(
     ApiName.GetBills,
     () => {
@@ -25,13 +23,9 @@ export const Home = memo(() => {
     },
     {
       deps: [date],
-      onUpdate(_, cur) {
-        setData(formatBills(cur.result, []))
-        return cur
-      },
     },
   )
-
+  const data = formatBills(response?.result, [])
   const money = getMoney(response?.result || [])
   const income = getMoney(response?.result || [], 'income')
   const outcome = getMoney(response?.result || [], 'outcome')
@@ -72,7 +66,7 @@ export const Home = memo(() => {
       </Card>
 
       <View mt-20>
-        {data.map((t, pIdx) => {
+        {data.map((t) => {
           const { date, list, money } = t
           const tt = new Date(date)
 
@@ -89,7 +83,7 @@ export const Home = memo(() => {
                 </View>
               </View>
               <Card>
-                {list.map((i, cIdx) => {
+                {list.map((i, idx) => {
                   const { id, type, money } = i
                   const { icon, text } = type
                   return (
@@ -99,9 +93,9 @@ export const Home = memo(() => {
                       key={id}
                       p-30
                       borderBottom="1px solid transparent"
-                      borderBottomGray100={cIdx !== list.length - 1}
+                      borderBottomGray100={idx !== list.length - 1}
                       onClick={() => {
-                        popUpService.open(<BillDetail id={id} pIdx={pIdx} cIdx={cIdx} />)
+                        popUpService.open(<BillDetail id={id} />)
                       }}
                     >
                       <View toCenterY>

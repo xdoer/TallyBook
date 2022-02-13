@@ -109,7 +109,7 @@ class BillService {
 
     // 收入加资产总额
     if (type === 'income') {
-      await assetDB.update({ id: asset!.id }, { money: asset!.money + money })
+      await assetDB.update({ id: asset!.id }, { cost: asset!.money - money })
     }
 
     // 支出扣消费预算

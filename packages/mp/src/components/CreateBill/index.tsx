@@ -5,15 +5,13 @@ import { Tabs, Grid, Toast } from '@taroify/core'
 import { useQuery } from '@/common/request'
 import { apiService } from '@/service/apiService'
 import { TallyBook } from '@tally-book/types'
-import { formatBills } from '@/function/formatBills'
-import { billListStore } from '@/store'
 import { ApiName } from '@tally-book/model'
 import Taro from '@tarojs/taro'
 import { popUpService } from '@/service/layer'
 
-interface CreateBillProps {}
+interface CreateBillProps { }
 
-export const CreateBill: FC<CreateBillProps> = memo(({}) => {
+export const CreateBill: FC<CreateBillProps> = memo(({ }) => {
   const { response } = useQuery<TallyBook.Response<TallyBook.GetBillTypes.Res[]>>(
     ApiName.GetBillTypes,
   )
@@ -42,7 +40,7 @@ export const CreateBill: FC<CreateBillProps> = memo(({}) => {
     })
 
     if (res.success) {
-      billListStore.setState(formatBills([res.result], billListStore.getState()))
+      await useQuery.get(ApiName.GetBills).toFetch()
       await useQuery.get(ApiName.GetAssets).toFetch()
     }
   }

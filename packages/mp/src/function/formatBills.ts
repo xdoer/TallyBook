@@ -1,7 +1,12 @@
 import { TallyBook } from '@tally-book/types'
 import { formatDate } from '@/common/utils'
 import { groupBy } from 'lodash-es'
-import { RenderBillList } from '@/store'
+
+interface RenderBillList {
+  date: string
+  money: number
+  list: TallyBook.GetBills.Res
+}
 
 export function formatBills(bills: TallyBook.GetBills.Res, data: RenderBillList[] = []) {
   let newData = [...data]
