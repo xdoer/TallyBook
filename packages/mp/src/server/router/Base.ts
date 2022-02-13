@@ -14,7 +14,7 @@ export class Router {
     return this
   }
 
-  async call(options, token) {
+  async call(options, token = {}) {
     const { path, method, data = {}, params = {} } = options
 
     try {

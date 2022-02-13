@@ -1,7 +1,10 @@
 import { ErrorCode, MPError } from '@/common/Error'
 import { WxUser } from '@/types'
+import { defaultAccount, defaultAsset } from '@tally-book/model'
 import { TallyBook } from '@tally-book/types'
+import { assetService } from '.'
 import { dataBaseService } from '../db'
+import { accountService } from './account'
 
 class UserService {
   // 用户登录
@@ -27,7 +30,10 @@ class UserService {
   async register(user: WxUser) {
     const users = await dataBaseService.user()
     const { avatarUrl, nickName } = user
-    users.add({ name: nickName, avatar: avatarUrl })
+    const newUser = await users.add({ name: nickName, avatar: avatarUrl })
+
+    await assetService.createAsset(defaultAsset, { user: newUser })
+    await accountService.createAccount(defaultAccount, { user: newUser })
   }
 }
 

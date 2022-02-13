@@ -6,10 +6,10 @@ class AssetService {
   // 获取资产详情
   async createAsset(opt: TallyBook.CreateAsset.Args, token): Promise<TallyBook.CreateAsset.Res> {
     const assetDB = await dataBaseService.asset()
+    const assets = await assetDB.get()
 
     // 如果设置为默认
-    if (opt.isDefault) {
-      const assets = await assetDB.get()
+    if (opt.isDefault && assets.length) {
       const asset = assets.find((asset) => asset.isDefault)
       await assetDB.update({ id: asset!.id }, { isDefault: false })
     }

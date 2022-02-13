@@ -127,4 +127,15 @@ export namespace TallyBook {
 
     export interface Res {}
   }
+
+  export namespace CreateAccount {
+    export interface Args {
+      name: string
+      isDefault: boolean
+      remark?: string
+      icon?: string
+    }
+
+    export type Res = boolean
+  }
 }
