@@ -10,11 +10,11 @@ class ApiService {
     prequest.get<TallyBook.Response<T>>(name, options)
 
   login() {
-    return this.post<TallyBook.Login.Res>(ApiName.Login)
+    return this.post<TallyBook.Login.Res>(ApiName.Login, { skipTokenCheck: true })
   }
 
   register(data: WxUser) {
-    return this.post<TallyBook.Register.Res>(ApiName.Register, { data })
+    return this.post<TallyBook.Register.Res>(ApiName.Register, { data, skipTokenCheck: true })
   }
 
   createBill(data: TallyBook.CreateBill.Args) {
