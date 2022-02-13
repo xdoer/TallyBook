@@ -43,9 +43,13 @@ export const CreateBill: FC<CreateBillProps> = memo(({}) => {
       accountId: account.id,
       assetId: asset.id,
       money: Number.parseInt(money),
+      time: '' + Date.now(),
     })
 
-    billListStore.setState(formatBills([res.result], billListStore.getState()))
+    if (res.success) {
+      billListStore.setState(formatBills([res.result], billListStore.getState()))
+      await useQuery.get(ApiName.GetAssets).toFetch()
+    }
   }
 
   return (

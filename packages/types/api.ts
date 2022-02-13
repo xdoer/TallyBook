@@ -1,5 +1,7 @@
 import { Account, Asset, Bill, BillType, User } from '@tally-book/model'
 import { Common } from './utils'
+import { Time } from './common'
+import { AtLeastOne } from '.'
 
 export namespace TallyBook {
   export interface Response<T = any> {
@@ -31,15 +33,10 @@ export namespace TallyBook {
     }
 
     export interface Args {
-      pageNo: number
-      pageSize: number
+      time: AtLeastOne<Time>
     }
 
-    export interface Res {
-      hasNext: boolean
-      total: number
-      list: BillRes[]
-    }
+    export type Res = BillRes[]
   }
 
   export namespace GetBill {
@@ -80,6 +77,7 @@ export namespace TallyBook {
     export interface Args {
       typeId: string
       money: number
+      time: string
       remark?: string
       accountId?: string
       assetId?: string
@@ -115,9 +113,19 @@ export namespace TallyBook {
     export interface Args {
       name: string
       money: number
+      budget: number
       isDefault: boolean
       icon: string
     }
     export type Res = boolean
+  }
+
+  export namespace Statistics {
+    export interface Args {
+      dimension: 'week' | 'month' | 'year'
+      time: AtLeastOne<Time>
+    }
+
+    export interface Res {}
   }
 }

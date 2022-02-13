@@ -24,5 +24,8 @@ export class Bill {
   // 备注
   remark: string;
 
+  // 费用产生时间
+  time: string;
+
   createdAt?: string;
 }

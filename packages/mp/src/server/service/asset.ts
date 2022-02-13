@@ -14,7 +14,7 @@ class AssetService {
       await assetDB.update({ id: asset!.id }, { isDefault: false })
     }
 
-    assetDB.add({ ...opt, delete: false })
+    assetDB.add({ ...opt, delete: false, cost: 0 })
     return true
   }
 

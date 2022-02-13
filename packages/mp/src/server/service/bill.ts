@@ -3,6 +3,7 @@ import { dataBaseService } from '../db'
 import { TallyBook } from '@tally-book/types'
 import { groupBy } from 'lodash-es'
 import { ErrorCode, MPError } from '@/common/Error'
+import { getTime } from '@/common/utils'
 
 class BillService {
   // 账单详情
@@ -35,13 +36,34 @@ class BillService {
   // 删除账单
   async removeBill(req: TallyBook.RemoveBill.Args): Promise<TallyBook.RemoveBill.Res> {
     const billDB = await dataBaseService.bill()
+    const assetDB = await dataBaseService.asset()
+    const billTypeDB = await dataBaseService.billType()
+
+    const bills = await billDB.get({ id: req.id })
+    const { assetId, money, typeId } = bills[0]
+
+    const types = await billTypeDB.get({ id: typeId })
+    const assets = await assetDB.get({ id: assetId })
+
+    const { type } = types[0]
+
+    if (type === 'income') {
+      await assetDB.update({ id: assetId }, { money: assets[0].money - money })
+    }
+    if (type === 'outcome') {
+      await assetDB.update(
+        { id: assetId },
+        { money: assets[0].money + money, cost: assets[0].cost + money },
+      )
+    }
+
     await billDB.remove({ id: req.id })
     return true
   }
 
   // 首页接口
   async getBills(req: TallyBook.GetBills.Args): Promise<TallyBook.GetBills.Res> {
-    const { pageNo, pageSize } = req
+    const { time = {} } = req
     const billDB = await dataBaseService.bill()
     const typeDB = await dataBaseService.billType()
 
@@ -50,7 +72,10 @@ class BillService {
 
     const data = bills
       .sort((a, b) => Number(b.createdAt) - Number(a.createdAt))
-      .slice(pageNo * pageSize, (pageNo + 1) * pageSize)
+      .filter((a) => {
+        const d = getTime(new Date(Number(a.time)))
+        return Object.keys(time).every((i) => time[i] === d[i])
+      })
       .map((bill) => {
         return {
           ...bill,
@@ -58,20 +83,30 @@ class BillService {
         }
       })
 
-    return {
-      hasNext: (pageNo + 1) * pageSize < bills.length,
-      list: data,
-      total: bills.length,
-    }
+    return data
   }
 
   // 添加账单
   async createBill(bill: TallyBook.CreateBill.Args): Promise<TallyBook.CreateBill.Res> {
     const bills = await dataBaseService.bill()
+    const assetDB = await dataBaseService.asset()
+
     const newBill = await bills.add(bill as any)
 
+    const assets = await assetDB.get({ id: bill.assetId })
     const typeDB = await dataBaseService.billType()
-    const types = await typeDB.get()
+    const types = await typeDB.get({ id: bill.typeId })
+
+    const { type } = types[0]
+
+    if (type === 'income') {
+      // 收入的话，加资产总额
+      await assetDB.update({ id: bill.assetId }, { money: assets[0].money + bill.money })
+    }
+    if (type === 'outcome') {
+      // 支出扣消费预算
+      await assetDB.update({ id: bill.assetId }, { cost: assets[0].cost + bill.money })
+    }
 
     return {
       ...newBill,

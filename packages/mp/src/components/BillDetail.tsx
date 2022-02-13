@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { View } from '@fower/taro'
 import { useQuery } from '@/common/request'
 import { ApiName } from '@tally-book/model'
@@ -30,6 +30,7 @@ export const BillDetail: FC<BillDetailProps> = ({ id, pIdx, cIdx }) => {
       data[pIdx].list.splice(cIdx, 1)
       data[pIdx].money = getMoney(data[pIdx].list)
       billListStore.setState([...data])
+      useQuery.get(ApiName.GetAssets).toFetch()
     }
     popUpService.close()
   }

@@ -1,5 +1,9 @@
 export type GlobalCache = { [key: string]: Cache }
 
+interface ToFetchConfig<Q> {
+  onUpdate?: (prev: Q, value: Q) => Q
+}
+
 export type Cache<T = any, Q = any> = {
   called: boolean
   valid: boolean
@@ -8,7 +12,7 @@ export type Cache<T = any, Q = any> = {
   request: T
   response: Q
   stopLoop(): void
-  toFetch(opt?: T | ((o: T) => T)): void
+  toFetch(opt?: T | ((o: T) => T), config?: ToFetchConfig<Q>): void
 }
 
 export interface Config<Q> {

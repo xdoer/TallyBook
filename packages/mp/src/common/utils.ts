@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { Common } from '@tally-book/types'
+import { Common, Time } from '@tally-book/types'
 
 export const convertSearchParamsToObj = (searchParams = '') => {
   const obj: Common = {}
@@ -75,4 +75,13 @@ export function sleep(t = 1000) {
 
 export function clone(v) {
   return JSON.parse(JSON.stringify(v))
+}
+
+export function getTime(t = new Date()): Time {
+  return {
+    date: t.getDate(),
+    day: t.getDay(),
+    month: t.getMonth(),
+    year: t.getFullYear(),
+  }
 }

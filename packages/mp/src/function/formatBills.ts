@@ -1,13 +1,9 @@
-import { PickAttr } from '@tally-book/types'
 import { TallyBook } from '@tally-book/types'
 import { formatDate } from '@/common/utils'
 import { groupBy } from 'lodash-es'
 import { RenderBillList } from '@/store'
 
-export function formatBills(
-  bills: PickAttr<TallyBook.GetBills.Res, 'list'>,
-  data: RenderBillList[] = [],
-) {
+export function formatBills(bills: TallyBook.GetBills.Res, data: RenderBillList[] = []) {
   let newData = [...data]
   const x = groupBy(bills, (i) => formatDate(new Date(i.createdAt!), 'yyyy-MM-dd'))
   const find = newData.find((i) => x[i.date])
@@ -30,10 +26,15 @@ export function formatBills(
   return newData
 }
 
-export function getMoney(list: TallyBook.GetBills.BillRes[] = []) {
+export function getMoney(list: TallyBook.GetBills.BillRes[] = [], type?: 'income' | 'outcome') {
   return list.reduce((t, c) => {
-    if (c.type.type === 'income') return t - c.money
-    if (c.type.type === 'outcome') return t + c.money
+    if (type) {
+      if (c.type.type === type) return t + c.money
+      return t
+    }
+
+    if (c.type.type === 'income') return t + c.money
+    if (c.type.type === 'outcome') return t - c.money
     return t
   }, 0)
 }

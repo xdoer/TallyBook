@@ -85,11 +85,11 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     }
 
     // 发起请求
-    async function makeFetch() {
+    async function makeFetch(cb = onUpdate) {
       cache.loading = true
       try {
         const res = await prequest<Q>(path, cache.request)
-        cache.response = onUpdate?.(cache.response, res as any) || res
+        cache.response = cb?.(cache.response, res as any) || res
       } catch (e) {
         cache.error = e
       }
@@ -104,7 +104,7 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     }
 
     // 手动执行请求
-    cache.toFetch = (fetchOpt) => {
+    cache.toFetch = (fetchOpt, config) => {
       const newCache = refreshCache(cache, opt)
 
       if (fetchOpt) {
@@ -118,13 +118,13 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
 
       newCache.valid = true
       newCache.called = true
-      fetch()
+      makeFetch(config?.onUpdate)
     }
 
     return cache
   }
 
-  useQuery.get = (key: string): Cache => {
+  useQuery.get = (key: string): Cache<T> => {
     return globalCache[key]
   }
 

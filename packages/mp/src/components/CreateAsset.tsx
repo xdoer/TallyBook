@@ -12,8 +12,12 @@ interface CreateAssetProps {}
 
 export const CreateAsset: FC<CreateAssetProps> = ({}) => {
   async function onSubmit(event: BaseEventOrig<FormProps.onSubmitEventDetail>) {
-    const { money, ...rest } = event.detail.value as TallyBook.CreateAsset.Args
-    const { success } = await apiService.createAsset({ ...rest, money: Number(money) })
+    const { money, budget, ...rest } = event.detail.value as TallyBook.CreateAsset.Args
+    const { success } = await apiService.createAsset({
+      ...rest,
+      money: Number(money),
+      budget: Number(budget),
+    })
     if (success) {
       await useQuery.get(ApiName.GetAssets).toFetch()
       popUpService.close()

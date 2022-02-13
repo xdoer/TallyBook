@@ -28,4 +28,7 @@ export enum ApiName {
 
   // 删除资产
   RemoveAsset = '/removeAsset',
+
+  // 收支统计
+  statistics = '/statistics',
 }

@@ -7,9 +7,11 @@ export class Asset {
 
   icon: string;
 
-  money: number;
+  money: number; // 账户总资产
 
   budget: number; // 消费预算
+
+  cost: number; // 消费金额
 
   delete: boolean; // 删除不能真正删除，防止已经使用该资产创建了账单，导致数据出异常
 
