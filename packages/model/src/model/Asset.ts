@@ -3,13 +3,13 @@ export class Asset {
 
   name: string; // 资产名称
 
-  type: string; // 资产类型 支付宝、银行卡
-
   isDefault: boolean; // 默认资产账户
 
   icon: string;
 
   money: number;
+
+  delete: boolean; // 删除不能真正删除，防止已经使用该资产创建了账单，导致数据出异常
 
   createdAt?: string;
 }

@@ -1,4 +1,4 @@
-import { FC, memo, useMemo } from 'react'
+import { FC, memo, useEffect, useMemo } from 'react'
 import { useSystemInfo } from '@/store/app'
 import { vibrateShort } from '@tarojs/taro'
 import { View, Text } from '@fower/taro'
@@ -18,6 +18,12 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
   const { safeArea, windowWidth } = systemInfo || {}
   const { width } = safeArea || {}
   const finalWidth = width || windowWidth
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     popUpService.open(<CreateAsset />)
+  //   }, 1000)
+  // }, [])
 
   function onRecord(idx) {
     if (idx === data) {
@@ -56,9 +62,8 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
               onLongPress={() => onRecord(index)}
             >
               <Text
-                className={`icon iconfont ${
-                  selected ? className[className.length - 1] : className[0]
-                }`}
+                className={`icon iconfont ${selected ? className[className.length - 1] : className[0]
+                  }`}
                 style={{ transform: selected ? 'translateY(-30px)' : undefined }}
               ></Text>
               <Text

@@ -112,7 +112,12 @@ export namespace TallyBook {
   }
 
   export namespace CreateAsset {
-    export interface Args {}
+    export interface Args {
+      name: string
+      money: number
+      isDefault: boolean
+      icon: string
+    }
     export type Res = boolean
   }
 }
