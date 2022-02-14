@@ -1,9 +1,4 @@
-import {
-  useRouter as useOriginRouter,
-  navigateTo as originNavigateTo,
-  navigateBack as originNavigateBack,
-  reLaunch as originReLaunch,
-} from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { convertSearchParamsToObj } from './utils'
 import { routerService } from '@/service/routerService'
 
@@ -12,10 +7,10 @@ import { routerService } from '@/service/routerService'
  * @param url 要跳转的地址
  * @param params 对象参数
  */
-export function navigateTo(url: string, params?: object, opt?: Partial<originNavigateTo.Option>) {
-  if (!params) return originNavigateTo({ url })
+export function navigateTo(url: string, params?: object, opt?: Partial<Taro.navigateTo.Option>) {
+  if (!params) return Taro.navigateTo({ url })
   const _url = `${url}?navParams=${JSON.stringify(params)}`
-  originNavigateTo({ url: _url, ...opt })
+  Taro.navigateTo({ url: _url, ...opt })
 }
 
 /**
@@ -23,18 +18,18 @@ export function navigateTo(url: string, params?: object, opt?: Partial<originNav
  * @param url 要跳转的地址
  * @param params 对象参数
  */
-export function reLaunch(url: string, params?: object, opt?: Partial<originReLaunch.Option>) {
-  if (!params) return originReLaunch({ url })
+export function reLaunch(url: string, params?: object, opt?: Partial<Taro.reLaunch.Option>) {
+  if (!params) return Taro.reLaunch({ url })
 
   const _url = `${url}?navParams=${JSON.stringify(params)}`
-  originReLaunch({ url: _url, ...opt })
+  Taro.reLaunch({ url: _url, ...opt })
 }
 
 /**
  * 路由返回
  */
-export function navigateBack(opt?: Partial<originNavigateBack.Option>) {
-  originNavigateBack({
+export function navigateBack(opt?: Partial<Taro.navigateBack.Option>) {
+  Taro.navigateBack({
     ...opt,
     fail() {
       reLaunch(routerService.Index)
@@ -46,7 +41,7 @@ export function navigateBack(opt?: Partial<originNavigateBack.Option>) {
  * 解析路由参数
  */
 export function useRouter<T>(): T {
-  let { params } = useOriginRouter()
+  let { params } = Taro.useRouter()
   try {
     if (params['navParams']) {
       return JSON.parse(params['navParams'])
