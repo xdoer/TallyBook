@@ -41,7 +41,6 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
   function initCache(key: string) {
     const cache = {
       valid: true,
-      called: false,
       loading: true,
       error: null,
       request: null as any,
@@ -58,20 +57,16 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     const rerender = useStore(key || path, {})[1]
     const timerRef = useRef<any>()
 
-    // 初次加载
     useEffect(() => {
-      if (!cache.valid || cache.called || lazy) return
-      cache.called = true
-      fetch()
-    }, [cache.valid])
+      // lazy 模式只允许手动触发请求
+      if (lazy) return
 
-    // 依赖变更
-    useEffect(() => {
-      if (!cache.valid || !cache.called || !deps.length || !checkOptions(cache, opt)) return
-      fetch()
-    }, [...deps])
+      // 如果参数无效
+      if (!checkOptions(cache, opt)) return
 
-    // 卸载时清除计时器
+      fetch()
+    }, [cache.valid, ...deps])
+
     useEffect(() => () => clearTimeoutInterval(timerRef.current), [])
 
     // 请求控制
@@ -80,7 +75,6 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
       if (typeof timerRef.current == 'undefined') {
         timerRef.current = setTimeoutInterval(makeFetch, loop)
       }
-
       return Promise.resolve()
     }
 
@@ -117,7 +111,6 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
       }
 
       newCache.valid = true
-      newCache.called = true
       makeFetch(config?.onUpdate)
     }
 

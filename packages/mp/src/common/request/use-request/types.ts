@@ -5,7 +5,6 @@ interface ToFetchConfig<Q> {
 }
 
 export type Cache<T = any, Q = any> = {
-  called: boolean
   valid: boolean
   loading: boolean
   error: any
