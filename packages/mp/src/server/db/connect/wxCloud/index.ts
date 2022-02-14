@@ -29,6 +29,15 @@ export default class DBService<T> extends DBConnect implements BaseDBConnect<T> 
       .then(({ data }) => data)
   }
 
+  getOne = (condition?: string | AtLeastOne<T>) => {
+    if (!condition) return this.collection.get().then(({ data }) => data)
+    const query: any = typeof condition === 'string' ? { id: condition } : condition
+    return this.collection
+      .where(query)
+      .get()
+      .then(({ data }) => data[0])
+  }
+
   remove = (condition: string | AtLeastOne<T>) => {
     const query: any = typeof condition === 'string' ? { id: condition } : condition
     // @ts-ignore

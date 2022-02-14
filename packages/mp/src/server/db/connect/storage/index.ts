@@ -42,6 +42,15 @@ export default class DBService<T> extends DBConnect implements BaseDBConnect<T> 
     })
   }
 
+  getOne = (condition?: string | AtLeastOne<T>) => {
+    const query: any = typeof condition === 'string' ? { id: condition } : condition
+    return this.getTable().then((table) => {
+      return table.find((row) => {
+        return Object.keys(query).every((key) => query[key] === row[key])
+      })
+    })
+  }
+
   remove = async (condition: string | AtLeastOne<T>) => {
     const query: any = typeof condition === 'string' ? { id: condition } : condition
     const table = await this.getTable()
