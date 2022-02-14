@@ -11,7 +11,7 @@ export abstract class BaseDBConnect<T> {
 
 // 公共 Connect 方法
 export class DBConnect {
-  constructor(protected name: string) { }
+  constructor(protected name: string) {}
 
   protected uuid() {
     return `${this.name}-${uuid()}`
@@ -20,7 +20,7 @@ export class DBConnect {
   static resolve
   static promise: Promise<typeof Connect> = new Promise((resolve) => (DBConnect.resolve = resolve))
   static isInit = false
-  static async init() { }
+  static async init() {}
 
   static tableMap = {}
   static get<T>(name: string): TablePromise<T> {

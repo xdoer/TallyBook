@@ -9,9 +9,9 @@ import { ApiName } from '@tally-book/model'
 import Taro from '@tarojs/taro'
 import { popUpService } from '@/service/layer'
 
-interface CreateBillProps { }
+interface CreateBillProps {}
 
-export const CreateBill: FC<CreateBillProps> = memo(({ }) => {
+export const CreateBill: FC<CreateBillProps> = memo(({}) => {
   const { response } = useQuery<TallyBook.Response<TallyBook.GetBillTypes.Res[]>>(
     ApiName.GetBillTypes,
   )

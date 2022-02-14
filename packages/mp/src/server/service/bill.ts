@@ -25,7 +25,7 @@ class BillService {
       ...bill,
       type: await typeDB.getOne(typeId),
       account: await accountDB.getOne(accountId),
-      asset: await assetDB.getOne(assetId)
+      asset: await assetDB.getOne(assetId),
     }
   }
 
@@ -41,10 +41,10 @@ class BillService {
     const asset = await assetDB.getOne(assetId)
 
     if (billType.type === 'income') {
-      await assetDB.update(assetId, { money: asset.money - money })
+      await assetDB.update(assetId, { cost: asset.cost + money })
     }
     if (billType.type === 'outcome') {
-      await assetDB.update(assetId, { money: asset.money + money, cost: asset.cost + money })
+      await assetDB.update(assetId, { cost: asset.cost - money })
     }
 
     await billDB.remove({ id: req.id })
@@ -91,7 +91,7 @@ class BillService {
     const billType = await typeDB.getOne(typeId)
 
     if (billType.type === 'income') {
-      await assetDB.update(asset.id, { cost: asset.money - money })
+      await assetDB.update(asset.id, { cost: asset.cost - money })
     }
 
     if (billType.type === 'outcome') {
