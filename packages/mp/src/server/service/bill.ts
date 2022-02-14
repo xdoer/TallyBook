@@ -19,17 +19,13 @@ class BillService {
     const accountDB = await dataBaseService.account()
     const assetDB = await dataBaseService.asset()
 
-    const types = await typeDB.get()
-    const accounts = await accountDB.get()
-    const assets = await assetDB.get()
-
     const { typeId, accountId, assetId } = bill
 
     return {
       ...bill,
-      type: types.find((type) => type.id === typeId)!,
-      account: accounts.find((account) => account.id === accountId)!,
-      asset: assets.find((asset) => asset.id === assetId)!,
+      type: await typeDB.getOne(typeId),
+      account: await accountDB.getOne(accountId),
+      asset: await assetDB.getOne(assetId)
     }
   }
 
@@ -39,22 +35,16 @@ class BillService {
     const assetDB = await dataBaseService.asset()
     const billTypeDB = await dataBaseService.billType()
 
-    const bills = await billDB.get({ id: req.id })
-    const { assetId, money, typeId } = bills[0]
+    const { assetId, money, typeId } = await billDB.getOne(req.id)
 
-    const types = await billTypeDB.get({ id: typeId })
-    const assets = await assetDB.get({ id: assetId })
+    const billType = await billTypeDB.getOne(typeId)
+    const asset = await assetDB.getOne(assetId)
 
-    const { type } = types[0]
-
-    if (type === 'income') {
-      await assetDB.update({ id: assetId }, { money: assets[0].money - money })
+    if (billType.type === 'income') {
+      await assetDB.update(assetId, { money: asset.money - money })
     }
-    if (type === 'outcome') {
-      await assetDB.update(
-        { id: assetId },
-        { money: assets[0].money + money, cost: assets[0].cost + money },
-      )
+    if (billType.type === 'outcome') {
+      await assetDB.update(assetId, { money: asset.money + money, cost: asset.cost + money })
     }
 
     await billDB.remove({ id: req.id })
@@ -96,47 +86,38 @@ class BillService {
     const typeDB = await dataBaseService.billType()
     const accountDB = await dataBaseService.account()
 
-    const assets = await assetDB.get()
-    const accounts = await accountDB.get()
+    const asset = await assetDB.getOne(assetId ? assetId : { isDefault: true })
+    const account = await accountDB.getOne(accountId ? accountId : { isDefault: true })
+    const billType = await typeDB.getOne(typeId)
 
-    const types = await typeDB.get({ id: typeId })
-
-    const { type } = types[0]
-    const asset = assets.find((asset) => (assetId ? asset.id === assetId : asset.isDefault))
-    const account = accounts.find((account) =>
-      accountId ? account.id === accountId : account.isDefault,
-    )
-
-    // 收入加资产总额
-    if (type === 'income') {
-      await assetDB.update({ id: asset!.id }, { cost: asset!.money - money })
+    if (billType.type === 'income') {
+      await assetDB.update(asset.id, { cost: asset.money - money })
     }
 
-    // 支出扣消费预算
-    if (type === 'outcome') {
-      await assetDB.update({ id: asset!.id }, { cost: asset!.cost + money })
+    if (billType.type === 'outcome') {
+      await assetDB.update(asset.id, { cost: asset.cost + money })
     }
 
     const newBill = await bills.add({
       money,
       time,
       typeId,
-      accountId: account!.id,
-      assetId: asset!.id,
+      accountId: account.id,
+      assetId: asset.id,
       userId,
       remark,
     })
 
     return {
       ...newBill,
-      type: types[0],
+      type: billType,
     }
   }
 
   // 获取类型
   async getBillTypes(): Promise<TallyBook.GetBillTypes.Res[]> {
     const billTypesDB = await dataBaseService.billType()
-    const types: BillType[] = (await billTypesDB.get()) || []
+    const types: BillType[] = await billTypesDB.get()
 
     const group = groupBy(types, 'type')
     const result: TallyBook.GetBillTypes.Res[] = [
