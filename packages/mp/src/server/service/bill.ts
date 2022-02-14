@@ -9,9 +9,7 @@ class BillService {
   // 账单详情
   async getBill(req: TallyBook.GetBill.Args): Promise<TallyBook.GetBill.Res> {
     const billDB = await dataBaseService.bill()
-    const bills = await billDB.get()
-
-    const bill = bills.find((bill) => bill.id === req.id)
+    const bill = await billDB.getOne(req.id)
 
     if (!bill) throw new MPError('no bill', ErrorCode.Params)
 
