@@ -32,6 +32,11 @@ const wrapper = Lock.createLockWrapper(lock)
 
 prequest
   .use(async (ctx, next) => {
+    console.log('----req', ctx.request)
+    await next()
+    console.log('----res', ctx.response)
+  })
+  .use(async (ctx, next) => {
     if (ctx.request.skipTokenCheck) return next()
     const token = await wrapper(login)
     // TODO: Server 模式需要设置 token
