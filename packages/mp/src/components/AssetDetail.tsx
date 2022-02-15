@@ -5,6 +5,7 @@ import { ApiName } from '@tally-book/model'
 import { TallyBook } from '@tally-book/types'
 import { apiService } from '@/service/apiService'
 import { popUpService } from '@/service/layer'
+import { LayerKey } from '@/common/constants'
 
 interface AssetDetailProps {
   id: string
@@ -24,7 +25,7 @@ export const AssetDetail: FC<AssetDetailProps> = ({ id }) => {
     console.log(res)
     if (res.success) {
       await useQuery.get(ApiName.GetAssets).toFetch()
-      popUpService.close()
+      popUpService.close(LayerKey.assetDetail)
     }
   }
 

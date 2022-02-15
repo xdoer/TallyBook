@@ -6,6 +6,7 @@ import { TallyBook } from '@tally-book/types'
 import { Image, View } from '@fower/taro'
 import { popUpService } from '@/service/layer'
 import { AssetDetail } from '@/components/AssetDetail'
+import { LayerKey } from '@/common/constants'
 
 export const Asset = memo(() => {
   const { response } = useQuery<TallyBook.Response<TallyBook.GetAssets.Res>>(ApiName.GetAssets)
@@ -72,7 +73,7 @@ export const Asset = memo(() => {
               borderBottom="1px solid transparent"
               borderBottomGray100={idx !== list.length - 1}
               onClick={() => {
-                popUpService.open(<AssetDetail id={id} />)
+                popUpService.open(LayerKey.assetDetail, <AssetDetail id={id} />)
               }}
             >
               <View toCenterY>

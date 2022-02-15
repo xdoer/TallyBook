@@ -5,6 +5,7 @@ import { FloatNavBar } from './FloatNavBar'
 import { popUpService } from '@/service/layer'
 import { Setting } from './Setting'
 import { loginStore } from '@/store'
+import { LayerKey } from '@/common/constants'
 
 interface TabBarPageWrapperProps {
   title: string
@@ -17,7 +18,7 @@ export const TabBarPageWrapper: FC<TabBarPageWrapperProps> = ({ children, title 
   const { avatar } = user || {}
 
   function onSetting() {
-    popUpService.open(<Setting />)
+    popUpService.open(LayerKey.setting, <Setting />)
   }
 
   return (

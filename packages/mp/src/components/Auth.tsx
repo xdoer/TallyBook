@@ -4,6 +4,7 @@ import { Button } from '@taroify/core'
 import { getUserProfile } from '@tarojs/taro'
 import { popUpService } from '@/service/layer'
 import { apiService } from '@/service/apiService'
+import { LayerKey } from '@/common/constants'
 
 interface AuthProps {
   success(): void
@@ -16,7 +17,7 @@ export const Auth: FC<AuthProps> = ({ success }) => {
       async success(res) {
         await apiService.register(res.userInfo)
         success()
-        popUpService.close()
+        popUpService.close(LayerKey.auth)
       },
     })
   }

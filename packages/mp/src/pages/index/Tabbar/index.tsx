@@ -7,6 +7,7 @@ import { popUpService } from '@/service/layer'
 import { CreateBill } from '@/components/CreateBill'
 import { CreateAsset } from '@/components/CreateAsset'
 import './index.scss'
+import { LayerKey } from '@/common/constants'
 
 interface TabBarProps {
   data: number
@@ -19,21 +20,15 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
   const { width } = safeArea || {}
   const finalWidth = width || windowWidth
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     popUpService.open(<CreateAsset />)
-  //   }, 1000)
-  // }, [])
-
   function onRecord(idx) {
     if (idx === data) {
       if (idx === 1) {
         vibrateShort()
-        popUpService.open(<CreateBill />)
+        popUpService.open(LayerKey.createBill, <CreateBill />)
       }
       if (idx === 0) {
         vibrateShort()
-        popUpService.open(<CreateAsset />)
+        popUpService.open(LayerKey.createAsset, <CreateAsset />)
       }
     }
   }

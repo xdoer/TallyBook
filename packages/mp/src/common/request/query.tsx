@@ -8,6 +8,7 @@ import { loginStore } from '@/store'
 import { popUpService } from '@/service/layer'
 import { Auth } from '@/components/Auth'
 import { apiService } from '@/service/apiService'
+import { LayerKey } from '../constants'
 
 export const prequest = PreQuest.create<Request & { skipTokenCheck: boolean }, TallyBook.Response>(
   adapter as any,
@@ -65,6 +66,6 @@ async function login() {
   if (success) return result
 
   return new Promise((resolve) => {
-    popUpService.open(<Auth success={() => login().then(resolve)} />)
+    popUpService.open(LayerKey.auth, <Auth success={() => login().then(resolve)} />)
   })
 }

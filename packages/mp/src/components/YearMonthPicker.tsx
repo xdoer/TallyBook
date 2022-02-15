@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 import { DatetimePicker } from '@taroify/core'
 import { popUpService } from '@/service/layer'
+import { LayerKey } from '@/common/constants'
 
 interface YearMonthPickerProps {
   value: Date
@@ -28,10 +29,10 @@ export const YearMonthPicker: FC<YearMonthPickerProps> = ({ value, onConfirm }) 
         }
         return val
       }}
-      onCancel={() => popUpService.close()}
+      onCancel={() => popUpService.close(LayerKey.datePicker)}
       onConfirm={(date) => {
         onConfirm(date)
-        popUpService.close()
+        popUpService.close(LayerKey.datePicker)
       }}
     >
       <DatetimePicker.Toolbar>

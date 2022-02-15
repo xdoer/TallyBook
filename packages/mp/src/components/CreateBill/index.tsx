@@ -8,6 +8,7 @@ import { TallyBook } from '@tally-book/types'
 import { ApiName } from '@tally-book/model'
 import Taro from '@tarojs/taro'
 import { popUpService } from '@/service/layer'
+import { LayerKey } from '@/common/constants'
 
 interface CreateBillProps {}
 
@@ -26,7 +27,7 @@ export const CreateBill: FC<CreateBillProps> = memo(({}) => {
   }
 
   function onHide() {
-    popUpService.close()
+    popUpService.close(LayerKey.createBill)
     setMoney('')
   }
 

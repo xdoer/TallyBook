@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { Card } from '@/components/Card'
 import { popUpService } from '@/service/layer'
 import { YearMonthPicker } from '@/components/YearMonthPicker'
@@ -10,6 +10,7 @@ import { TallyBook } from '@tally-book/types'
 import { formatBills, getMoney } from '@/function/formatBills'
 import { BillDetail } from '@/components/BillDetail'
 import { ApiName } from '@tally-book/model'
+import { LayerKey } from '@/common/constants'
 
 export const Home = memo(() => {
   const [date, setDate] = useState(new Date())
@@ -31,8 +32,15 @@ export const Home = memo(() => {
   const outcome = getMoney(response?.result || [], 'outcome')
 
   function chooseDate() {
-    popUpService.open(<YearMonthPicker value={date} onConfirm={setDate} />)
+    popUpService.open(LayerKey.datePicker, <YearMonthPicker value={date} onConfirm={setDate} />)
   }
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const id = data[0].list[0].id
+  //     popUpService.open(LayerKey.billDetail, <BillDetail id={id} />)
+  //   }, 500)
+  // }, [data])
 
   return (
     <>
@@ -95,7 +103,7 @@ export const Home = memo(() => {
                       borderBottom="1px solid transparent"
                       borderBottomGray100={idx !== list.length - 1}
                       onClick={() => {
-                        popUpService.open(<BillDetail id={id} />)
+                        popUpService.open(LayerKey.billDetail, <BillDetail id={id} />)
                       }}
                     >
                       <View toCenterY>

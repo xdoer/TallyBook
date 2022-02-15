@@ -7,6 +7,7 @@ import { popUpService } from '@/service/layer'
 import { Form, Cell, Input, Button, Switch, Toast } from '@taroify/core'
 import { BaseEventOrig, FormProps } from '@tarojs/components'
 import { TallyBook } from '@tally-book/types'
+import { LayerKey } from '@/common/constants'
 
 interface CreateAssetProps {}
 
@@ -20,7 +21,7 @@ export const CreateAsset: FC<CreateAssetProps> = ({}) => {
     })
     if (success) {
       await useQuery.get(ApiName.GetAssets).toFetch()
-      popUpService.close()
+      popUpService.close(LayerKey.createAsset)
     } else {
       Toast.open('创建失败')
     }
