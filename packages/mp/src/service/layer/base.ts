@@ -11,13 +11,19 @@ export class LayerService<T extends { visible: boolean }> {
   }
 
   open(key: string, data?: Omit<T, 'visible'> | React.ReactElement) {
-    if (React.isValidElement(data)) {
-      this.state.setState((prev) =>
-        prev.concat({ ...this.init, key, content: data, visible: true }),
-      )
-    } else {
-      this.state.setState((prev) => prev.concat({ ...this.init, key, ...data, visible: true }))
-    }
+    this.state.setState((prev) => {
+      const find = prev.find((i) => i.key === key)
+      if (find) {
+        find.visible = true
+        return [...prev]
+      }
+      return prev.concat({
+        ...this.init,
+        key,
+        visible: true,
+        ...(React.isValidElement(data) ? { content: data } : data),
+      })
+    })
   }
 
   close(key: string) {
