@@ -1,27 +1,42 @@
-import { FC, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { View } from '@fower/taro'
 import { useQuery } from '@/common/request'
 import { ApiName } from '@tally-book/model'
 import { TallyBook } from '@tally-book/types'
 import { apiService } from '@/service/apiService'
 import { popUpService } from '@/service/layer'
-import { Form, Cell, Input, Button, Switch, Toast } from '@taroify/core'
-import { BaseEventOrig, FormProps } from '@tarojs/components'
+import { Form, Cell, Input, Button } from '@taroify/core'
 import { LayerKey } from '@/common/constants'
+import { FormInstance } from '@taroify/core/form/form.shared'
 
 interface BillDetailProps {
   id: string
 }
 
 export const BillDetail: FC<BillDetailProps> = ({ id }) => {
-  const { response } = useQuery<TallyBook.Response<TallyBook.GetBill.Res>>(
+  useQuery<TallyBook.Response<TallyBook.GetBill.Res>>(
     ApiName.GetBill,
     {
       params: { id },
     },
-    { deps: [id] },
+    {
+      deps: [id],
+      onUpdate(_, cur) {
+        const bill = cur?.result || {}
+
+        formRef.current.setValues({
+          money: bill.money,
+          type: bill.type?.text,
+          account: bill.account?.name,
+          asset: bill.asset?.name,
+        })
+
+        return cur
+      },
+    },
   )
   const [readOnly, setReadOnly] = useState(true)
+  const formRef = useRef<FormInstance>({} as any)
 
   async function onDelete() {
     const { success } = await apiService.removeBill({ id })
@@ -33,61 +48,37 @@ export const BillDetail: FC<BillDetailProps> = ({ id }) => {
   }
 
   function onSubmit(e) {
-    console.log('保存2', e)
-
     popUpService.close(LayerKey.billDetail)
   }
 
-  const bill = response?.result || {}
-
   return (
-    <Form onSubmit={onSubmit}>
+    <Form ref={formRef} onSubmit={onSubmit}>
       <Cell.Group inset>
         <Form.Item name="money" rules={[{ required: true, message: '请输入资产名称' }]}>
           <Form.Label>金额</Form.Label>
           <Form.Control>
-            <Input
-              placeholder="请输入金额"
-              type="digit"
-              disabled={readOnly}
-              value={'' + bill.money}
-            />
+            <Input placeholder="请输入金额" type="digit" disabled={readOnly} />
           </Form.Control>
         </Form.Item>
 
         <Form.Item name="type" rules={[{ required: true, message: '请输入资产名称' }]}>
           <Form.Label>类型</Form.Label>
           <Form.Control>
-            <Input
-              placeholder="请输入账本名称"
-              type="digit"
-              disabled={readOnly}
-              value={'' + bill.type?.text}
-            />
+            <Input placeholder="请输入账本名称" type="digit" disabled={readOnly} />
           </Form.Control>
         </Form.Item>
 
         <Form.Item name="account" rules={[{ required: true, message: '请输入资产名称' }]}>
           <Form.Label>账本</Form.Label>
           <Form.Control>
-            <Input
-              placeholder="请输入账本名称"
-              type="digit"
-              disabled={readOnly}
-              value={'' + bill.account?.name}
-            />
+            <Input placeholder="请输入账本名称" type="digit" disabled={readOnly} />
           </Form.Control>
         </Form.Item>
 
         <Form.Item name="asset" rules={[{ required: true, message: '请输入资产名称' }]}>
           <Form.Label>资产</Form.Label>
           <Form.Control>
-            <Input
-              placeholder="请输入金额"
-              type="digit"
-              disabled={readOnly}
-              value={'' + bill.asset?.name}
-            />
+            <Input placeholder="请输入金额" type="digit" disabled={readOnly} />
           </Form.Control>
         </Form.Item>
       </Cell.Group>

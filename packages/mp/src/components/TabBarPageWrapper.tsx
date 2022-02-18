@@ -18,7 +18,7 @@ export const TabBarPageWrapper: FC<TabBarPageWrapperProps> = ({ children, title 
   const { avatar } = user || {}
 
   function onSetting() {
-    popUpService.open(LayerKey.setting, <Setting />)
+    popUpService.open(<Setting />, LayerKey.setting)
   }
 
   return (

@@ -9,22 +9,21 @@ export const PopupContainer: FC<{}> = ({}) => {
   return (
     <View catchMove>
       {state.map((i, idx) => {
-        const { visible, content, key } = i
+        const { visible, model, key } = i
+        const { content } = model
+
+        const onClose = () => popUpService.close(key)
+
         return (
           <Popup
             key={key}
             open={visible}
-            onClose={() => popUpService.close(key)}
+            onClose={onClose}
             placement="bottom"
             rounded
             style={{ zIndex: 1000 + idx + 1 }}
           >
-            <Backdrop
-              open={visible}
-              closeable
-              onClose={() => popUpService.close(key)}
-              style={{ zIndex: 1000 + idx }}
-            />
+            <Backdrop open={visible} closeable onClose={onClose} style={{ zIndex: 1000 + idx }} />
             {content}
           </Popup>
         )

@@ -73,7 +73,7 @@ export const Asset = memo(() => {
               borderBottom="1px solid transparent"
               borderBottomGray100={idx !== list.length - 1}
               onClick={() => {
-                popUpService.open(LayerKey.assetDetail, <AssetDetail id={id} />)
+                popUpService.open(<AssetDetail id={id} />, LayerKey.assetDetail)
               }}
             >
               <View toCenterY>

@@ -1,36 +1,35 @@
 import StateBus from '@xdoer/state-bus'
 import React from 'react'
 
-type IState<T> = T & { key: string }
+interface Layer<T> {
+  visible: boolean
+  model: T
+  key: string
+}
 
-export class LayerService<T extends { visible: boolean }> {
-  state: StateBus<IState<T>[]>
+export class LayerService<T> {
+  state: StateBus<Layer<T>[]>
 
   constructor(private init: T) {
-    this.state = new StateBus<IState<T>[]>([])
+    this.state = new StateBus<Layer<T>[]>([])
   }
 
-  open(key: string, data?: Omit<T, 'visible'> | React.ReactElement) {
-    this.state.setState((prev) => {
-      const find = prev.find((i) => i.key === key)
-      if (find) {
-        find.visible = true
-        return [...prev]
-      }
-      return prev.concat({
-        ...this.init,
-        key,
-        visible: true,
-        ...(React.isValidElement(data) ? { content: data } : data),
-      })
-    })
-  }
+  open(data: T | React.ReactElement, key = 'default') {
+    const _data = React.isValidElement(data) ? { content: data } : data
 
-  close(key: string) {
     this.state.setState((prev) => {
-      const find = prev.find((i) => i.key === key)
-      find!.visible = false
+      const findIdx = prev.findIndex((i) => i.key === key)
+      const newObj: Layer<T> = { model: { ...this.init, ..._data }, visible: true, key }
+
+      prev[findIdx === -1 ? prev.length : findIdx] = newObj
+
       return [...prev]
     })
+  }
+
+  close(key = 'default') {
+    this.state.setState((prev) =>
+      prev.map((i) => ({ ...i, visible: key === i.key ? false : i.visible })),
+    )
   }
 }

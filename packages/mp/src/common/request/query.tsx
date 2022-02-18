@@ -66,6 +66,6 @@ async function login() {
   if (success) return result
 
   return new Promise((resolve) => {
-    popUpService.open(LayerKey.auth, <Auth success={() => login().then(resolve)} />)
+    popUpService.open(<Auth success={() => login().then(resolve)} />, LayerKey.auth)
   })
 }

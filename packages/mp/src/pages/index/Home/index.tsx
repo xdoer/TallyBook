@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react'
+import { memo, useState } from 'react'
 import { Card } from '@/components/Card'
 import { popUpService } from '@/service/layer'
 import { YearMonthPicker } from '@/components/YearMonthPicker'
@@ -32,15 +32,8 @@ export const Home = memo(() => {
   const outcome = getMoney(response?.result || [], 'outcome')
 
   function chooseDate() {
-    popUpService.open(LayerKey.datePicker, <YearMonthPicker value={date} onConfirm={setDate} />)
+    popUpService.open(<YearMonthPicker value={date} onConfirm={setDate} />, LayerKey.datePicker)
   }
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     const id = data[0].list[0].id
-  //     popUpService.open(LayerKey.billDetail, <BillDetail id={id} />)
-  //   }, 500)
-  // }, [data])
 
   return (
     <>
@@ -103,7 +96,7 @@ export const Home = memo(() => {
                       borderBottom="1px solid transparent"
                       borderBottomGray100={idx !== list.length - 1}
                       onClick={() => {
-                        popUpService.open(LayerKey.billDetail, <BillDetail id={id} />)
+                        popUpService.open(<BillDetail id={id} />, LayerKey.billDetail)
                       }}
                     >
                       <View toCenterY>

@@ -9,7 +9,8 @@ export const ModalContainer: FC<{}> = ({}) => {
   return (
     <View catchMove>
       {state.map((i, idx) => {
-        const { key, title, visible, content, okText, cancelText, onOk, onCancel } = i
+        const { model, key, visible } = i
+        const { title, content, okText, cancelText, onOk, onCancel } = model
 
         const close = () => modalService.close(key)
 
