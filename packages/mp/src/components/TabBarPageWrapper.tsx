@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { View, Image } from '@fower/taro'
 import { useSystemInfo } from '@/store/app'
 import { FloatNavBar } from './FloatNavBar'
-import { popUpService } from '@/service/layer'
+import { layerService } from '@/service/layerService'
 import { Setting } from './Setting'
 import { loginStore } from '@/store'
 import { LayerKey } from '@/common/constants'
@@ -18,7 +18,7 @@ export const TabBarPageWrapper: FC<TabBarPageWrapperProps> = ({ children, title 
   const { avatar } = user || {}
 
   function onSetting() {
-    popUpService.open(<Setting />, LayerKey.setting)
+    layerService.open(<Setting />, LayerKey.setting)
   }
 
   return (

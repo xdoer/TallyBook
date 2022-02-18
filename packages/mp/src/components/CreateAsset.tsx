@@ -3,7 +3,7 @@ import { View } from '@fower/taro'
 import { apiService } from '@/service/apiService'
 import { useQuery } from '@/common/request'
 import { ApiName } from '@tally-book/model'
-import { popUpService } from '@/service/layer'
+import { layerService } from '@/service/layerService'
 import { Form, Cell, Input, Button, Switch, Toast } from '@taroify/core'
 import { BaseEventOrig, FormProps } from '@tarojs/components'
 import { TallyBook } from '@tally-book/types'
@@ -21,7 +21,7 @@ export const CreateAsset: FC<CreateAssetProps> = ({}) => {
     })
     if (success) {
       await useQuery.get(ApiName.GetAssets).toFetch()
-      popUpService.close(LayerKey.createAsset)
+      layerService.close(LayerKey.createAsset)
     } else {
       Toast.open('创建失败')
     }

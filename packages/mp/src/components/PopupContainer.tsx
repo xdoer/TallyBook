@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import { Popup, Backdrop } from '@taroify/core'
 import { View } from '@fower/taro'
-import { popUpService } from '@/service/layer'
+import { layerService } from '@/service/layerService'
 
 export const PopupContainer: FC<{}> = ({}) => {
-  const [state] = popUpService.state.useState()
+  const [state] = layerService.state.useState()
 
   return (
     <View catchMove>
@@ -12,7 +12,7 @@ export const PopupContainer: FC<{}> = ({}) => {
         const { visible, model, key } = i
         const { content } = model
 
-        const onClose = () => popUpService.close(key)
+        const onClose = () => layerService.close(key)
 
         return (
           <Popup

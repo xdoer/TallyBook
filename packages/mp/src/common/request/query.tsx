@@ -5,7 +5,7 @@ import { PLATFORM } from '@/store/app'
 import { adapter } from './adapter'
 import { TallyBook } from '@tally-book/types'
 import { loginStore } from '@/store'
-import { popUpService } from '@/service/layer'
+import { layerService } from '@/service/layerService'
 import { Auth } from '@/components/Auth'
 import { apiService } from '@/service/apiService'
 import { LayerKey } from '../constants'
@@ -66,6 +66,6 @@ async function login() {
   if (success) return result
 
   return new Promise((resolve) => {
-    popUpService.open(<Auth success={() => login().then(resolve)} />, LayerKey.auth)
+    layerService.open(<Auth success={() => login().then(resolve)} />, LayerKey.auth)
   })
 }

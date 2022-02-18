@@ -4,7 +4,7 @@ import { useQuery } from '@/common/request'
 import { ApiName } from '@tally-book/model'
 import { TallyBook } from '@tally-book/types'
 import { Image, View } from '@fower/taro'
-import { popUpService } from '@/service/layer'
+import { layerService } from '@/service/layerService'
 import { AssetDetail } from '@/components/AssetDetail'
 import { LayerKey } from '@/common/constants'
 
@@ -73,7 +73,7 @@ export const Asset = memo(() => {
               borderBottom="1px solid transparent"
               borderBottomGray100={idx !== list.length - 1}
               onClick={() => {
-                popUpService.open(<AssetDetail id={id} />, LayerKey.assetDetail)
+                layerService.open(<AssetDetail id={id} />, LayerKey.assetDetail)
               }}
             >
               <View toCenterY>

@@ -1,13 +1,13 @@
 import StateBus from '@xdoer/state-bus'
 import React from 'react'
 
-interface Layer<T> {
+export interface Layer<T> {
   visible: boolean
   model: T
   key: string
 }
 
-export class LayerService<T> {
+class LayerService<T> {
   state: StateBus<Layer<T>[]>
 
   constructor(private init: T) {
@@ -33,3 +33,19 @@ export class LayerService<T> {
     )
   }
 }
+
+export interface LayerType {
+  title?: string
+  content?: JSX.Element | string
+  okText?: string
+  type?: 'default' | 'modal'
+  cancelText?: string
+  onOk?(): void
+  onCancel?(): void
+}
+
+export const layerService = new LayerService<LayerType>({
+  title: '提示',
+  okText: '确认',
+  type: 'default',
+})

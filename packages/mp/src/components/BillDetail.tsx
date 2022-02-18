@@ -4,7 +4,7 @@ import { useQuery } from '@/common/request'
 import { ApiName } from '@tally-book/model'
 import { TallyBook } from '@tally-book/types'
 import { apiService } from '@/service/apiService'
-import { popUpService } from '@/service/layer'
+import { layerService } from '@/service/layerService'
 import { Form, Cell, Input, Button } from '@taroify/core'
 import { LayerKey } from '@/common/constants'
 import { FormInstance } from '@taroify/core/form/form.shared'
@@ -44,11 +44,11 @@ export const BillDetail: FC<BillDetailProps> = ({ id }) => {
       useQuery.get(ApiName.GetBills).toFetch()
       useQuery.get(ApiName.GetAssets).toFetch()
     }
-    popUpService.close(LayerKey.billDetail)
+    layerService.close(LayerKey.billDetail)
   }
 
   function onSubmit(e) {
-    popUpService.close(LayerKey.billDetail)
+    layerService.close(LayerKey.billDetail)
   }
 
   return (

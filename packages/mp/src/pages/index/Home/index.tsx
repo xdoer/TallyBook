@@ -1,6 +1,6 @@
 import { memo, useState } from 'react'
 import { Card } from '@/components/Card'
-import { popUpService } from '@/service/layer'
+import { layerService } from '@/service/layerService'
 import { YearMonthPicker } from '@/components/YearMonthPicker'
 import { Arrow } from '@taroify/icons'
 import { View, Image } from '@fower/taro'
@@ -32,7 +32,7 @@ export const Home = memo(() => {
   const outcome = getMoney(response?.result || [], 'outcome')
 
   function chooseDate() {
-    popUpService.open(<YearMonthPicker value={date} onConfirm={setDate} />, LayerKey.datePicker)
+    layerService.open(<YearMonthPicker value={date} onConfirm={setDate} />, LayerKey.datePicker)
   }
 
   return (
@@ -96,7 +96,7 @@ export const Home = memo(() => {
                       borderBottom="1px solid transparent"
                       borderBottomGray100={idx !== list.length - 1}
                       onClick={() => {
-                        popUpService.open(<BillDetail id={id} />, LayerKey.billDetail)
+                        layerService.open(<BillDetail id={id} />, LayerKey.billDetail)
                       }}
                     >
                       <View toCenterY>

@@ -1,13 +1,11 @@
 import { memo } from 'react'
 import { Toast } from '@taroify/core'
-import { ModalContainer } from './ModalContainer'
-import { PopupContainer } from './PopupContainer'
+import { LayerContainer } from './LayerContainer'
 
 export default memo(({}) => {
   return (
     <>
-      <ModalContainer />
-      <PopupContainer />
+      <LayerContainer />
       <Toast id="toast" />
     </>
   )

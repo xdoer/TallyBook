@@ -3,7 +3,7 @@ import { useSystemInfo } from '@/store/app'
 import { vibrateShort } from '@tarojs/taro'
 import { View, Text } from '@fower/taro'
 import { list } from './options'
-import { popUpService } from '@/service/layer'
+import { layerService } from '@/service/layerService'
 import { CreateBill } from '@/components/CreateBill'
 import { CreateAsset } from '@/components/CreateAsset'
 import './index.scss'
@@ -24,11 +24,11 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
     if (idx === data) {
       if (idx === 1) {
         vibrateShort()
-        popUpService.open(<CreateBill />, LayerKey.createBill)
+        layerService.open(<CreateBill />, LayerKey.createBill)
       }
       if (idx === 0) {
         vibrateShort()
-        popUpService.open(<CreateAsset />, LayerKey.createAsset)
+        layerService.open(<CreateAsset />, LayerKey.createAsset)
       }
     }
   }

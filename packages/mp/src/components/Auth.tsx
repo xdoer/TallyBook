@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { View } from '@fower/taro'
 import { Button } from '@taroify/core'
 import { getUserProfile } from '@tarojs/taro'
-import { popUpService } from '@/service/layer'
+import { layerService } from '@/service/layerService'
 import { apiService } from '@/service/apiService'
 import { LayerKey } from '@/common/constants'
 
@@ -17,7 +17,7 @@ export const Auth: FC<AuthProps> = ({ success }) => {
       async success(res) {
         await apiService.register(res.userInfo)
         success()
-        popUpService.close(LayerKey.auth)
+        layerService.close(LayerKey.auth)
       },
     })
   }
