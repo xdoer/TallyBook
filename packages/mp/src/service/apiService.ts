@@ -1,36 +1,34 @@
-import { prequest } from '@/common/request'
+import { prequest, Request } from '@/common/request'
 import { WxUser } from '@/types'
 import { ApiName } from '@tally-book/model'
 import { TallyBook } from '@tally-book/types'
 
-class ApiService {
-  private post = <T>(name: ApiName, options?: any) =>
-    prequest.post<TallyBook.Response<T>>(name, options)
-  private get = <T>(name: ApiName, options: any) =>
-    prequest.get<TallyBook.Response<T>>(name, options)
+const post = <T>(name: ApiName, options?: Request) =>
+  prequest.post<TallyBook.Response<T>>(name, options)
 
+class ApiService {
   login() {
-    return this.post<TallyBook.Login.Res>(ApiName.Login, { skipTokenCheck: true })
+    return post<TallyBook.Login.Res>(ApiName.Login, { skipTokenCheck: true })
   }
 
   register(data: WxUser) {
-    return this.post<TallyBook.Register.Res>(ApiName.Register, { data, skipTokenCheck: true })
+    return post<TallyBook.Register.Res>(ApiName.Register, { data, skipTokenCheck: true })
   }
 
   createBill(data: TallyBook.CreateBill.Args) {
-    return this.post<TallyBook.CreateBill.Res>(ApiName.CreateBill, { data })
+    return post<TallyBook.CreateBill.Res>(ApiName.CreateBill, { data })
   }
 
   removeBill(data: TallyBook.RemoveBill.Args) {
-    return this.post<TallyBook.RemoveBill.Res>(ApiName.RemoveBill, { data })
+    return post<TallyBook.RemoveBill.Res>(ApiName.RemoveBill, { data })
   }
 
   createAsset(data: TallyBook.CreateAsset.Args) {
-    return this.post<TallyBook.CreateAsset.Res>(ApiName.CreateAsset, { data })
+    return post<TallyBook.CreateAsset.Res>(ApiName.CreateAsset, { data })
   }
 
   removeAsset(data: TallyBook.RemoveAsset.Args) {
-    return this.post<TallyBook.RemoveAsset.Res>(ApiName.RemoveAsset, { data })
+    return post<TallyBook.RemoveAsset.Res>(ApiName.RemoveAsset, { data })
   }
 }
 

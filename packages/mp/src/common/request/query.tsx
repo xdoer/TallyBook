@@ -1,5 +1,4 @@
 import { PreQuest } from '@prequest/core'
-import { Request } from '@prequest/miniprogram'
 import Lock from '@prequest/lock'
 import { PLATFORM } from '@/store/app'
 import { adapter } from './adapter'
@@ -9,14 +8,12 @@ import { layerService } from '@/service/layerService'
 import { Auth } from '@/components/Auth'
 import { apiService } from '@/service/apiService'
 import { LayerKey } from '../constants'
+import { Request } from './type'
 
-export const prequest = PreQuest.create<Request & { skipTokenCheck: boolean }, TallyBook.Response>(
-  adapter as any,
-  {
-    baseURL: 'http://localhost:3000',
-    method: 'GET',
-  },
-)
+export const prequest = PreQuest.create<Request, TallyBook.Response>(adapter as any, {
+  baseURL: 'http://localhost:3000',
+  method: 'GET',
+})
 
 const lock = new Lock({
   async getValue() {
