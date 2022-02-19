@@ -33,6 +33,12 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
     }
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      layerService.open(<CreateBill />, LayerKey.createBill)
+    }, 1000)
+  }, [])
+
   const { tabBarWidth, itemWidth, indicatorSize } = useMemo(() => {
     const itemWidth = Math.ceil((finalWidth * 0.8) / 3)
     const tabBarWidth = itemWidth * 3
@@ -57,9 +63,8 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
               onLongPress={() => onRecord(index)}
             >
               <Text
-                className={`icon iconfont ${
-                  selected ? className[className.length - 1] : className[0]
-                }`}
+                className={`icon iconfont ${selected ? className[className.length - 1] : className[0]
+                  }`}
                 style={{ transform: selected ? 'translateY(-30px)' : undefined }}
               ></Text>
               <Text

@@ -6,6 +6,7 @@ import { layerService } from '@/service/layerService'
 import { Setting } from './Setting'
 import { loginStore } from '@/store'
 import { LayerKey } from '@/common/constants'
+import { Avatar } from '@taroify/core'
 
 interface TabBarPageWrapperProps {
   title: string

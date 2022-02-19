@@ -8,4 +8,12 @@ export enum LayerKey {
   assetDetail = 'asset-detail',
   datePicker = 'date-picker',
   setting = 'setting',
+  chooseDate = 'chooseDate',
+}
+
+export enum BillMainTypeMap {
+  income = '收入',
+  outcome = '支出',
+  transfer = '转账',
+  none = '-',
 }

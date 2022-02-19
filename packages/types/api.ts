@@ -1,4 +1,4 @@
-import { Account, Asset, Bill, BillType, User } from '@tally-book/model'
+import { Account, Asset, Bill, BillType, User, BillMainType } from '@tally-book/model'
 import { Common } from './utils'
 import { Time } from './common'
 import { AtLeastOne } from '.'
@@ -63,8 +63,7 @@ export namespace TallyBook {
     export interface Args {}
 
     export interface Res {
-      type: 'income' | 'outcome'
-      value: '收入' | '支出'
+      type: BillMainType
       grid: BillType[]
     }
   }

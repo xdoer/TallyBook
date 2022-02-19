@@ -2,6 +2,7 @@ import { accounts, assets, billTypes, users, currencies, bills } from './data';
 
 export * from './model';
 export * from './apiName';
+export * from './billMainType';
 export { defaultAccount, defaultAsset } from './data';
 
 export enum tableName {

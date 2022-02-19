@@ -1,9 +1,11 @@
+import { BillMainType } from '../billMainType';
+
 // 账单类型
 export class BillType {
   id: string;
 
   // 账单类型 income / outcome
-  type: 'income' | 'outcome' | 'none';
+  type: BillMainType;
 
   // 账单 icon
   icon: string;

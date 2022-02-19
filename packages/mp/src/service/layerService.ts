@@ -1,5 +1,5 @@
 import StateBus from '@xdoer/state-bus'
-import React from 'react'
+import React, { CSSProperties } from 'react'
 
 export interface Layer<T> {
   visible: boolean
@@ -42,6 +42,7 @@ export interface LayerType {
   cancelText?: string
   onOk?(): void
   onCancel?(): void
+  style?: CSSProperties
 }
 
 export const layerService = new LayerService<LayerType>({

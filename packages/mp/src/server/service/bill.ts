@@ -1,7 +1,6 @@
 import { BillType } from '@tally-book/model'
 import { dataBaseService } from '../db'
 import { TallyBook } from '@tally-book/types'
-import { groupBy } from 'lodash-es'
 import { ErrorCode, MPError } from '@/common/Error'
 import { getTime } from '@/common/utils'
 
@@ -117,21 +116,16 @@ class BillService {
     const billTypesDB = await dataBaseService.billType()
     const types: BillType[] = await billTypesDB.get()
 
-    const group = groupBy(types, 'type')
-    const result: TallyBook.GetBillTypes.Res[] = [
-      {
-        type: 'outcome',
-        value: '支出',
-        grid: group.outcome,
-      },
-      {
-        type: 'income',
-        value: '收入',
-        grid: group.income,
-      },
-    ]
-
-    return result
+    return types.reduce((t, c) => {
+      const { type } = c
+      const idx = t.findIndex((i) => i.type === type)
+      if (idx !== -1) {
+        t[idx].grid.push(c)
+      } else {
+        t.push({ type, grid: [] })
+      }
+      return t
+    }, [] as TallyBook.GetBillTypes.Res[])
   }
 }
 
