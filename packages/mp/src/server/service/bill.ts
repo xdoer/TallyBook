@@ -111,6 +111,44 @@ class BillService {
     }
   }
 
+  // 添加账单
+  async updateBill(args: TallyBook.UpdateBill.Args, token): Promise<TallyBook.UpdateBill.Res> {
+    const { id, accountId, assetId, remark = '', typeId, money, time } = args
+    const { id: userId } = token.user
+
+    const bills = await dataBaseService.bill()
+    const assetDB = await dataBaseService.asset()
+    const typeDB = await dataBaseService.billType()
+    const accountDB = await dataBaseService.account()
+
+    const asset = await assetDB.getOne(assetId ? assetId : { isDefault: true })
+    const account = await accountDB.getOne(accountId ? accountId : { isDefault: true })
+    const billType = await typeDB.getOne(typeId)
+
+    if (billType.type === 'income') {
+      await assetDB.update(asset.id, { cost: asset.cost - money })
+    }
+
+    if (billType.type === 'outcome') {
+      await assetDB.update(asset.id, { cost: asset.cost + money })
+    }
+
+    const newBill = await bills.update(id, {
+      money,
+      time,
+      typeId,
+      accountId: account.id,
+      assetId: asset.id,
+      userId,
+      remark,
+    })
+
+    return {
+      ...newBill,
+      type: billType,
+    }
+  }
+
   // 获取类型
   async getBillTypes(): Promise<TallyBook.GetBillTypes.Res[]> {
     const billTypesDB = await dataBaseService.billType()

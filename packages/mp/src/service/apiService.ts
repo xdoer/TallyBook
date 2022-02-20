@@ -19,6 +19,10 @@ class ApiService {
     return post<TallyBook.CreateBill.Res>(ApiName.CreateBill, { data })
   }
 
+  updateBill(data: TallyBook.UpdateBill.Args) {
+    return post<TallyBook.UpdateBill.Res>(ApiName.UpdateBill, { data })
+  }
+
   removeBill(data: TallyBook.RemoveBill.Args) {
     return post<TallyBook.RemoveBill.Res>(ApiName.RemoveBill, { data })
   }

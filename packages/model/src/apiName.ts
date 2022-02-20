@@ -20,6 +20,9 @@ export enum ApiName {
   // 创建账单
   CreateBill = '/createBill',
 
+  // 更新账单
+  UpdateBill = '/updateBill',
+
   // 获取账户资产列表
   GetAssets = '/getAssets',
 

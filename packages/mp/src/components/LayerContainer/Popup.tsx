@@ -26,6 +26,7 @@ export const Popup: FC<PopupProps> = ({ config, index }) => {
       style={{ zIndex: 1000 + index + 1, maxHeight: '80%', ...style }}
     >
       <Backdrop open={visible} closeable onClose={close} style={{ zIndex: 1000 + index }} />
+      <BasePopup.Close />
       {content}
     </BasePopup>
   )

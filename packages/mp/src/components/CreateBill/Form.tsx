@@ -1,8 +1,8 @@
 import Taro from '@tarojs/taro'
 import { View } from '@fower/taro'
-import { FC } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { Form, Button } from '@taroify/core'
-import { BillTypeFiled, TimeField, MoneyFiled } from './FormItem'
+import { BillTypeFiled, TimeField, MoneyFiled, RemarkFiled } from './FormItem'
 import { TallyBook } from '@tally-book/types'
 import { AssetFiled } from './FormItem/Asset'
 import { apiService } from '@/service/apiService'
@@ -10,37 +10,145 @@ import { useQuery } from '@/common/request'
 import { ApiName } from '@tally-book/model'
 import { layerService } from '@/service/layerService'
 import { LayerKey } from '@/common/constants'
+import { FormInstance } from '@taroify/core/form/form.shared'
 
 interface BillFormProps {
+  id?: string
   data: TallyBook.GetBillTypes.Res
 }
 
-export const BillForm: FC<BillFormProps> = ({ data }) => {
-  async function onSubmit(e) {
+export const BillForm: FC<BillFormProps> = ({ id, data }) => {
+  const isEdit = !!id
+  const { response } = useQuery<TallyBook.Response<TallyBook.GetBill.Res>>(
+    ApiName.GetBill,
+    () => {
+      if (!id) throw new Error()
+      return { params: { id } }
+    },
+    { deps: [id] },
+  )
+
+  const formRef = useRef<FormInstance>()
+
+  // 初始化数据
+  useEffect(() => {
+    if (response?.success) {
+      const { result } = response
+      const { money, type, asset, remark, time } = result
+
+      formRef.current?.setValues({
+        money: money,
+        billType: type,
+        asset,
+        remark,
+        time,
+      })
+    }
+  }, [response])
+
+  // 编辑账单
+  async function updateBill(e) {
     const { billType, asset, money, time } = e.detail.value
-    const res = await apiService.createBill({
+    return apiService.updateBill({
+      id: response.result.id,
       typeId: billType.id,
       assetId: asset.id,
       money: money,
       time: time,
     })
+  }
 
+  // 删除账单
+  async function deleteBill() {
+    const res = await apiService.removeBill({ id: id! })
     if (res.success) {
       useQuery.get(ApiName.GetBills).toFetch()
-      layerService.close(LayerKey.createBill)
+      close()
     }
   }
 
+  // 创建账单
+  async function createBill(e) {
+    const { billType, asset, money, time } = e.detail.value
+    return apiService.createBill({
+      typeId: billType.id,
+      assetId: asset.id,
+      money: money,
+      time: time,
+    })
+  }
+
+  // 提交
+  async function onSubmit(e) {
+    const res = isEdit ? await updateBill(e) : await createBill(e)
+    if (res.success) {
+      useQuery.get(ApiName.GetBills).toFetch()
+      close()
+    }
+  }
+
+  // 重置表单
+  function onReset() {
+    formRef.current?.reset()
+  }
+
+  function close() {
+    layerService.close(LayerKey.createBill)
+  }
+
   return (
-    <Form onSubmit={onSubmit}>
+    <Form ref={formRef} onSubmit={onSubmit}>
       <BillTypeFiled data={data} />
-      <TimeField />
       <MoneyFiled />
+      <TimeField />
       <AssetFiled />
-      <View style={{ margin: '16px' }}>
-        <Button shape="round" block color="primary" formType="submit">
-          提交
-        </Button>
+      <RemarkFiled />
+      <View fixed bottom0 left0 right0 m-16px flex justifyContent="space-between">
+        {isEdit ? (
+          <>
+            <Button
+              shape="round"
+              block
+              size="medium"
+              style={{ marginRight: '10px' }}
+              onClick={() => deleteBill()}
+            >
+              删除
+            </Button>
+            <Button
+              shape="round"
+              block
+              color="primary"
+              style={{ marginLeft: '10px' }}
+              size="medium"
+              formType="submit"
+            >
+              编辑
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              shape="round"
+              block
+              size="medium"
+              style={{ marginRight: '10px' }}
+              onClick={() => onReset()}
+            >
+              重置
+            </Button>
+            <Button
+              shape="round"
+              block
+              color="primary"
+              style={{ marginLeft: '10px' }}
+              size="medium"
+              formType="submit"
+            >
+              提交
+            </Button>
+          </>
+        )}
       </View>
     </Form>
   )

@@ -8,9 +8,11 @@ import { ApiName } from '@tally-book/model'
 import { BillMainTypeMap } from '@/common/constants'
 import { BillForm } from './Form'
 
-interface CreateBillProps {}
+interface CreateBillProps {
+  id?: string
+}
 
-export const CreateBill: FC<CreateBillProps> = memo(({}) => {
+export const CreateBill: FC<CreateBillProps> = memo(({ id }) => {
   const { response } = useQuery<TallyBook.Response<TallyBook.GetBillTypes.Res[]>>(
     ApiName.GetBillTypes,
   )
@@ -23,7 +25,7 @@ export const CreateBill: FC<CreateBillProps> = memo(({}) => {
           const _value = BillMainTypeMap[option.type]
           return (
             <Tabs.TabPane key={option.type} title={_value} style={{ padding: '10px' }}>
-              <BillForm data={option} />
+              <BillForm id={id} data={option} />
             </Tabs.TabPane>
           )
         })}

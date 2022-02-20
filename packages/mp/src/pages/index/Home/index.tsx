@@ -9,8 +9,9 @@ import { formatDate, getTime } from '@/common/utils'
 import { TallyBook } from '@tally-book/types'
 import { formatBills, getMoney } from '@/function/formatBills'
 import { BillDetail } from '@/components/BillDetail'
-import { ApiName } from '@tally-book/model'
+import { ApiName, BillMainType } from '@tally-book/model'
 import { LayerKey } from '@/common/constants'
+import { CreateBill } from '@/components/CreateBill'
 
 export const Home = memo(() => {
   const [date, setDate] = useState(new Date())
@@ -28,8 +29,8 @@ export const Home = memo(() => {
   )
   const data = formatBills(response?.result, [])
   const money = getMoney(response?.result || [])
-  const income = getMoney(response?.result || [], 'income')
-  const outcome = getMoney(response?.result || [], 'outcome')
+  const income = getMoney(response?.result || [], BillMainType.income)
+  const outcome = getMoney(response?.result || [], BillMainType.outcome)
 
   function chooseDate() {
     layerService.open(<YearMonthPicker value={date} onConfirm={setDate} />, LayerKey.datePicker)
@@ -96,7 +97,7 @@ export const Home = memo(() => {
                       borderBottom="1px solid transparent"
                       borderBottomGray100={idx !== list.length - 1}
                       onClick={() => {
-                        layerService.open(<BillDetail id={id} />, LayerKey.billDetail)
+                        layerService.open(<CreateBill id={id} />, LayerKey.createBill)
                       }}
                     >
                       <View toCenterY>
@@ -107,8 +108,8 @@ export const Home = memo(() => {
                       </View>
                       <View textRight>
                         <View text2XL gray500>
-                          {type.type === 'income' && '+'}
-                          {type.type === 'outcome' && '-'}
+                          {type.type === BillMainType.income && '+'}
+                          {type.type === BillMainType.outcome && '-'}
                           {money}
                         </View>
                         <View textXL gray400>

@@ -85,6 +85,24 @@ export namespace TallyBook {
     export type Res = BillRes
   }
 
+  export namespace UpdateBill {
+    export interface BillRes extends Bill {
+      type: BillType
+    }
+
+    export interface Args {
+      id: string
+      typeId: string
+      money: number
+      time: string
+      remark?: string
+      accountId?: string
+      assetId?: string
+    }
+
+    export type Res = BillRes
+  }
+
   export namespace GetAssets {
     export interface Args {}
 
