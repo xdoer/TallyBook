@@ -54,7 +54,6 @@
     "@xdoer/taro-router": "^2.0.0",
     "@xdoer/script-runner": "^1.0.3",
     "@xdoer/chokidar": "^1.0.0",
-    "@tarojs/plugin-inject": "^1.0.0",
     "taro-inject-component-loader": "^2.1.0",
     "babel-plugin-import": "^1.13.3",
     "express": "^4.17.2",
