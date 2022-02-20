@@ -20,26 +20,7 @@ const config = {
     patterns: [],
     options: {},
   },
-  plugins: [
-    [
-      '@tarojs/plugin-inject',
-      {
-        components: {
-          ShareElement: {
-            key: '',
-            transform: 'true',
-            duration: '300',
-            'easing-function': '',
-          },
-          Test: {},
-        },
-        componentsMap: {
-          ShareElement: 'share-element',
-          Test: 'view',
-        },
-      },
-    ],
-  ],
+  plugins: [],
   framework: 'react',
   mini: {
     postcss: {

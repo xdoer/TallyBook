@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "scr -g 1 && taro build --type weapp",
-    "dev": "taro build --type weapp --watch",
+    "dev": "scr & taro build --type weapp --watch",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix"
   },

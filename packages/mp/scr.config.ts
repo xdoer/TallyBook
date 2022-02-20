@@ -34,6 +34,14 @@ const config: Config = {
       ],
     },
     {
+      module: '@prequest/response-types-server',
+      args: [
+        {
+          port: 10010,
+        },
+      ],
+    },
+    {
       module: '@xdoer/chokidar',
       args: <ChokidarArgs>[
         {
@@ -63,16 +71,16 @@ const config: Config = {
         },
       ],
     },
-    {
-      module: basePath + '/script/mock.ts',
-      args: <MockArgs>[
-        {
-          port: 3000,
-          mockDir: './mock/routes',
-        },
-      ],
-      subProcess: true,
-    },
+    // {
+    //   module: basePath + '/script/mock.ts',
+    //   args: <MockArgs>[
+    //     {
+    //       port: 3000,
+    //       mockDir: './mock/routes',
+    //     },
+    //   ],
+    //   subProcess: true,
+    // },
   ],
 }
 
