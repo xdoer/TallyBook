@@ -32,6 +32,16 @@ class LayerService<T> {
       prev.map((i) => ({ ...i, visible: key === i.key ? false : i.visible })),
     )
   }
+
+  private i = 0
+
+  getUnit() {
+    const key = this.i++ + ''
+    return {
+      open: (data: T | React.ReactElement) => this.open.bind(this)(data, key),
+      close: () => this.close.bind(this)(key),
+    }
+  }
 }
 
 export interface LayerType {

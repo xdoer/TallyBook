@@ -85,3 +85,5 @@ export function getTime(t = new Date()): Time {
     year: t.getFullYear(),
   }
 }
+
+export function noop() {}

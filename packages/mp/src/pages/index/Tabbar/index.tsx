@@ -63,8 +63,9 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
               onLongPress={() => onRecord(index)}
             >
               <Text
-                className={`icon iconfont ${selected ? className[className.length - 1] : className[0]
-                  }`}
+                className={`icon iconfont ${
+                  selected ? className[className.length - 1] : className[0]
+                }`}
                 style={{ transform: selected ? 'translateY(-30px)' : undefined }}
               ></Text>
               <Text
