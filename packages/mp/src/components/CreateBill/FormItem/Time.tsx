@@ -10,13 +10,20 @@ export const TimeField: FC = ({}) => {
   const { open, close } = layerService.getUnit()
 
   return (
-    <Form.Item ref={itemRef} name="time" clickable rightIcon={<ArrowRight />}>
+    <Form.Item
+      ref={itemRef}
+      name="time"
+      clickable
+      rightIcon={<ArrowRight />}
+      defaultValue={Date.now()}
+    >
       <Form.Label>日期</Form.Label>
       <Form.Control>
         {(controller) => {
           const value = controller.value
             ? formatDate(new Date(controller.value))
             : formatDate(new Date())
+
           return (
             <Input
               value={value}
