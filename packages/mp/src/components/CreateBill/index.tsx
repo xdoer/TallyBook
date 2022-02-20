@@ -21,11 +21,11 @@ export const CreateBill: FC<CreateBillProps> = memo(({ id }) => {
   return (
     <View className="record-bill" minH-500 maxH-700 overflowScroll relative pb-500>
       <Tabs value={idx} onChange={setIdx}>
-        {response?.result.map((option) => {
+        {response?.result.map((option, idx) => {
           const _value = BillMainTypeMap[option.type]
           return (
             <Tabs.TabPane key={option.type} title={_value} style={{ padding: '10px' }}>
-              <BillForm id={id} data={option} />
+              <BillForm id={id} idx={idx} data={option} onTabChange={setIdx} />
             </Tabs.TabPane>
           )
         })}

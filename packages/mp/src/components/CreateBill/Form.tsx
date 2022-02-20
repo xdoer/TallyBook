@@ -2,9 +2,8 @@ import Taro from '@tarojs/taro'
 import { View } from '@fower/taro'
 import { FC, useEffect, useRef } from 'react'
 import { Form, Button } from '@taroify/core'
-import { BillTypeFiled, TimeField, MoneyFiled, RemarkFiled } from './FormItem'
+import { BillTypeFiled, TimeField, MoneyFiled, RemarkFiled, AssetFiled } from './FormItem'
 import { TallyBook } from '@tally-book/types'
-import { AssetFiled } from './FormItem/Asset'
 import { apiService } from '@/service/apiService'
 import { useQuery } from '@/common/request'
 import { ApiName } from '@tally-book/model'
@@ -14,10 +13,12 @@ import { FormInstance } from '@taroify/core/form/form.shared'
 
 interface BillFormProps {
   id?: string
+  idx: number
   data: TallyBook.GetBillTypes.Res
+  onTabChange(v: number): void
 }
 
-export const BillForm: FC<BillFormProps> = ({ id, data }) => {
+export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange }) => {
   const isEdit = !!id
   const { response } = useQuery<TallyBook.Response<TallyBook.GetBill.Res>>(
     ApiName.GetBill,
@@ -43,6 +44,9 @@ export const BillForm: FC<BillFormProps> = ({ id, data }) => {
         remark,
         time,
       })
+
+      const find = data.grid.find((i) => i.id === type.id)
+      find && onTabChange(idx)
     }
   }, [response])
 
@@ -70,6 +74,7 @@ export const BillForm: FC<BillFormProps> = ({ id, data }) => {
   // 创建账单
   async function createBill(e) {
     const { billType, asset, money, time } = e.detail.value
+
     return apiService.createBill({
       typeId: billType.id,
       assetId: asset.id,
