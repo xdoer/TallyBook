@@ -36,7 +36,7 @@ class LayerService<T> {
   private i = 0
 
   getUnit() {
-    const key = this.i++ + ''
+    const key = 'unit_' + this.i++
     return {
       open: (data: T | React.ReactElement) => this.open.bind(this)(data, key),
       close: () => this.close.bind(this)(key),
