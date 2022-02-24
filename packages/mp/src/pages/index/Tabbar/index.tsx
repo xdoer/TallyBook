@@ -6,8 +6,8 @@ import { list } from './options'
 import { layerService } from '@/service/layerService'
 import { CreateBill } from '@/components/CreateBill'
 import { CreateAsset } from '@/components/CreateAsset'
-import './index.scss'
 import { LayerKey } from '@/common/constants'
+import './index.scss'
 
 interface TabBarProps {
   data: number

@@ -8,11 +8,9 @@ export interface Layer<T> {
 }
 
 class LayerService<T> {
-  state: StateBus<Layer<T>[]>
+  state: StateBus<Layer<T>[]> = new StateBus<Layer<T>[]>([])
 
-  constructor(private init: T) {
-    this.state = new StateBus<Layer<T>[]>([])
-  }
+  constructor(private init: T) {}
 
   open(data: T | React.ReactElement, key = 'default') {
     const _data = React.isValidElement(data) ? { content: data } : data
