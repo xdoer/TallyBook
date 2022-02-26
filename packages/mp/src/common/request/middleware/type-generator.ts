@@ -1,17 +1,16 @@
 import Taro from '@tarojs/taro'
-import { TallyBook } from '@tally-book/types'
 import { create as createHttpAgent } from '@prequest/miniprogram'
 import generatorMiddlewareWrapper from '@prequest/response-types-client'
-import { Request } from '../type'
 
 // ---------- 测试用 -------------
 
-const httpAgent = createHttpAgent<Request, TallyBook.Response>(Taro.request, {
+const httpAgent = createHttpAgent(Taro.request, {
   path: 'http://localhost:10010/',
 })
 
 httpAgent.use(async (ctx, next) => {
   await next()
+  // @ts-ignore
   const { statusCode, data } = ctx.response
   if (statusCode === 200) {
     // 请求需要返回真正的服务器数据
@@ -20,12 +19,12 @@ httpAgent.use(async (ctx, next) => {
   }
 })
 
-export const typesGeneratorMiddleware = generatorMiddlewareWrapper<Request, TallyBook.Response>({
+export const typesGeneratorMiddleware = generatorMiddlewareWrapper({
   enable: false,
-  httpAgent,
+  httpAgent: httpAgent,
   outPutDir: './api-types',
   typesGeneratorConfig(req, res) {
-    const { path } = req
+    const { path } = (req || {}) as any
 
     if (!path) throw new Error('path not found')
 

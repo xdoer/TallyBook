@@ -15,9 +15,7 @@
     "husky": "^7.0.4",
     "lint-staged": "^12.1.4",
     "@commitlint/cli": "^15.0.0",
-    "@commitlint/config-conventional": "^15.0.0",
-    "@prequest/response-types-client": "^1.3.2",
-    "@prequest/response-types-server": "^1.3.2"
+    "@commitlint/config-conventional": "^15.0.0"
   },
   "commitlint": {
     "extends": [

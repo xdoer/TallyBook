@@ -33,12 +33,6 @@ export const TabBar: FC<TabBarProps> = memo(({ data, onChoose }) => {
     }
   }
 
-  useEffect(() => {
-    setTimeout(() => {
-      layerService.open(<CreateBill />, LayerKey.createBill)
-    }, 1000)
-  }, [])
-
   const { tabBarWidth, itemWidth, indicatorSize } = useMemo(() => {
     const itemWidth = Math.ceil((finalWidth * 0.8) / 3)
     const tabBarWidth = itemWidth * 3

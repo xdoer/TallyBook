@@ -20,7 +20,7 @@ declare const process: {
 }
 
 declare module '@fower/atomic-props' {
-  export interface AtomicProps {
+  interface AtomicProps {
     bgBrandLight?: boolean
     bgBrandLighter?: boolean
     bgBrandLightest?: boolean
@@ -36,5 +36,20 @@ declare module '@fower/atomic-props' {
     brandDark?: boolean
     brandDarker?: boolean
     brandDarkest?: boolean
+  }
+}
+
+declare module '@prequest/types' {
+  interface PreQuestRequest {
+    skipTokenCheck?: boolean
+  }
+
+  interface PreQuestResponse<T> {
+    success: boolean
+    result: T
+    error: {
+      code: string
+      message: string
+    }
   }
 }

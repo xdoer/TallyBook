@@ -1,7 +1,5 @@
-import { PreQuest } from '@prequest/core'
-import { TallyBook } from '@tally-book/types'
+import { PreQuest } from '@prequest/miniprogram'
 import { adapter } from './adapter'
-import { Request } from './type'
 import {
   loginMiddleware,
   typesGeneratorMiddleware,
@@ -9,10 +7,7 @@ import {
   parseMiddleware,
 } from './middleware'
 
-const create = (init?: Request) =>
-  PreQuest.create<Request, TallyBook.Response>(adapter as any, init)
-
-export const prequest = create({
+export const prequest = PreQuest.create(adapter, {
   baseURL: 'http://localhost:3000',
   method: 'GET',
 })

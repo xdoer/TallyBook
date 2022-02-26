@@ -16,19 +16,14 @@ type SystemInfo = Taro.getSystemInfoSync.Result & {
 export const useSystemInfo = createShareHook((state) => {
   const [systemInfo, setSystemInfo] = state.useState()
 
-  useEffect(() => {
-    // @ts-ignore
-    if (state.init) return
-    // @ts-ignore
-    state.init = true
-
+  state.hooks.onMount = () => {
     const info = getSystemInfoSync()
     const menuRect = getMenuButtonBoundingClientRect()
 
     const navBarHeight = info.safeArea.top + menuRect.height + 10
 
     setSystemInfo({ ...info, menuRect, navBarHeight })
-  }, [])
+  }
 
   return { systemInfo: systemInfo || {} }
 }, {} as SystemInfo)

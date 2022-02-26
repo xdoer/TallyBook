@@ -1,30 +1,23 @@
-import { PreQuestInstance } from '@prequest/core'
-import { useStore } from '@xdoer/state-bus'
+import { PreQuestInstance, Config as PreQuestConfig } from '@prequest/types'
+import { StateBusManager } from '@xdoer/state-bus'
 import { setTimeoutInterval, clearTimeoutInterval } from '@xdoer/timeout-interval'
 import { useEffect, useRef } from 'react'
 import { Config, Cache, GlobalCache } from './types'
-import { noop } from '../../utils'
+import { noop } from './utils'
 
-export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) {
+export default function createQueryHook(prequest: PreQuestInstance) {
   const globalCache: GlobalCache = {}
 
-  function getCache<T, Q>(key: string, opt: any): Cache<T, Q> {
+  function getCache<Q>(key: string, opt: any): Cache<Q> {
     const cached = globalCache[key]
     if (cached?.valid) return cached
 
     const cache = cached || initCache(key)
 
-    try {
-      cache.request = typeof opt === 'function' ? opt() : opt
-      cache.valid = true
-    } catch (e) {
-      cache.valid = false
-    }
-
-    return cache
+    return checkCache(cache, opt)
   }
 
-  function refreshCache(cache: Cache, opt: any) {
+  function checkCache(cache: Cache, opt: any) {
     try {
       cache.request = typeof opt === 'function' ? opt() : opt
       cache.valid = true
@@ -32,10 +25,6 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
       cache.valid = false
     }
     return cache
-  }
-
-  function checkOptions(cache: Cache, opt: any) {
-    return refreshCache(cache, opt).valid
   }
 
   function initCache(key: string) {
@@ -54,11 +43,23 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     return (globalCache[key] = cache)
   }
 
-  function useQuery<Q>(path: string, opt?: T | (() => T), config?: Config<Q>) {
+  const sbm = new StateBusManager()
+
+  function useQuery<Q>(
+    path: string,
+    opt?: PreQuestConfig | (() => PreQuestConfig),
+    config?: Config<Q>,
+  ) {
     const { onUpdate, deps = [], loop, lazy, key } = config || {}
-    const cache = getCache<T, Q>(key || path, opt)
-    const rerender = useStore(key || path, {})[1]
+    const cacheKey = key || path
+    const cache = getCache<Q>(cacheKey, opt)
+    const store = sbm.init(cacheKey, {})
+    const rerender = store.useState()[1]
     const timerRef = useRef<any>()
+
+    store.hooks.onUnMount = () => {
+      delete globalCache[cacheKey]
+    }
 
     // 记录初始的依赖
     useEffect(() => {
@@ -67,7 +68,6 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     }, [])
 
     useEffect(() => {
-      // 是否是依赖更新触发的请求
       cache.depsIsChanged = deps.some((v, i) => cache.deps[i] !== v)
       cache.deps = cache.depsIsChanged ? deps : cache.deps
 
@@ -77,9 +77,10 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
       // lazy 模式只允许手动触发请求
       if (lazy) return
 
-      // 参数无效
-      if (!checkOptions(cache, opt)) return
+      // 如果参数无效
+      if (!checkCache(cache, opt).valid) return
 
+      // 可以发起请求
       cache.called = true
       if (!loop) {
         makeFetch()
@@ -95,7 +96,7 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
       cache.loading = true
       try {
         const res = await prequest<Q>(path, cache.request)
-        cache.response = cb?.(res as any, cache.response) || res
+        cache.response = cb?.(res, cache.response) ?? res
       } catch (e) {
         cache.error = e
       }
@@ -111,7 +112,7 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
 
     // 手动执行请求
     cache.toFetch = (fetchOpt, config) => {
-      const newCache = refreshCache(cache, opt)
+      const newCache = checkCache(cache, opt)
 
       if (fetchOpt) {
         if (typeof fetchOpt === 'function') {
@@ -129,7 +130,7 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     return cache
   }
 
-  useQuery.get = (key: string): Cache<T> => {
+  useQuery.get = <Q = any>(key: string): Cache<Q> => {
     return globalCache[key]
   }
 

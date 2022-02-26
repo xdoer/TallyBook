@@ -1,10 +1,10 @@
-import { prequest, Request } from '@/common/request'
+import { prequest } from '@/common/request'
 import { WxUser } from '@/types'
 import { ApiName } from '@tally-book/model'
 import { TallyBook } from '@tally-book/types'
+import { PreQuestRequest } from '@prequest/types'
 
-const post = <T>(name: ApiName, options?: Request) =>
-  prequest.post<TallyBook.Response<T>>(name, options)
+const post = <T>(name: ApiName, options?: PreQuestRequest) => prequest.post<T>(name, options)
 
 class ApiService {
   login() {
