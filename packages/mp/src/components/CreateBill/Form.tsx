@@ -20,7 +20,7 @@ interface BillFormProps {
 
 export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange }) => {
   const isEdit = !!id
-  const { response } = useQuery<TallyBook.Response<TallyBook.GetBill.Res>>(
+  const { response } = useQuery<TallyBook.GetBill.Res>(
     ApiName.GetBill,
     () => {
       if (!id) throw new Error()

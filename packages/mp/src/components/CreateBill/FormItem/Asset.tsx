@@ -8,10 +8,10 @@ import { useQuery } from '@/common/request'
 import { ApiName } from '@tally-book/model'
 import { TallyBook } from '@tally-book/types'
 
-interface AssetFiledProps {}
+interface AssetFiledProps { }
 
-export const AssetFiled: FC<AssetFiledProps> = ({}) => {
-  const { response } = useQuery<TallyBook.Response<TallyBook.GetAssets.Res>>(ApiName.GetAssets)
+export const AssetFiled: FC<AssetFiledProps> = ({ }) => {
+  const { response } = useQuery<TallyBook.GetAssets.Res>(ApiName.GetAssets)
   const itemRef = useRef<FormItemInstance>()
   const { open, close } = layerService.getUnit()
   const defaultAsset = loginStore.getState().asset

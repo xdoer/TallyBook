@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { View } from '@fower/taro'
 import { useQuery } from '@/common/request'
 import { ApiName } from '@tally-book/model'
@@ -12,7 +12,7 @@ interface AssetDetailProps {
 }
 
 export const AssetDetail: FC<AssetDetailProps> = ({ id }) => {
-  const { response } = useQuery<TallyBook.Response<TallyBook.GetAsset.Res>>(
+  const { response } = useQuery<TallyBook.GetAsset.Res>(
     ApiName.GetAsset,
     {
       params: { id },

@@ -9,7 +9,7 @@ import { AssetDetail } from '@/components/AssetDetail'
 import { LayerKey } from '@/common/constants'
 
 export const Asset = memo(() => {
-  const { response } = useQuery<TallyBook.Response<TallyBook.GetAssets.Res>>(ApiName.GetAssets)
+  const { response } = useQuery<TallyBook.GetAssets.Res>(ApiName.GetAssets)
   const list = response?.result || []
 
   let money = 0,

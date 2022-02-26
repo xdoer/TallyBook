@@ -14,7 +14,7 @@ interface BillDetailProps {
 }
 
 export const BillDetail: FC<BillDetailProps> = ({ id }) => {
-  useQuery<TallyBook.Response<TallyBook.GetBill.Res>>(
+  useQuery<TallyBook.GetBill.Res>(
     ApiName.GetBill,
     {
       params: { id },

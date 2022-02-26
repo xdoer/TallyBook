@@ -14,7 +14,7 @@ import { CreateBill } from '@/components/CreateBill'
 
 export const Home = memo(() => {
   const [date, setDate] = useState(new Date())
-  const { response } = useQuery<TallyBook.Response<TallyBook.GetBills.Res>>(
+  const { response } = useQuery<TallyBook.GetBills.Res>(
     ApiName.GetBills,
     () => {
       const { month, year } = getTime(new Date(date))
