@@ -9,7 +9,7 @@ import {
   tableName,
 } from '@tally-book/model'
 import { WxCloudDBConnect, StorageDBConnect, BaseDBConnect } from './connect'
-import { PLATFORM } from '@/store/app'
+import { PLATFORM } from '@/store'
 import { Connect as ConnectType } from './connect/BaseDBConnect'
 
 class DataBaseService {

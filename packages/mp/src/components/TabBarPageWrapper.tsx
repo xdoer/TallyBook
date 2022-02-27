@@ -1,12 +1,11 @@
 import { FC } from 'react'
 import { View, Image } from '@fower/taro'
-import { useSystemInfo } from '@/store/app'
+import { useSystemInfo } from '@/store'
 import { FloatNavBar } from './FloatNavBar'
 import { layerService } from '@/service/layerService'
 import { Setting } from './Setting'
 import { loginStore } from '@/store'
 import { LayerKey } from '@/common/constants'
-import { Avatar } from '@taroify/core'
 
 interface TabBarPageWrapperProps {
   title: string

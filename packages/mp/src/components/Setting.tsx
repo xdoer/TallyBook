@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 import { View } from '@fower/taro'
 import { Cell } from '@taroify/core'
-import { PLATFORM } from '@/store/app'
+import { PLATFORM } from '@/store'
 
-interface MeSettingProps {}
+interface MeSettingProps { }
 
-export const Setting: FC<MeSettingProps> = ({}) => {
+export const Setting: FC<MeSettingProps> = ({ }) => {
   const [env, setEnv] = PLATFORM.useState()
 
   function onChange(x: keyof typeof env) {

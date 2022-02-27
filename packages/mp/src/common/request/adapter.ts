@@ -1,6 +1,5 @@
 import { localRouter } from '@/server/router'
-import { loginStore } from '@/store'
-import { PLATFORM } from '@/store/app'
+import { loginStore, PLATFORM } from '@/store'
 import { adapter as mpAdapter } from '@prequest/miniprogram'
 import Taro from '@tarojs/taro'
 

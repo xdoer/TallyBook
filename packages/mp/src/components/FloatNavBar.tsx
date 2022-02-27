@@ -1,9 +1,9 @@
 import { FC, useState } from 'react'
 import { View } from '@fower/taro'
 import { usePageScroll } from '@tarojs/taro'
-import { useSystemInfo } from '@/store/app'
+import { useSystemInfo } from '@/store'
 
-interface FloatNavBarProps {}
+interface FloatNavBarProps { }
 
 export const FloatNavBar: FC<FloatNavBarProps> = ({ children }) => {
   const [show, setShow] = useState(0.01)
