@@ -16,7 +16,7 @@ export type Cache<Q = any> = {
   stopLoop(): void
   toFetch(
     opt?: PreQuestRequest | ((o: PreQuestRequest) => PreQuestRequest),
-    config?: ToFetchConfig<Q>
+    config?: ToFetchConfig<Q>,
   ): void
   deps: any[]
   depsIsChanged: boolean

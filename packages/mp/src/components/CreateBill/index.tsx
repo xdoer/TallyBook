@@ -13,9 +13,7 @@ interface CreateBillProps {
 }
 
 export const CreateBill: FC<CreateBillProps> = memo(({ id }) => {
-  const { response } = useQuery<TallyBook.GetBillTypes.Res[]>(
-    ApiName.GetBillTypes,
-  )
+  const { response } = useQuery<TallyBook.GetBillTypes.Res[]>(ApiName.GetBillTypes)
   const [idx, setIdx] = useState(0)
 
   return (

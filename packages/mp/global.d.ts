@@ -38,18 +38,3 @@ declare module '@fower/atomic-props' {
     brandDarkest?: boolean
   }
 }
-
-declare module '@prequest/types' {
-  interface PreQuestRequest {
-    skipTokenCheck?: boolean
-  }
-
-  interface PreQuestResponse<T> {
-    success: boolean
-    result: T
-    error: {
-      code: string
-      message: string
-    }
-  }
-}
