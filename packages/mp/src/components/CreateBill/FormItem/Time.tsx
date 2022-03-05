@@ -2,10 +2,10 @@ import { FC, useRef } from 'react'
 import { Calendar, Input, Form } from '@taroify/core'
 import { ArrowRight } from '@taroify/icons'
 import { FormItemInstance } from '@taroify/core/form'
-import { formatDate } from '@/common/utils'
+import { formatDate } from '@xdoer/x'
 import { layerService } from '@/service/layerService'
 
-export const TimeField: FC = ({}) => {
+export const TimeField: FC = ({ }) => {
   const itemRef = useRef<FormItemInstance>()
   const { open, close } = layerService.getUnit()
 

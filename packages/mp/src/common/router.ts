@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { convertSearchParamsToObj } from './utils'
+import { covertSearchParamsToObj } from '@xdoer/x'
 import { routerService } from '@/service/routerService'
 
 /**
@@ -50,7 +50,7 @@ export function useRouter<T>(): T {
     if (params['scene']) {
       params = {
         ...params,
-        ...convertSearchParamsToObj(decodeURIComponent(params['scene'])),
+        ...covertSearchParamsToObj(decodeURIComponent(params['scene'])),
       }
     }
 

@@ -76,7 +76,7 @@ class DataBaseService {
     this.table = new Connect<{ name: string }>('table')
     this.dbTableList = await this.table.get()
 
-    Connect.resolve(Connect)
+    Connect.resolve(Connect as any)
 
     return Connect
   }

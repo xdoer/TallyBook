@@ -1,5 +1,5 @@
 import { TallyBook } from '@tally-book/types'
-import { formatDate } from '@/common/utils'
+import { formatDate } from '@xdoer/x'
 import { groupBy } from 'lodash-es'
 
 interface RenderBillList {

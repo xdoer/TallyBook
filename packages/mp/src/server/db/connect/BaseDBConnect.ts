@@ -1,5 +1,5 @@
 import { uuid } from '@/common/utils'
-import { AtLeastOne } from '@tally-book/types'
+import { createAsyncPromise, AtLeastOne } from '@xdoer/x'
 
 // 抽象类-每个 Connect 需要实现的方法
 export abstract class BaseDBConnect<T> {
@@ -10,25 +10,26 @@ export abstract class BaseDBConnect<T> {
 }
 
 // 公共 Connect 方法
+const { resolve, promise } = createAsyncPromise<typeof Connect>()
+
 export class DBConnect {
-  constructor(protected name: string) {}
+  constructor(protected name: string) { }
 
   protected uuid() {
     return `${this.name}-${uuid()}`
   }
 
-  static resolve
-  static promise: Promise<typeof Connect> = new Promise((resolve) => (DBConnect.resolve = resolve))
+  static resolve = resolve
+  static promise = promise
   static isInit = false
-  static async init() {}
+  static async init() { }
 
   static tableMap = {}
   static get<T>(name: string): TablePromise<T> {
     const meta = DBConnect.tableMap[name]
     if (meta) return meta
 
-    let resolve
-    let promise: Promise<Connect<T>> = new Promise((r) => (resolve = r))
+    const { resolve, promise } = createAsyncPromise<Connect<T>>()
 
     return (DBConnect.tableMap[name] = { isInit: false, resolve, promise })
   }
