@@ -25,7 +25,7 @@
     "prefix": "newP",
     "body": [
       "import React from 'react'",
-      "import { View, Text } from '@styli/taro'",
+      "import { View, Text } from '@fower/taro'",
       "",
       "export default function Index() {",
       "",
