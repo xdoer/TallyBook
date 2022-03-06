@@ -1,5 +1,5 @@
 import Taro, { getMenuButtonBoundingClientRect, getSystemInfoSync } from '@tarojs/taro'
-import { StorageState } from "@/common/StorageState"
+import { StorageState } from '@/common/StorageState'
 
 const KEY = 'system info'
 

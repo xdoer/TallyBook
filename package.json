@@ -6,7 +6,8 @@
     "build": "lerna run build",
     "format": "prettier --write \"packages/**/*.{ts,tsx,scss,js,json}\"",
     "lint": "cd packages/mp && npm run lint",
-    "preinstall": "./script/preinstall.sh"
+    "preinstall": "./script/preinstall.sh",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "lerna": "^3.22.1",
@@ -22,16 +23,9 @@
       "@commitlint/config-conventional"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "lint-staged": {
     "packages/**/*.{ts,tsx,js}": [
-      "npm run format",
-      "git add"
+      "npm run format"
     ]
   },
   "keywords": [],

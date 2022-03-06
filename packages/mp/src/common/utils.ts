@@ -51,4 +51,4 @@ export function getTime(t = new Date()): Time {
   }
 }
 
-export function noop() { }
+export function noop() {}

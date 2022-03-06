@@ -5,7 +5,7 @@ import { FormItemInstance } from '@taroify/core/form'
 import { formatDate } from '@xdoer/x'
 import { layerService } from '@/service/layerService'
 
-export const TimeField: FC = ({ }) => {
+export const TimeField: FC = ({}) => {
   const itemRef = useRef<FormItemInstance>()
   const { open, close } = layerService.getUnit()
 

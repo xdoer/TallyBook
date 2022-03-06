@@ -13,7 +13,7 @@ export abstract class BaseDBConnect<T> {
 const { resolve, promise } = createAsyncPromise<typeof Connect>()
 
 export class DBConnect {
-  constructor(protected name: string) { }
+  constructor(protected name: string) {}
 
   protected uuid() {
     return `${this.name}-${uuid()}`
@@ -22,7 +22,7 @@ export class DBConnect {
   static resolve = resolve
   static promise = promise
   static isInit = false
-  static async init() { }
+  static async init() {}
 
   static tableMap = {}
   static get<T>(name: string): TablePromise<T> {
