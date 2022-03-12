@@ -32,7 +32,6 @@ export const Auth: FC<AuthProps> = ({ success }) => {
         shape="round"
         openType="getUserInfo"
         style={{
-          background: '#38bdf8',
           position: 'fixed',
           bottom: '20px',
           width: '80%',
