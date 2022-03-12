@@ -46,6 +46,23 @@ class AssetService {
     const assetDB = await dataBaseService.asset()
     return assetDB.get({ delete: false })
   }
+
+  // 更新资产
+  async updateAsset(opt: TallyBook.UpdateAsset.Args): Promise<TallyBook.UpdateAsset.Res> {
+    const assetDB = await dataBaseService.asset()
+    const assets = await assetDB.get()
+
+    // 如果设置为默认
+    if (opt.isDefault && assets.length) {
+      const asset = assets.find((asset) => asset.isDefault)
+      if (asset?.id !== opt.id) {
+        await assetDB.update({ id: asset!.id }, { isDefault: false })
+      }
+    }
+
+    await assetDB.update(opt.id, opt)
+    return true
+  }
 }
 
 export const assetService = new AssetService()

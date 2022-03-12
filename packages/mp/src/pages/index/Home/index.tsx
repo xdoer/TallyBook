@@ -11,7 +11,7 @@ import { TallyBook } from '@tally-book/types'
 import { formatBills, getMoney } from '@/function/formatBills'
 import { ApiName, BillMainType } from '@tally-book/model'
 import { LayerKey } from '@/common/constants'
-import { CreateBill } from '@/components/CreateBill'
+import { BillDetail } from '@/components/BillDetail'
 
 export const Home = memo(() => {
   const [date, setDate] = useState(new Date())
@@ -97,7 +97,7 @@ export const Home = memo(() => {
                       borderBottom="1px solid transparent"
                       borderBottomGray100={idx !== list.length - 1}
                       onClick={() => {
-                        layerService.open(<CreateBill id={id} />, LayerKey.createBill)
+                        layerService.open(<BillDetail id={id} />, LayerKey.billDetail)
                       }}
                     >
                       <View toCenterY>

@@ -155,4 +155,16 @@ export namespace TallyBook {
 
     export type Res = boolean
   }
+
+  export namespace UpdateAsset {
+    export interface Args {
+      id: string
+      name?: string
+      money?: number
+      budget?: number
+      isDefault?: boolean
+    }
+
+    export type Res = boolean
+  }
 }

@@ -18,15 +18,14 @@ export const BillTypeFiled: FC<BillTypeFiledProps> = ({ data }) => {
         {(controller) => {
           return (
             <View flex={1}>
-              <Grid columns={5} square bordered={false}>
+              <Grid columns={6} square bordered={false}>
                 {grid.map((i) => {
-                  const { text, icon } = i
+                  const { text } = i
                   const active = i.id === controller.value?.id
 
                   return (
                     <Grid.Item
                       key={i.id}
-                      icon={<Image src={icon} circle-50 />}
                       text={text}
                       style={{ border: `1px solid ${active ? 'red' : 'transparent'}` }}
                       onClick={() => controller.onChange?.(i)}

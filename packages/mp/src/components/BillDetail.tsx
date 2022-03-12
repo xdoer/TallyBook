@@ -1,101 +1,88 @@
-import { FC, useRef, useState } from 'react'
+import { FC } from 'react'
 import { View } from '@fower/taro'
 import { useQuery } from '@/common/request'
-import { ApiName } from '@tally-book/model'
+import { ApiName, BillType } from '@tally-book/model'
 import { TallyBook } from '@tally-book/types'
 import { apiService } from '@/service/apiService'
+import { Button, Cell } from '@taroify/core'
 import { layerService } from '@/service/layerService'
-import { Form, Cell, Input, Button } from '@taroify/core'
 import { LayerKey } from '@/common/constants'
-import { FormInstance } from '@taroify/core/form/form.shared'
+import { CreateBill } from './CreateBill'
 
 interface BillDetailProps {
   id: string
 }
 
 export const BillDetail: FC<BillDetailProps> = ({ id }) => {
-  useQuery<TallyBook.GetBill.Res>(
+  const { response, toFetch } = useQuery<TallyBook.GetBill.Res>(
     ApiName.GetBill,
     {
       params: { id },
     },
     {
       deps: [id],
-      onUpdate(_, cur) {
-        const bill = cur?.result || {}
-
-        formRef.current.setValues({
-          money: bill.money,
-          type: bill.type?.text,
-          account: bill.account?.name,
-          asset: bill.asset?.name,
-        })
-
-        return cur
-      },
     },
   )
-  const [readOnly, setReadOnly] = useState(true)
-  const formRef = useRef<FormInstance>({} as any)
+  const { money, type, asset, remark } = response?.result || {}
+  const { billTypeSymbol, billTypeText, billTypeTitle } = getTypeText(type)
 
   async function onDelete() {
-    const { success } = await apiService.removeBill({ id })
-    if (success) {
-      useQuery.get(ApiName.GetBills).toFetch()
-      useQuery.get(ApiName.GetAssets).toFetch()
+    try {
+      const res = await apiService.removeBill({ id })
+      if (res.success) {
+        await useQuery.get(ApiName.GetBills).toFetch()
+        layerService.close(LayerKey.billDetail)
+      }
+    } catch (e) {
+      console.log('删除失败', e)
     }
-    layerService.close(LayerKey.billDetail)
   }
 
-  function onSubmit(e) {
-    layerService.close(LayerKey.billDetail)
+  function onEdit() {
+    layerService.open(<CreateBill id={id} submitCallback={() => toFetch()} />, LayerKey.createBill)
   }
 
   return (
-    <Form ref={formRef} onSubmit={onSubmit}>
-      <Cell.Group inset>
-        <Form.Item name="money" rules={[{ required: true, message: '请输入资产名称' }]}>
-          <Form.Label>金额</Form.Label>
-          <Form.Control>
-            <Input placeholder="请输入金额" type="digit" disabled={readOnly} />
-          </Form.Control>
-        </Form.Item>
+    <View px-30 pt-100 pb-200 relative>
+      <View toCenter minH-100rpx text9XL red500>
+        {billTypeSymbol}
+        {money}
+      </View>
+      <Cell title={billTypeTitle}>{billTypeText}</Cell>
+      <Cell title="资产">{asset?.name}</Cell>
+      <Cell title="备注">{remark}</Cell>
 
-        <Form.Item name="type" rules={[{ required: true, message: '请输入资产名称' }]}>
-          <Form.Label>类型</Form.Label>
-          <Form.Control>
-            <Input placeholder="请输入账本名称" type="digit" disabled={readOnly} />
-          </Form.Control>
-        </Form.Item>
-
-        <Form.Item name="account" rules={[{ required: true, message: '请输入资产名称' }]}>
-          <Form.Label>账本</Form.Label>
-          <Form.Control>
-            <Input placeholder="请输入账本名称" type="digit" disabled={readOnly} />
-          </Form.Control>
-        </Form.Item>
-
-        <Form.Item name="asset" rules={[{ required: true, message: '请输入资产名称' }]}>
-          <Form.Label>资产</Form.Label>
-          <Form.Control>
-            <Input placeholder="请输入金额" type="digit" disabled={readOnly} />
-          </Form.Control>
-        </Form.Item>
-      </Cell.Group>
-      <View m-16px flex>
-        <Button shape="round" block color="danger" onClick={() => onDelete()}>
+      <View toAround fixed bottom-30 left0 right0>
+        <Button shape="round" block onClick={onDelete} style={{ margin: '10px' }}>
           删除
         </Button>
-        {readOnly ? (
-          <Button shape="round" block color="primary" onClick={() => setReadOnly(false)}>
-            编辑
-          </Button>
-        ) : (
-          <Button shape="round" block color="primary" formType="submit">
-            保存
-          </Button>
-        )}
+        <Button shape="round" onClick={onEdit} color="primary" block style={{ margin: '10px' }}>
+          编辑
+        </Button>
       </View>
-    </Form>
+    </View>
   )
+}
+
+function getTypeText(billType: BillType) {
+  let symbol = '',
+    title = ''
+
+  switch (billType?.type) {
+    case 'outcome': {
+      symbol = '-'
+      title = '支出类型'
+      break
+    }
+    case 'income': {
+      symbol = '+'
+      title = '收入类型'
+    }
+  }
+
+  return {
+    billTypeSymbol: symbol,
+    billTypeTitle: title,
+    billTypeText: billType?.text,
+  }
 }

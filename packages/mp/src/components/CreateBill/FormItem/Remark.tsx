@@ -5,7 +5,7 @@ interface RemarkFiledProps {}
 
 export const RemarkFiled: FC<RemarkFiledProps> = ({}) => {
   return (
-    <Form.Item name="RemarkFiled">
+    <Form.Item name="remark">
       <Form.Label>备注</Form.Label>
       <Form.Control>
         <Textarea style={{ height: '48px' }} limit={50} placeholder="请输入备注" />

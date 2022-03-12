@@ -10,9 +10,10 @@ import { BillForm } from './Form'
 
 interface CreateBillProps {
   id?: string
+  submitCallback?(): void
 }
 
-export const CreateBill: FC<CreateBillProps> = memo(({ id }) => {
+export const CreateBill: FC<CreateBillProps> = memo(({ id, submitCallback }) => {
   const { response } = useQuery<TallyBook.GetBillTypes.Res[]>(ApiName.GetBillTypes)
   const [idx, setIdx] = useState(0)
 
@@ -23,7 +24,13 @@ export const CreateBill: FC<CreateBillProps> = memo(({ id }) => {
           const _value = BillMainTypeMap[option.type]
           return (
             <Tabs.TabPane key={option.type} title={_value} style={{ padding: '10px' }}>
-              <BillForm id={id} idx={idx} data={option} onTabChange={setIdx} />
+              <BillForm
+                id={id}
+                idx={idx}
+                data={option}
+                submitCallback={submitCallback}
+                onTabChange={setIdx}
+              />
             </Tabs.TabPane>
           )
         })}

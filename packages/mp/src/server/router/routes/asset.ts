@@ -9,5 +9,7 @@ router
   .use(ApiName.RemoveAsset, assetService.removeAsset)
   .use(ApiName.GetAssets, assetService.getAssets)
   .use(ApiName.GetAsset, assetService.getAsset)
+  .use(ApiName.GetAsset, assetService.getAsset)
+  .use(ApiName.UpdateAsset, assetService.updateAsset)
 
 export const assetRouter = router

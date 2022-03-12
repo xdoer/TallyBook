@@ -16,9 +16,10 @@ interface BillFormProps {
   idx: number
   data: TallyBook.GetBillTypes.Res
   onTabChange(v: number): void
+  submitCallback?(): void
 }
 
-export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange }) => {
+export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange, submitCallback }) => {
   const isEdit = !!id
   const { response } = useQuery<TallyBook.GetBill.Res>(
     ApiName.GetBill,
@@ -62,24 +63,16 @@ export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange }) => {
     })
   }
 
-  // 删除账单
-  async function deleteBill() {
-    const res = await apiService.removeBill({ id: id! })
-    if (res.success) {
-      useQuery.get(ApiName.GetBills).toFetch()
-      close()
-    }
-  }
-
   // 创建账单
   async function createBill(e) {
-    const { billType, asset, money, time } = e.detail.value
+    const { billType, asset, money, time, remark } = e.detail.value
 
     return apiService.createBill({
       typeId: billType.id,
       assetId: asset.id,
       money: money,
       time: time,
+      remark,
     })
   }
 
@@ -88,6 +81,7 @@ export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange }) => {
     const res = isEdit ? await updateBill(e) : await createBill(e)
     if (res.success) {
       useQuery.get(ApiName.GetBills).toFetch()
+      submitCallback?.()
       close()
     }
   }
@@ -109,51 +103,25 @@ export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange }) => {
       <AssetFiled />
       <RemarkFiled />
       <View fixed bottom0 left0 right0 m-16px flex justifyContent="space-between">
-        {isEdit ? (
-          <>
-            <Button
-              shape="round"
-              block
-              size="medium"
-              style={{ marginRight: '10px' }}
-              onClick={() => deleteBill()}
-            >
-              删除
-            </Button>
-            <Button
-              shape="round"
-              block
-              color="primary"
-              style={{ marginLeft: '10px' }}
-              size="medium"
-              formType="submit"
-            >
-              编辑
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button
-              shape="round"
-              block
-              size="medium"
-              style={{ marginRight: '10px' }}
-              onClick={() => onReset()}
-            >
-              重置
-            </Button>
-            <Button
-              shape="round"
-              block
-              color="primary"
-              style={{ marginLeft: '10px' }}
-              size="medium"
-              formType="submit"
-            >
-              提交
-            </Button>
-          </>
-        )}
+        <Button
+          shape="round"
+          block
+          size="medium"
+          style={{ marginRight: '10px' }}
+          onClick={() => onReset()}
+        >
+          重置
+        </Button>
+        <Button
+          shape="round"
+          block
+          color="primary"
+          style={{ marginLeft: '10px' }}
+          size="medium"
+          formType="submit"
+        >
+          提交
+        </Button>
       </View>
     </Form>
   )
