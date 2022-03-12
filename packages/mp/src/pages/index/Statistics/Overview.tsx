@@ -18,7 +18,7 @@ export const Overview: FC<OverviewProps> = ({}) => {
       },
     }
   })
-  const { money, cost, budget } = response?.result || {}
+  const { money = 0, cost = 0, budget = 0 } = response?.result || {}
 
   return (
     <View>

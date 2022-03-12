@@ -37,4 +37,7 @@ export enum ApiName {
 
   // 收支统计
   Statistics = '/statistics',
+
+  // 更新资产
+  UpdateAsset = 'UpdateAsset',
 }
