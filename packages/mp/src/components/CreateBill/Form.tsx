@@ -58,7 +58,7 @@ export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange, submit
       id: response.result.id,
       typeId: billType.id,
       assetId: asset.id,
-      money: money,
+      money: Number(money),
       time: time,
     })
   }
@@ -70,7 +70,7 @@ export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange, submit
     return apiService.createBill({
       typeId: billType.id,
       assetId: asset.id,
-      money: money,
+      money: Number(money),
       time: time,
       remark,
     })
@@ -81,6 +81,7 @@ export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange, submit
     const res = isEdit ? await updateBill(e) : await createBill(e)
     if (res.success) {
       useQuery.get(ApiName.GetBills).toFetch()
+      useQuery.get(ApiName.GetAssets).toFetch()
       submitCallback?.()
       close()
     }
