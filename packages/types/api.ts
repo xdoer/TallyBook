@@ -138,11 +138,14 @@ export namespace TallyBook {
 
   export namespace Statistics {
     export interface Args {
-      dimension: 'week' | 'month' | 'year'
       time: AtLeastOne<Time>
     }
 
-    export interface Res {}
+    export interface Res {
+      money: number
+      cost: number
+      budget: number
+    }
   }
 
   export namespace CreateAccount {

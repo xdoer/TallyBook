@@ -44,8 +44,6 @@ export function clone(v) {
 
 export function getTime(t = new Date()): Time {
   return {
-    date: t.getDate(),
-    day: t.getDay(),
     month: t.getMonth(),
     year: t.getFullYear(),
   }
