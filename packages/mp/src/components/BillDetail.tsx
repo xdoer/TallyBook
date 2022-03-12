@@ -30,7 +30,9 @@ export const BillDetail: FC<BillDetailProps> = ({ id }) => {
     try {
       const res = await apiService.removeBill({ id })
       if (res.success) {
-        await useQuery.get(ApiName.GetBills).toFetch()
+        useQuery.get(ApiName.GetBills).toFetch()
+        useQuery.get(ApiName.GetAssets).toFetch()
+        useQuery.get(ApiName.Statistics).toFetch()
         layerService.close(LayerKey.billDetail)
       }
     } catch (e) {

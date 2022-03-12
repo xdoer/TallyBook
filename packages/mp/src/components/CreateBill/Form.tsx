@@ -82,6 +82,7 @@ export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange, submit
     if (res.success) {
       useQuery.get(ApiName.GetBills).toFetch()
       useQuery.get(ApiName.GetAssets).toFetch()
+      useQuery.get(ApiName.Statistics).toFetch()
       submitCallback?.()
       close()
     }
