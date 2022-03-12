@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { View } from '@fower/taro'
 import { layerService } from '@/service/layerService'
 import { Popup } from './Popup'
@@ -9,7 +9,7 @@ export const LayerContainer: FC<{}> = ({}) => {
 
   return (
     <View catchMove>
-      {state.map((i, idx) => {
+      {state.map((i) => {
         let Comp
         switch (i.model.type) {
           case 'modal':
@@ -18,7 +18,7 @@ export const LayerContainer: FC<{}> = ({}) => {
           default:
             Comp = Popup
         }
-        return <Comp config={i} index={idx} />
+        return <Comp key={i.key} config={i} />
       })}
     </View>
   )

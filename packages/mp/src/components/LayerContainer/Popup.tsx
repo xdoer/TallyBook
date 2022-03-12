@@ -3,12 +3,11 @@ import { Popup as BasePopup, Backdrop } from '@taroify/core'
 import { Layer, layerService, LayerType } from '@/service/layerService'
 
 interface PopupProps {
-  index: number
   config: Layer<LayerType>
 }
 
-export const Popup: FC<PopupProps> = ({ config, index }) => {
-  const { key, model, visible } = config
+export const Popup: FC<PopupProps> = ({ config }) => {
+  const { key, model, visible, zIndex } = config
   const { content, style } = model
 
   function close() {
@@ -23,9 +22,9 @@ export const Popup: FC<PopupProps> = ({ config, index }) => {
       placement="bottom"
       rounded
       mountOnEnter={false}
-      style={{ zIndex: 1000 + index + 1, maxHeight: '80%', ...style }}
+      style={{ zIndex, maxHeight: '80%', ...style }}
     >
-      <Backdrop open={visible} closeable onClose={close} style={{ zIndex: 1000 + index }} />
+      <Backdrop open={visible} closeable onClose={close} style={{ zIndex: zIndex - 1 }} />
       <BasePopup.Close />
       {content}
     </BasePopup>

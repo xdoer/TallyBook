@@ -5,10 +5,12 @@ export interface Layer<T> {
   visible: boolean
   model: T
   key: string
+  zIndex: number
 }
 
 class LayerService<T> {
   state: StateBus<Layer<T>[]> = new StateBus<Layer<T>[]>([])
+  zIndex = 10
 
   constructor(private init: T) {}
 
@@ -17,7 +19,12 @@ class LayerService<T> {
 
     this.state.setState((prev) => {
       const findIdx = prev.findIndex((i) => i.key === key)
-      const newObj: Layer<T> = { model: { ...this.init, ..._data }, visible: true, key }
+      const newObj: Layer<T> = {
+        model: { ...this.init, ..._data },
+        visible: true,
+        key,
+        zIndex: this.zIndex++,
+      }
 
       prev[findIdx === -1 ? prev.length : findIdx] = newObj
 

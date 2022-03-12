@@ -3,12 +3,11 @@ import { Dialog, Button, Backdrop } from '@taroify/core'
 import { Layer, layerService, LayerType } from '@/service/layerService'
 
 interface ModalProps {
-  index: number
   config: Layer<LayerType>
 }
 
-export const Modal: FC<ModalProps> = ({ config, index }) => {
-  const { key, model, visible } = config
+export const Modal: FC<ModalProps> = ({ config }) => {
+  const { key, model, visible, zIndex } = config
   const { title, content, okText, cancelText, onOk, onCancel, style } = model
 
   function close() {
@@ -16,8 +15,8 @@ export const Modal: FC<ModalProps> = ({ config, index }) => {
   }
 
   return (
-    <Dialog key={key} open={visible} onClose={close} style={{ zIndex: 1000 + index + 1, ...style }}>
-      <Backdrop open={visible} closeable onClose={close} style={{ zIndex: 1000 + index }} />
+    <Dialog key={key} open={visible} onClose={close} style={{ zIndex, ...style }}>
+      <Backdrop open={visible} closeable onClose={close} style={{ zIndex: zIndex - 1 }} />
       {title && <Dialog.Header>{title}</Dialog.Header>}
       <Dialog.Content>{content}</Dialog.Content>
       {(okText || cancelText) && (
