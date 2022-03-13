@@ -33,6 +33,7 @@ export const Modal: FC<ModalProps> = ({ config }) => {
           )}
           {okText && (
             <Button
+              color="primary"
               onClick={() => {
                 onOk?.()
                 close()

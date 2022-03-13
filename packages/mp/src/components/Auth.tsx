@@ -23,8 +23,14 @@ export const Auth: FC<AuthProps> = ({ success }) => {
   }
 
   return (
-    <View minH-40vh maxH-80vh p-30 pb-100 position="relative">
-      让我看看你是谁？
+    <View minH-30vh maxH-80vh p-30 pb-100 position="relative" pt-100>
+      <View text4XL mb-50>
+        让我看看你是谁？
+      </View>
+      <View text3XL gray400>
+        所有数据存于本地，卸载小程序后即删除所有数据，请谨慎操作
+      </View>
+
       <Button
         color="primary"
         size="large"

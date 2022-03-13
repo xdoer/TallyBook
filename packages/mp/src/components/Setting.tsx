@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { View } from '@fower/taro'
 import { Button, Toast } from '@taroify/core'
 import { layerService } from '@/service/layerService'
-import { clearStorage } from '@tarojs/taro'
+import { clearStorage, exitMiniProgram } from '@tarojs/taro'
 import { LayerKey } from '@/common/constants'
 
 interface MeSettingProps {}
@@ -22,6 +22,7 @@ export const Setting: FC<MeSettingProps> = ({}) => {
             close()
             layerService.close(LayerKey.setting)
             Toast.open('清除成功')
+            exitMiniProgram()
           },
           fail() {
             Toast.open('清除失败')
@@ -39,7 +40,7 @@ export const Setting: FC<MeSettingProps> = ({}) => {
     <>
       <View minH-30vh maxH-70vh overflowScroll p-15 catchMove relative pt-100>
         <View toAround fixed bottom-30 left0 right0>
-          <Button shape="round" block onClick={clear} style={{ margin: '10px' }}>
+          <Button shape="round" color="primary" block onClick={clear} style={{ margin: '10px' }}>
             清除本地缓存
           </Button>
         </View>
