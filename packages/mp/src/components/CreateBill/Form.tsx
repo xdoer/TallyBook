@@ -104,7 +104,7 @@ export const BillForm: FC<BillFormProps> = ({ id, data, idx, onTabChange, submit
       <TimeField />
       <AssetFiled />
       <RemarkFiled />
-      <View fixed bottom0 left0 right0 m-16px flex justifyContent="space-between">
+      <View fixed bottom0 left0 right0 p-16px flex bgWhite justifyContent="space-between">
         <Button
           shape="round"
           block

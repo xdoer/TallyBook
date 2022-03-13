@@ -24,7 +24,7 @@ export const Modal: FC<ModalProps> = ({ config }) => {
           {cancelText && (
             <Button
               onClick={() => {
-                onOk?.()
+                onCancel?.()
                 close()
               }}
             >
@@ -34,7 +34,7 @@ export const Modal: FC<ModalProps> = ({ config }) => {
           {okText && (
             <Button
               onClick={() => {
-                onCancel?.()
+                onOk?.()
                 close()
               }}
             >

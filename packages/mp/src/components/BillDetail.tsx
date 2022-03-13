@@ -80,6 +80,9 @@ function getTypeText(billType: BillType) {
       symbol = '+'
       title = '收入类型'
     }
+    default: {
+      title = '转移类型'
+    }
   }
 
   return {

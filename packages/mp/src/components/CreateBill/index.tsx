@@ -18,23 +18,28 @@ export const CreateBill: FC<CreateBillProps> = memo(({ id, submitCallback }) => 
   const [idx, setIdx] = useState(0)
 
   return (
-    <View className="record-bill" minH-500 maxH-700 overflowScroll relative pb-500>
-      <Tabs value={idx} onChange={setIdx}>
-        {response?.result.map((option, idx) => {
-          const _value = BillMainTypeMap[option.type]
-          return (
-            <Tabs.TabPane key={option.type} title={_value} style={{ padding: '10px' }}>
-              <BillForm
-                id={id}
-                idx={idx}
-                data={option}
-                submitCallback={submitCallback}
-                onTabChange={setIdx}
-              />
-            </Tabs.TabPane>
-          )
-        })}
-      </Tabs>
-    </View>
+    <>
+      <View className="record-bill" minH-500 maxH-700 overflowScroll relative pb-500 pt-100>
+        <Tabs value={idx} onChange={setIdx}>
+          {response?.result.map((option, idx) => {
+            const _value = BillMainTypeMap[option.type]
+            return (
+              <Tabs.TabPane key={option.type} title={_value} style={{ padding: '10px' }}>
+                <BillForm
+                  id={id}
+                  idx={idx}
+                  data={option}
+                  submitCallback={submitCallback}
+                  onTabChange={setIdx}
+                />
+              </Tabs.TabPane>
+            )
+          })}
+        </Tabs>
+      </View>
+      <View h-100 absolute top0 left0 right0 bgWhite toCenter>
+        {!id ? '创建账单' : '编辑账单'}
+      </View>
+    </>
   )
 })
