@@ -8,7 +8,7 @@ interface PopupProps {
 
 export const Popup: FC<PopupProps> = ({ config }) => {
   const { key, model, visible, zIndex } = config
-  const { content, style } = model
+  const { content, style, closeable = true } = model
 
   function close() {
     layerService.close(key)
@@ -24,8 +24,13 @@ export const Popup: FC<PopupProps> = ({ config }) => {
       mountOnEnter={false}
       style={{ zIndex, maxHeight: '80%', ...style }}
     >
-      <Backdrop open={visible} closeable onClose={close} style={{ zIndex: zIndex - 1 }} />
-      <BasePopup.Close />
+      <Backdrop
+        open={visible}
+        closeable={closeable}
+        onClose={close}
+        style={{ zIndex: zIndex - 1 }}
+      />
+      {closeable && <BasePopup.Close />}
       {content}
     </BasePopup>
   )

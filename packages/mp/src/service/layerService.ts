@@ -58,6 +58,7 @@ export interface LayerType {
   onOk?(): void
   onCancel?(): void
   style?: CSSProperties
+  closeable?: boolean
 }
 
 export const layerService = new LayerService<LayerType>({

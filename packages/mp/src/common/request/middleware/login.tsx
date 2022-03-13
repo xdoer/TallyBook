@@ -33,6 +33,12 @@ async function login() {
   if (success) return result
 
   return new Promise((resolve) => {
-    layerService.open(<Auth success={() => login().then(resolve)} />, LayerKey.auth)
+    layerService.open(
+      {
+        content: <Auth success={() => login().then(resolve)} />,
+        closeable: false,
+      },
+      LayerKey.auth,
+    )
   })
 }
