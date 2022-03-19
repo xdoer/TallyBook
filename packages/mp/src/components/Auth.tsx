@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { View } from '@fower/taro'
 import { Button } from '@taroify/core'
 import { getUserProfile } from '@tarojs/taro'
@@ -11,15 +11,23 @@ interface AuthProps {
 }
 
 export const Auth: FC<AuthProps> = ({ success }) => {
+  const init = useRef(false)
+
   useEffect(() => {
-    layerService.watch(LayerKey.auth, (value) => {
-      if (!value.visible) {
-        onGetUserInfo(true)
+    layerService.watch(LayerKey.auth, async (value) => {
+      if (!value.visible && !init.current) {
+        await apiService.register({
+          avatarUrl:
+            'https://thirdwx.qlogo.cn/mmopen/vi_32/lvT9AbV5MWfU3SHSWPObwL9QsLvfBosIRf14xs27Jj0SC90tZxHPazu6C0o9rpCVr7rrnWcottUwmYjnHpDVZw/132',
+          nickName: '默认用户',
+        })
+        success()
       }
     })
   }, [])
 
   async function onGetUserInfo(useDefault = false) {
+    init.current = true
     if (useDefault) {
       await apiService.register({
         avatarUrl:
@@ -27,12 +35,14 @@ export const Auth: FC<AuthProps> = ({ success }) => {
         nickName: '默认用户',
       })
       success()
+      layerService.close(LayerKey.auth)
     } else {
       getUserProfile({
         desc: '授权获取用户信息',
         async success(res) {
           await apiService.register(res.userInfo)
           success()
+          layerService.close(LayerKey.auth)
         },
       })
     }
@@ -58,7 +68,6 @@ export const Auth: FC<AuthProps> = ({ success }) => {
           style={{ marginRight: '10px' }}
           onClick={() => {
             onGetUserInfo(true)
-            layerService.close(LayerKey.auth)
           }}
         >
           暂不授权
@@ -72,7 +81,6 @@ export const Auth: FC<AuthProps> = ({ success }) => {
           openType="getUserInfo"
           onClick={() => {
             onGetUserInfo(false)
-            layerService.close(LayerKey.auth)
           }}
         >
           授权基本信息
