@@ -1,7 +1,7 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { View } from '@fower/taro'
 import { Button } from '@taroify/core'
-import { getUserProfile, exitMiniProgram } from '@tarojs/taro'
+import { getUserProfile } from '@tarojs/taro'
 import { layerService } from '@/service/layerService'
 import { apiService } from '@/service/apiService'
 import { LayerKey } from '@/common/constants'
@@ -11,15 +11,31 @@ interface AuthProps {
 }
 
 export const Auth: FC<AuthProps> = ({ success }) => {
-  function onGetUserInfo() {
-    getUserProfile({
-      desc: '授权获取用户信息',
-      async success(res) {
-        await apiService.register(res.userInfo)
-        success()
-        layerService.close(LayerKey.auth)
-      },
+  useEffect(() => {
+    layerService.watch(LayerKey.auth, (value) => {
+      if (!value.visible) {
+        onGetUserInfo(true)
+      }
     })
+  }, [])
+
+  async function onGetUserInfo(useDefault = false) {
+    if (useDefault) {
+      await apiService.register({
+        avatarUrl:
+          'https://thirdwx.qlogo.cn/mmopen/vi_32/lvT9AbV5MWfU3SHSWPObwL9QsLvfBosIRf14xs27Jj0SC90tZxHPazu6C0o9rpCVr7rrnWcottUwmYjnHpDVZw/132',
+        nickName: '默认用户',
+      })
+      success()
+    } else {
+      getUserProfile({
+        desc: '授权获取用户信息',
+        async success(res) {
+          await apiService.register(res.userInfo)
+          success()
+        },
+      })
+    }
   }
 
   return (
@@ -40,7 +56,10 @@ export const Auth: FC<AuthProps> = ({ success }) => {
           block
           shape="round"
           style={{ marginRight: '10px' }}
-          onClick={() => exitMiniProgram()}
+          onClick={() => {
+            onGetUserInfo(true)
+            layerService.close(LayerKey.auth)
+          }}
         >
           暂不授权
         </Button>
@@ -51,7 +70,10 @@ export const Auth: FC<AuthProps> = ({ success }) => {
           shape="round"
           style={{ marginLeft: '10px' }}
           openType="getUserInfo"
-          onClick={onGetUserInfo}
+          onClick={() => {
+            onGetUserInfo(false)
+            layerService.close(LayerKey.auth)
+          }}
         >
           授权基本信息
         </Button>
